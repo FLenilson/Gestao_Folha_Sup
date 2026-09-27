@@ -7,303 +7,104 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --verde:    #00843D;
-    --verde-dk: #006830;
-    --verde-lt: #E8F5EE;
-    --amber:    #F59E0B;
-    --amber-lt: #FEF3C7;
-    --red:      #DC2626;
-    --red-lt:   #FEE2E2;
-    --blue:     #2563EB;
-    --blue-lt:  #EFF6FF;
-    --gray-50:  #F8FAFC;
-    --gray-100: #F1F5F9;
-    --gray-200: #E2E8F0;
-    --gray-400: #94A3B8;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    --gray-900: #0F172A;
-    --white:    #FFFFFF;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-    --shadow:    0 4px 12px rgba(0,0,0,.08);
-    --radius:    10px;
+    --verde:#00843D; --verde-dk:#006830; --verde-lt:#E8F5EE; --amber:#F59E0B; --amber-lt:#FEF3C7;
+    --red:#DC2626; --red-lt:#FEE2E2; --blue:#2563EB; --blue-lt:#EFF6FF; --gray-50:#F8FAFC; --gray-100:#F1F5F9;
+    --gray-200:#E2E8F0; --gray-400:#94A3B8; --gray-600:#475569; --gray-700:#334155; --gray-900:#0F172A; --white:#FFFFFF;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04); --shadow:0 4px 12px rgba(0,0,0,.08); --radius:10px;
   }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── TOP BAR ── */
-  .topbar {
-    background: var(--verde);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 0 28px;
-    height: 58px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,.2);
-  }
-  .topbar-logo {
-    width: 36px; height: 36px;
-    background: #fff;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; color: var(--verde); font-size: 14px; letter-spacing: -.5px;
-    flex-shrink: 0;
-  }
-  .topbar h1 { font-size: 15px; font-weight: 600; line-height: 1.2; }
-  .topbar h1 span { font-weight: 300; opacity: .8; }
-  .topbar-right { margin-left: auto; font-size: 12px; opacity: .75; }
-
-  /* ── TABS NAV ── */
-  .tabs-nav {
-    background: var(--white);
-    border-bottom: 2px solid var(--gray-200);
-    display: flex;
-    gap: 0;
-    padding: 0 28px;
-    overflow-x: auto;
-    flex-shrink: 0;
-  }
-  .tab-btn {
-    padding: 14px 22px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    border: none;
-    border-bottom: 3px solid transparent;
-    background: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: color .15s, border-color .15s;
-    margin-bottom: -2px;
-    display: flex; align-items: center; gap: 7px;
-  }
-  .tab-btn .tab-icon { font-size: 15px; }
-  .tab-btn:hover { color: var(--verde); }
-  .tab-btn.active { color: var(--verde); border-bottom-color: var(--verde); font-weight: 600; }
-
-  /* ── MAIN CONTENT ── */
-  .main { flex: 1; padding: 28px; max-width: 1400px; width: 100%; margin: 0 auto; }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* ── CARDS ── */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--gray-200);
-    padding: 24px;
-    margin-bottom: 20px;
-  }
-  .card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap; gap: 12px;
-  }
-  .card-title {
-    font-size: 15px; font-weight: 600; color: var(--gray-900);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .card-title-icon {
-    width: 30px; height: 30px; border-radius: 8px;
-    background: var(--verde-lt);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-  }
-
-  /* ── FORM ── */
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 5px; }
-  .form-group label { font-size: 11.5px; font-weight: 600; color: var(--gray-600); letter-spacing: .3px; text-transform: uppercase; }
-  .form-group input,
-  .form-group select {
-    padding: 9px 12px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 7px;
-    font-size: 13.5px;
-    font-family: 'Inter', sans-serif;
-    color: var(--gray-900);
-    background: var(--gray-50);
-    transition: border-color .15s, box-shadow .15s;
-    width: 100%;
-  }
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--verde);
-    box-shadow: 0 0 0 3px rgba(0,132,61,.12);
-    background: var(--white);
-  }
-  .form-group input[readonly] { color: var(--verde); font-weight: 600; background: var(--verde-lt); border-color: transparent; cursor: default; }
-
-  /* ── BUTTONS ── */
-  .btn {
-    padding: 9px 18px; border: none; border-radius: 7px;
-    font-size: 13px; font-weight: 600; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 6px;
-    transition: filter .15s, transform .1s;
-    white-space: nowrap;
-  }
-  .btn:active { transform: scale(.98); }
-  .btn:hover { filter: brightness(.93); }
-  .btn-primary { background: var(--verde); color: #fff; }
-  .btn-danger  { background: var(--red); color: #fff; }
-  .btn-amber   { background: var(--amber); color: #fff; }
-  .btn-ghost   { background: var(--gray-100); color: var(--gray-700); border: 1.5px solid var(--gray-200); }
-  .btn-sm { padding: 5px 11px; font-size: 12px; }
-
-  /* ── TABLES ── */
-  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--gray-200); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th {
-    background: var(--gray-700); color: #fff;
-    padding: 11px 14px; text-align: left; font-weight: 600;
-    font-size: 12px; letter-spacing: .3px; white-space: nowrap;
-  }
-  thead th:first-child { border-radius: 7px 0 0 0; }
-  thead th:last-child  { border-radius: 0 7px 0 0; }
-  tbody tr { border-bottom: 1px solid var(--gray-200); }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--gray-50); }
-  tbody td { padding: 11px 14px; vertical-align: middle; }
-
-  /* ── BADGES / PILLS ── */
-  .badge {
-    display: inline-flex; align-items: center;
-    padding: 3px 9px; border-radius: 99px;
-    font-size: 11px; font-weight: 600; letter-spacing: .2px;
-  }
-  .badge-green  { background: var(--verde-lt); color: var(--verde-dk); }
-  .badge-amber  { background: var(--amber-lt); color: #92400E; }
-  .badge-red    { background: var(--red-lt);   color: var(--red); }
-  .badge-blue   { background: var(--blue-lt);  color: var(--blue); }
-  .badge-gray   { background: var(--gray-200); color: var(--gray-700); }
-
-  /* ── PROGRESS BAR ── */
-  .faixa-bar { width: 100%; height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; min-width: 80px; }
-  .faixa-fill { height: 100%; background: linear-gradient(90deg, var(--verde), #00c966); border-radius: 3px; transition: width .4s; }
-
-  /* ── KPI CARDS ── */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px; }
-  .kpi-card {
-    background: var(--white); border-radius: var(--radius);
-    border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm);
-    padding: 18px 20px;
-  }
-  .kpi-label { font-size: 11px; font-weight: 600; color: var(--gray-400); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 6px; }
-  .kpi-value { font-size: 24px; font-weight: 700; color: var(--gray-900); line-height: 1; }
-  .kpi-sub   { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
-  .kpi-card.verde  .kpi-value { color: var(--verde); }
-  .kpi-card.red    .kpi-value { color: var(--red); }
-  .kpi-card.amber  .kpi-value { color: var(--amber); }
-  .kpi-card.blue   .kpi-value { color: var(--blue); }
-
-  /* ── REAJUSTE PANEL ── */
-  .reajuste-box {
-    display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap;
-    background: var(--verde-lt); border: 1.5px solid #b2dfc5;
-    border-radius: var(--radius); padding: 18px 20px;
-    margin-bottom: 20px;
-  }
-  .reajuste-box .form-group { min-width: 160px; }
-  .reajuste-box .form-group label { color: var(--verde-dk); }
-
-  /* ── ANALISE PROMOÇÃO ── */
-  .promo-alert {
-    display: flex; align-items: flex-start; gap: 12px;
-    background: var(--amber-lt); border: 1.5px solid #fcd34d;
-    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
-  }
-  .promo-alert-icon { font-size: 20px; flex-shrink: 0; }
-  .promo-alert-text h4 { font-size: 13.5px; font-weight: 600; color: #92400E; margin-bottom: 3px; }
-  .promo-alert-text p  { font-size: 12.5px; color: #78350F; }
-
-  /* ── SEPARADOR ── */
-  .section-sep { height: 1px; background: var(--gray-200); margin: 20px 0; }
-
-  /* ── TOAST ── */
-  #toast {
-    position: fixed; bottom: 28px; right: 28px;
-    background: var(--gray-900); color: #fff;
-    padding: 12px 20px; border-radius: 8px;
-    font-size: 13px; font-weight: 500;
-    opacity: 0; pointer-events: none;
-    transform: translateY(10px);
-    transition: opacity .25s, transform .25s;
-    z-index: 999;
-    display: flex; align-items: center; gap: 8px;
-  }
-  #toast.show { opacity: 1; transform: translateY(0); }
-
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    text-align: center; padding: 48px 20px;
-    color: var(--gray-400);
-  }
-  .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
-  .empty-state p { font-size: 14px; }
-
-  /* ── DEMITIDOS TABLE ── */
-  .demitido-row { background: #fff9f9 !important; }
-  .demitido-row td { color: var(--gray-600); }
-
-  /* ── MODAL GENÉRICO ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,.5); z-index: 500;
-    align-items: center; justify-content: center;
-  }
-  .modal-box {
-    background: #fff; border-radius: 14px; padding: 28px;
-    width: 440px; max-width: 95vw;
-    box-shadow: 0 20px 60px rgba(0,0,0,.22);
-    animation: slideUp .2s ease;
-  }
-  @keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-  .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .modal-sub   { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; }
-  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-
-  /* destaque linha promovida por mérito */
-  .merito-row { background: #f0fdf4 !important; }
-  .badge-purple { background: #EDE9FE; color: #5B21B6; }
-
-  /* histórico inline de promoções */
-  .hist-promo {
-    font-size: 11.5px; color: var(--gray-600);
-    background: var(--gray-100); border-radius: 6px;
-    padding: 6px 10px; margin-top: 4px;
-    display: inline-block; max-width: 240px;
-  }
-
-  /* faixa select highlight */
-  .faixa-select-up { border-color: var(--verde) !important; color: var(--verde); font-weight: 600; }
-
-  @media (max-width: 640px) {
-    .main { padding: 16px; }
-    .topbar { padding: 0 16px; }
-    .tabs-nav { padding: 0 10px; }
-    .tab-btn { padding: 12px 14px; font-size: 12px; }
+  body { font-family:'Inter',sans-serif; background:var(--gray-100); color:var(--gray-900); min-height:100vh; display:flex; flex-direction:column; }
+  .topbar { background:var(--verde); color:#fff; display:flex; align-items:center; gap:14px; padding:0 28px; height:58px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  .topbar-logo { width:36px; height:36px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--verde); font-size:14px; letter-spacing:-.5px; flex-shrink:0; }
+  .topbar h1 { font-size:15px; font-weight:600; line-height:1.2; }
+  .topbar h1 span { font-weight:300; opacity:.8; }
+  .topbar-right { margin-left:auto; font-size:12px; opacity:.75; }
+  .tabs-nav { background:var(--white); border-bottom:2px solid var(--gray-200); display:flex; gap:0; padding:0 28px; overflow-x:auto; flex-shrink:0; }
+  .tab-btn { padding:14px 22px; font-size:13px; font-weight:500; color:var(--gray-600); border:none; border-bottom:3px solid transparent; background:none; cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-2px; display:flex; align-items:center; gap:7px; }
+  .tab-btn .tab-icon { font-size:15px; }
+  .tab-btn:hover { color:var(--verde); }
+  .tab-btn.active { color:var(--verde); border-bottom-color:var(--verde); font-weight:600; }
+  .main { flex:1; padding:28px; max-width:1400px; width:100%; margin:0 auto; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+  .card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow-sm); border:1px solid var(--gray-200); padding:24px; margin-bottom:20px; }
+  .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+  .card-title { font-size:15px; font-weight:600; color:var(--gray-900); display:flex; align-items:center; gap:8px; }
+  .card-title-icon { width:30px; height:30px; border-radius:8px; background:var(--verde-lt); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .form-group { display:flex; flex-direction:column; gap:5px; }
+  .form-group label { font-size:11.5px; font-weight:600; color:var(--gray-600); letter-spacing:.3px; text-transform:uppercase; }
+  .form-group input, .form-group select { padding:9px 12px; border:1.5px solid var(--gray-200); border-radius:7px; font-size:13.5px; font-family:'Inter',sans-serif; color:var(--gray-900); background:var(--gray-50); transition:border-color .15s,box-shadow .15s; width:100%; }
+  .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--verde); box-shadow:0 0 0 3px rgba(0,132,61,.12); background:var(--white); }
+  .form-group input[readonly] { color:var(--verde); font-weight:600; background:var(--verde-lt); border-color:transparent; cursor:default; }
+  .btn { padding:9px 18px; border:none; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:filter .15s,transform .1s; white-space:nowrap; }
+  .btn:active { transform:scale(.98); }
+  .btn:hover { filter:brightness(.93); }
+  .btn:disabled { opacity:.55; cursor:not-allowed; filter:none; transform:none; }
+  .btn-primary { background:var(--verde); color:#fff; }
+  .btn-danger { background:var(--red); color:#fff; }
+  .btn-amber { background:var(--amber); color:#fff; }
+  .btn-ghost { background:var(--gray-100); color:var(--gray-700); border:1.5px solid var(--gray-200); }
+  .btn-sm { padding:5px 11px; font-size:12px; }
+  .table-wrap { overflow-x:auto; border-radius:8px; border:1px solid var(--gray-200); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  thead th { background:var(--gray-700); color:#fff; padding:11px 14px; text-align:left; font-weight:600; font-size:12px; letter-spacing:.3px; white-space:nowrap; }
+  thead th:first-child { border-radius:7px 0 0 0; }
+  thead th:last-child { border-radius:0 7px 0 0; }
+  tbody tr { border-bottom:1px solid var(--gray-200); }
+  tbody tr:last-child { border-bottom:none; }
+  tbody tr:hover { background:var(--gray-50); }
+  tbody td { padding:11px 14px; vertical-align:middle; }
+  .badge { display:inline-flex; align-items:center; padding:3px 9px; border-radius:99px; font-size:11px; font-weight:600; letter-spacing:.2px; }
+  .badge-green { background:var(--verde-lt); color:var(--verde-dk); }
+  .badge-amber { background:var(--amber-lt); color:#92400E; }
+  .badge-red { background:var(--red-lt); color:var(--red); }
+  .badge-blue { background:var(--blue-lt); color:var(--blue); }
+  .badge-gray { background:var(--gray-200); color:var(--gray-700); }
+  .faixa-bar { width:100%; height:6px; background:var(--gray-200); border-radius:3px; overflow:hidden; min-width:80px; }
+  .faixa-fill { height:100%; background:linear-gradient(90deg,var(--verde),#00c966); border-radius:3px; transition:width .4s; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:20px; }
+  .kpi-card { background:var(--white); border-radius:var(--radius); border:1px solid var(--gray-200); box-shadow:var(--shadow-sm); padding:18px 20px; }
+  .kpi-label { font-size:11px; font-weight:600; color:var(--gray-400); letter-spacing:.5px; text-transform:uppercase; margin-bottom:6px; }
+  .kpi-value { font-size:24px; font-weight:700; color:var(--gray-900); line-height:1; }
+  .kpi-sub { font-size:12px; color:var(--gray-600); margin-top:4px; }
+  .kpi-card.verde .kpi-value { color:var(--verde); }
+  .kpi-card.red .kpi-value { color:var(--red); }
+  .kpi-card.amber .kpi-value { color:var(--amber); }
+  .kpi-card.blue .kpi-value { color:var(--blue); }
+  .reajuste-box { display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap; background:var(--verde-lt); border:1.5px solid #b2dfc5; border-radius:var(--radius); padding:18px 20px; margin-bottom:20px; }
+  .reajuste-box .form-group { min-width:160px; }
+  .reajuste-box .form-group label { color:var(--verde-dk); }
+  .reajuste-preview { width:100%; font-size:12.5px; color:var(--verde-dk); }
+  .promo-alert { display:flex; align-items:flex-start; gap:12px; background:var(--amber-lt); border:1.5px solid #fcd34d; border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; }
+  .promo-alert-icon { font-size:20px; flex-shrink:0; }
+  .promo-alert-text h4 { font-size:13.5px; font-weight:600; color:#92400E; margin-bottom:3px; }
+  .promo-alert-text p { font-size:12.5px; color:#78350F; }
+  .section-sep { height:1px; background:var(--gray-200); margin:20px 0; }
+  #toast { position:fixed; bottom:28px; right:28px; background:var(--gray-900); color:#fff; padding:12px 20px; border-radius:8px; font-size:13px; font-weight:500; opacity:0; pointer-events:none; transform:translateY(10px); transition:opacity .25s,transform .25s; z-index:999; display:flex; align-items:center; gap:8px; max-width:460px; }
+  #toast.show { opacity:1; transform:translateY(0); }
+  .empty-state { text-align:center; padding:48px 20px; color:var(--gray-400); }
+  .empty-state-icon { font-size:40px; margin-bottom:12px; }
+  .empty-state p { font-size:14px; }
+  .demitido-row { background:#fff9f9 !important; }
+  .demitido-row td { color:var(--gray-600); }
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:500; align-items:center; justify-content:center; }
+  .modal-box { background:#fff; border-radius:14px; padding:28px; width:440px; max-width:95vw; box-shadow:0 20px 60px rgba(0,0,0,.22); animation:slideUp .2s ease; }
+  @keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  .modal-title { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .modal-sub { font-size:13px; color:var(--gray-600); margin-bottom:20px; }
+  .modal-footer { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+  .merito-row { background:#f0fdf4 !important; }
+  .badge-purple { background:#EDE9FE; color:#5B21B6; }
+  .hist-promo { font-size:11.5px; color:var(--gray-600); background:var(--gray-100); border-radius:6px; padding:6px 10px; margin-top:4px; display:inline-block; max-width:240px; }
+  .faixa-select-up { border-color:var(--verde) !important; color:var(--verde); font-weight:600; }
+  @media (max-width:640px) {
+    .main { padding:16px; } .topbar { padding:0 16px; } .tabs-nav { padding:0 10px; } .tab-btn { padding:12px 14px; font-size:12px; }
   }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-logo">UV</div>
   <h1>Gestão Salarial &nbsp;<span>Unimed Vale do Sepotuba</span></h1>
@@ -313,144 +114,75 @@
   </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs-nav">
-  <button class="tab-btn active" onclick="trocarAba('colaboradores')">
-    <span class="tab-icon">👥</span> Colaboradores
-  </button>
-  <button class="tab-btn" onclick="trocarAba('reajuste')">
-    <span class="tab-icon">📊</span> Reajuste Coletivo
-  </button>
-  <button class="tab-btn" onclick="trocarAba('promocao')">
-    <span class="tab-icon">🏆</span> Análise de Promoção
-  </button>
-  <button class="tab-btn" onclick="trocarAba('saldo')">
-    <span class="tab-icon">💰</span> Saldo Financeiro
-  </button>
+  <button class="tab-btn active" onclick="trocarAba('colaboradores', this)"><span class="tab-icon">👥</span> Colaboradores</button>
+  <button class="tab-btn" onclick="trocarAba('reajuste', this)"><span class="tab-icon">📊</span> Reajuste Coletivo</button>
+  <button class="tab-btn" onclick="trocarAba('promocao', this)"><span class="tab-icon">🏆</span> Análise de Promoção</button>
+  <button class="tab-btn" onclick="trocarAba('saldo', this)"><span class="tab-icon">💰</span> Saldo Financeiro</button>
 </div>
 
 <div class="main">
 
-  <!-- ═══════════════ ABA 1 – COLABORADORES ═══════════════ -->
+  <!-- ABA 1 – COLABORADORES -->
   <div id="tab-colaboradores" class="tab-panel active">
-
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon">➕</div>
-          Adicionar Colaborador
-        </div>
-      </div>
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">➕</div>Adicionar Colaborador</div></div>
       <div class="form-grid">
-        <div class="form-group">
-          <label>Nome Completo</label>
-          <input type="text" id="nome" placeholder="Nome do colaborador">
-        </div>
-        <div class="form-group">
-          <label>Cargo</label>
+        <div class="form-group"><label>Nome Completo</label><input type="text" id="nome" placeholder="Nome do colaborador"></div>
+        <div class="form-group"><label>Cargo</label>
           <select id="cargo" onchange="autoFill()">
-            <option value="3">Assistente Adm I</option>
-            <option value="4">Assistente Adm II</option>
-            <option value="5">Analista Adm JR</option>
-            <option value="6">Analista Adm PL</option>
-            <option value="7">Analista Adm SR</option>
+            <option value="3">Assistente Adm I</option><option value="4">Assistente Adm II</option><option value="5">Analista Adm JR</option><option value="6">Analista Adm PL</option><option value="7">Analista Adm SR</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Faixa Atual</label>
+        <div class="form-group"><label>Faixa Atual</label>
           <select id="faixa" onchange="autoFill()">
-            <option value="0">F1 – Admissão</option>
-            <option value="1">F2 – 90 dias</option>
-            <option value="2">F3 – 9 meses</option>
-            <option value="3">F4 – 18 meses</option>
-            <option value="4">F5 – 2 anos</option>
-            <option value="5">F6 – 4 anos</option>
-            <option value="6">F7 – 6 anos</option>
-            <option value="7">F8 – 8 anos</option>
+            <option value="0">F1 – Admissão</option><option value="1">F2 – 90 dias</option><option value="2">F3 – 9 meses</option><option value="3">F4 – 18 meses</option>
+            <option value="4">F5 – 2 anos</option><option value="5">F6 – 4 anos</option><option value="6">F7 – 6 anos</option><option value="7">F8 – 8 anos</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Data de Admissão</label>
-          <input type="date" id="dataAdmissao">
-        </div>
-        <div class="form-group">
-          <label>Salário Base</label>
-          <input type="text" id="salario" readonly placeholder="Calculado automaticamente">
-        </div>
-        <div class="form-group" style="justify-content: flex-end;">
-          <button class="btn btn-primary" onclick="adicionarColaborador()">➕ Adicionar</button>
-        </div>
+        <div class="form-group"><label>Data de Admissão</label><input type="date" id="dataAdmissao"></div>
+        <div class="form-group"><label>Salário Base</label><input type="text" id="salario" readonly placeholder="Calculado automaticamente"></div>
+        <div class="form-group" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="adicionarColaborador()">➕ Adicionar</button></div>
       </div>
     </div>
 
-    <!-- KPIs ativos -->
     <div class="kpi-grid" id="kpiAtivos"></div>
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon">✅</div>
-          Funcionários Ativos
-        </div>
+        <div class="card-title"><div class="card-title-icon">✅</div>Funcionários Ativos</div>
         <button class="btn btn-ghost btn-sm" onclick="atualizarFaixasPorTempo()">🔄 Verificar Faixas por Tempo</button>
       </div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Nome</th><th>Cargo</th><th>Faixa</th><th>Salário</th>
-              <th>Admissão</th><th>Tempo</th><th>Progresso Faixa</th><th>Promoções</th><th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="corpoAtivos">
-            <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Nenhum colaborador cadastrado ainda.</p></div></td></tr>
-          </tbody>
+          <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa</th><th>Salário</th><th>Admissão</th><th>Tempo</th><th>Progresso Faixa</th><th>Promoções</th><th>Ações</th></tr></thead>
+          <tbody id="corpoAtivos"><tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Nenhum colaborador cadastrado ainda.</p></div></td></tr></tbody>
         </table>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon">🚪</div>
-          Funcionários Desligados
-        </div>
-      </div>
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🚪</div>Funcionários Desligados</div></div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>Nome</th><th>Cargo</th><th>Faixa</th><th>Último Salário</th><th>Admissão</th><th>Demissão</th><th>Tempo de Casa</th></tr>
-          </thead>
-          <tbody id="corpoDemitidos">
-            <tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr>
-          </tbody>
+          <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa</th><th>Último Salário</th><th>Admissão</th><th>Demissão</th><th>Tempo de Casa</th></tr></thead>
+          <tbody id="corpoDemitidos"><tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ ABA 2 – REAJUSTE COLETIVO ═══════════════ -->
+  <!-- ABA 2 – REAJUSTE COLETIVO -->
   <div id="tab-reajuste" class="tab-panel">
-
     <div class="card">
-      <div class="card-header">
-        <div class="card-title"><div class="card-title-icon">📊</div>Reajuste Coletivo da Base Salarial</div>
-      </div>
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">📊</div>Reajuste Coletivo da Base Salarial</div></div>
 
       <div class="reajuste-box">
-        <div class="form-group">
-          <label>Percentual de Reajuste (%)</label>
-          <input type="number" id="percReajuste" placeholder="Ex: 5.5" step="0.01" min="0.01" max="100">
-        </div>
-        <div class="form-group">
-          <label>Data de Vigência</label>
-          <input type="date" id="dataReajuste">
-        </div>
-        <div class="form-group">
-          <label>Descrição / ACT</label>
-          <input type="text" id="descReajuste" placeholder="Ex: ACT 2025">
-        </div>
-        <button class="btn btn-primary" onclick="aplicarReajuste()">✅ Aplicar Reajuste</button>
+        <div class="form-group"><label>Percentual de Reajuste (%)</label><input type="text" inputmode="decimal" id="percReajuste" placeholder="Ex: 5,5" oninput="previewReajuste()"></div>
+        <div class="form-group"><label>Data de Vigência</label><input type="date" id="dataReajuste"></div>
+        <div class="form-group"><label>Descrição / ACT</label><input type="text" id="descReajuste" placeholder="Ex: ACT 2025"></div>
+        <button class="btn btn-primary" id="btnReajuste" onclick="aplicarReajuste()">✅ Aplicar Reajuste</button>
+        <div class="reajuste-preview" id="previewReajuste"></div>
       </div>
 
       <div id="historicoReajuste">
@@ -458,164 +190,83 @@
         <div class="table-wrap">
           <table>
             <thead><tr><th>Data</th><th>Descrição</th><th>%</th><th>Base Anterior</th><th>Nova Base F1 Asst.I</th></tr></thead>
-            <tbody id="corpoHistorico">
-              <tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📜</div><p>Nenhum reajuste aplicado.</p></div></td></tr>
-            </tbody>
+            <tbody id="corpoHistorico"><tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📜</div><p>Nenhum reajuste aplicado.</p></div></td></tr></tbody>
           </table>
         </div>
       </div>
 
       <div class="section-sep"></div>
-
       <h3 style="font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Tabela Salarial Vigente</h3>
       <div class="table-wrap" id="tabelaBaseWrap"></div>
     </div>
   </div>
 
-  <!-- ═══════════════ ABA 3 – ANÁLISE DE PROMOÇÃO ═══════════════ -->
+  <!-- ABA 3 – ANÁLISE DE PROMOÇÃO -->
   <div id="tab-promocao" class="tab-panel">
-
     <div class="card">
       <div class="card-header">
         <div class="card-title"><div class="card-title-icon">🏆</div>Análise de Promoção por Faixa Salarial</div>
         <button class="btn btn-ghost btn-sm" onclick="renderPromocao()">🔄 Atualizar</button>
       </div>
-
       <div id="alertasPromocao"></div>
-
       <div class="section-sep"></div>
       <h3 style="font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Todos os Colaboradores</h3>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>Nome</th><th>Cargo</th><th>Faixa Atual</th><th>Próx. Faixa</th><th>Admissão</th><th>Tempo de Casa</th><th>Elegível em</th><th>Promoções Mérito</th><th>Status</th></tr>
-          </thead>
+          <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa Atual</th><th>Próx. Faixa</th><th>Admissão</th><th>Tempo de Casa</th><th>Elegível em</th><th>Promoções Mérito</th><th>Status</th></tr></thead>
           <tbody id="corpoPromocao"></tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ ABA 4 – SALDO FINANCEIRO ═══════════════ -->
+  <!-- ABA 4 – SALDO FINANCEIRO -->
   <div id="tab-saldo" class="tab-panel">
-
     <div class="card">
-      <div class="card-header">
-        <div class="card-title"><div class="card-title-icon">💰</div>Saldo Financeiro – Ativos vs. Desligados</div>
-      </div>
-
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">💰</div>Saldo Financeiro – Ativos vs. Desligados</div></div>
       <div class="kpi-grid" id="kpiSaldo"></div>
-
       <div class="section-sep"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
         <div>
           <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Ativos por Cargo</h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Salarial</th></tr></thead>
-              <tbody id="corpoSaldoCargo"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table><thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Salarial</th></tr></thead><tbody id="corpoSaldoCargo"></tbody></table></div>
         </div>
         <div>
           <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Desligados por Cargo</h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Economizada</th></tr></thead>
-              <tbody id="corpoSaldoDemitidos"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table><thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Economizada</th></tr></thead><tbody id="corpoSaldoDemitidos"></tbody></table></div>
         </div>
       </div>
-
       <div class="section-sep"></div>
       <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Impacto do Último Reajuste</h3>
       <div id="impactoReajuste" class="kpi-grid"></div>
     </div>
   </div>
 
-</div><!-- /main -->
+</div>
 
 <div id="toast"></div>
 
-<!-- MODAL PROMOÇÃO POR MERITOCRACIA -->
+<!-- MODAL MÉRITO -->
 <div id="modalMerito" class="modal-overlay">
   <div class="modal-box" style="width:500px;">
     <div class="modal-title">🏅 Promoção por Meritocracia</div>
     <p class="modal-sub" id="subMerito"></p>
-
     <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:14px;">
-
-      <!-- Nome -->
-      <div class="form-group" style="grid-column:1/-1">
-        <label>Colaborador</label>
-        <input type="text" id="merito_nomeExibicao" readonly>
-      </div>
-
-      <!-- Cargo Atual (readonly) -->
-      <div class="form-group">
-        <label>Cargo Atual</label>
-        <input type="text" id="merito_cargoAtualTexto" readonly>
-      </div>
-
-      <!-- Novo Cargo (editável) -->
-      <div class="form-group">
-        <label>Promover para o Cargo</label>
+      <div class="form-group" style="grid-column:1/-1"><label>Colaborador</label><input type="text" id="merito_nomeExibicao" readonly></div>
+      <div class="form-group"><label>Cargo Atual</label><input type="text" id="merito_cargoAtualTexto" readonly></div>
+      <div class="form-group"><label>Promover para o Cargo</label>
         <select id="merito_cargo" onchange="onMeritoCargo()">
-          <option value="3">Assistente Adm I</option>
-          <option value="4">Assistente Adm II</option>
-          <option value="5">Analista Adm JR</option>
-          <option value="6">Analista Adm PL</option>
-          <option value="7">Analista Adm SR</option>
+          <option value="3">Assistente Adm I</option><option value="4">Assistente Adm II</option><option value="5">Analista Adm JR</option><option value="6">Analista Adm PL</option><option value="7">Analista Adm SR</option>
         </select>
       </div>
-
-      <!-- Faixa Atual (readonly) -->
-      <div class="form-group">
-        <label>Faixa Atual</label>
-        <input type="text" id="merito_faixaAtual" readonly>
-      </div>
-
-      <!-- Nova Faixa (vinculada ao cargo selecionado) -->
-      <div class="form-group">
-        <label>Nova Faixa</label>
-        <select id="merito_novaFaixa" onchange="previewMerito()">
-          <option value="">— selecione —</option>
-        </select>
-      </div>
-
-      <!-- Salário Atual -->
-      <div class="form-group">
-        <label>Salário Atual</label>
-        <input type="text" id="merito_salAtual" readonly>
-      </div>
-
-      <!-- Novo Salário -->
-      <div class="form-group">
-        <label>Novo Salário</label>
-        <input type="text" id="merito_salNovo" readonly style="color:var(--verde);font-weight:700;">
-      </div>
-
-      <!-- Aumento -->
-      <div class="form-group" style="grid-column:1/-1">
-        <label>Aumento</label>
-        <input type="text" id="merito_aumento" readonly style="color:var(--amber);font-weight:600;">
-      </div>
-
-      <!-- Data -->
-      <div class="form-group">
-        <label>Data da Promoção</label>
-        <input type="text" id="merito_data" placeholder="DD/MM/AAAA" maxlength="10"
-          oninput="mascaraData(this)">
-      </div>
-
-      <!-- Justificativa -->
-      <div class="form-group" style="grid-column:1/-1">
-        <label>Justificativa / Motivo</label>
-        <input type="text" id="merito_justificativa" placeholder="Ex: Desempenho acima da meta, liderança de projeto...">
-      </div>
+      <div class="form-group"><label>Faixa Atual</label><input type="text" id="merito_faixaAtual" readonly></div>
+      <div class="form-group"><label>Nova Faixa</label><select id="merito_novaFaixa" onchange="previewMerito()"><option value="">— selecione —</option></select></div>
+      <div class="form-group"><label>Salário Atual</label><input type="text" id="merito_salAtual" readonly></div>
+      <div class="form-group"><label>Novo Salário</label><input type="text" id="merito_salNovo" readonly style="color:var(--verde);font-weight:700;"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Aumento</label><input type="text" id="merito_aumento" readonly style="color:var(--amber);font-weight:600;"></div>
+      <div class="form-group"><label>Data da Promoção</label><input type="text" id="merito_data" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Justificativa / Motivo</label><input type="text" id="merito_justificativa" placeholder="Ex: Desempenho acima da meta, liderança de projeto..."></div>
     </div>
-
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="fecharModalMerito()">Cancelar</button>
       <button class="btn btn-primary" onclick="confirmarMerito()">🏅 Confirmar Promoção</button>
@@ -628,10 +279,7 @@
   <div style="background:#fff;border-radius:12px;padding:28px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.2);">
     <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;">Registrar Desligamento</h3>
     <p id="nomeDemissao" style="font-size:13px;color:var(--gray-600);margin-bottom:16px;"></p>
-    <div class="form-group" style="margin-bottom:16px;">
-      <label>Data de Demissão</label>
-      <input type="date" id="dataDemissaoInput">
-    </div>
+    <div class="form-group" style="margin-bottom:16px;"><label>Data de Demissão</label><input type="date" id="dataDemissaoInput"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;">
       <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
       <button class="btn btn-danger" onclick="confirmarDemissao()">🚪 Confirmar Desligamento</button>
@@ -640,24 +288,12 @@
 </div>
 
 <script>
-// ════════════════════════════════════════════════════════
-//  DADOS
-// ════════════════════════════════════════════════════════
-const nomesCargos = {
-  3: 'Assistente Adm I',
-  4: 'Assistente Adm II',
-  5: 'Analista Adm JR',
-  6: 'Analista Adm PL',
-  7: 'Analista Adm SR'
-};
-
-// Faixas: índice 0-7 → F1-F8
+// ════════════════════════ DADOS ════════════════════════
+const nomesCargos = { 3:'Assistente Adm I', 4:'Assistente Adm II', 5:'Analista Adm JR', 6:'Analista Adm PL', 7:'Analista Adm SR' };
+const CARGOS = ['3','4','5','6','7'];
 const faixasNomes = ['F1 – Admissão','F2 – 90 dias','F3 – 9 meses','F4 – 18 meses','F5 – 2 anos','F6 – 4 anos','F7 – 6 anos','F8 – 8 anos'];
-
-// Tempo mínimo em DIAS para cada faixa
 const tempoFaixa = [0, 90, 270, 540, 730, 1460, 2190, 2920];
 
-// Base salarial mutável (pode ser reajustada)
 let base = {
   3: [1770.00, 1861.69, 2006.11, 2086.36, 2169.81, 2256.61, 2346.87, 2440.75],
   4: [2181.81, 2257.14, 2347.43, 2441.32, 2538.97, 2640.53, 2746.15, 2856.00],
@@ -666,158 +302,133 @@ let base = {
   7: [3600.66, 3744.67, 3894.46, 4050.24, 4212.25, 4380.74, 4555.97, 4738.21]
 };
 
-let colaboradores = []; // ativos
-let demitidos = [];     // desligados
-let historicoReajuste = [];
-let idDemissaoPendente = null;
-let proxId = 1;
+let colaboradores = [], demitidos = [], historicoReajuste = [];
+let idDemissaoPendente = null, proxId = 1;
+// Enquanto houver motivo aqui, o reajuste fica bloqueado (evita gravar reajuste sobre base errada/desatualizada)
+let bloqueioReajuste = 'Aguarde o carregamento dos dados do Sheets.';
+let reajusteEmAndamento = false;
 
-// ════════════════════════════════════════════════════════
-//  UTILITÁRIOS
-// ════════════════════════════════════════════════════════
+// ════════════════════════ UTILITÁRIOS ════════════════════════
 const fmt = v => 'R$ ' + Number(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+
+// Aceita 5,5 | 5.5 | "1.770,00" | "R$ 1770.00" | número
+function parseNumBR(v) {
+  if (typeof v === 'number') return v;
+  if (v === null || v === undefined) return NaN;
+  let s = String(v).trim().replace(/R\$|\s|%/g, '');
+  if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  return s === '' ? NaN : Number(s);
+}
+
+// Valida/normaliza a tabela salarial vinda do Sheets (array, JSON string, objeto F1..F8, números em pt-BR)
+function sanitizarBase(raw) {
+  if (typeof raw === 'string') { try { raw = JSON.parse(raw); } catch (e) { return null; } }
+  if (!raw || typeof raw !== 'object') return null;
+  const out = {};
+  for (const c of CARGOS) {
+    let linha = raw[c] ?? raw[nomesCargos[c]];
+    if (typeof linha === 'string') { try { linha = JSON.parse(linha); } catch (e) { linha = linha.split(/[;|]/); } }
+    if (linha && !Array.isArray(linha) && typeof linha === 'object') {
+      const obj = linha;
+      linha = [0,1,2,3,4,5,6,7].map(i => obj['F'+(i+1)] ?? obj['f'+(i+1)] ?? obj[i]);
+    }
+    if (!Array.isArray(linha) || linha.length < 8) return null;
+    const nums = linha.slice(0, 8).map(parseNumBR);
+    if (nums.some(n => !isFinite(n) || n <= 0)) return null;
+    out[c] = nums.map(round2);
+  }
+  return out;
+}
 
 function parseDateSafe(str) {
   if (!str) return new Date(NaN);
   const s = String(str).trim();
-  // YYYY-MM-DD
   if (/^\d{4}-\d{2}-\d{2}/.test(s)) return new Date(s.slice(0,10) + 'T12:00:00');
-  // DD/MM/YYYY
-  if (/^\d{2}\/\d{2}\/\d{4}/.test(s)) {
-    const [d, m, a] = s.split('/');
-    return new Date(`${a}-${m}-${d}T12:00:00`);
-  }
+  if (/^\d{2}\/\d{2}\/\d{4}/.test(s)) { const [d, m, a] = s.split('/'); return new Date(`${a}-${m}-${d}T12:00:00`); }
   return new Date(s);
 }
-
-function diasEntre(d1, d2) {
-  const a = parseDateSafe(d1), b = parseDateSafe(d2);
-  return Math.max(0, Math.floor((b - a) / 86400000));
-}
-
+function fmtData(v) { const n = normalizarData(v); return n ? new Date(n + 'T12:00:00').toLocaleDateString('pt-BR') : '–'; }
+function diasEntre(d1, d2) { const a = parseDateSafe(d1), b = parseDateSafe(d2); return Math.max(0, Math.floor((b - a) / 86400000)); }
 function tempoFormatado(dias) {
   if (dias < 30) return `${dias}d`;
-  const meses = Math.floor(dias / 30);
-  const anos  = Math.floor(meses / 12);
-  const m     = meses % 12;
+  const meses = Math.floor(dias / 30), anos = Math.floor(meses / 12), m = meses % 12;
   if (anos === 0) return `${meses} mes${meses > 1 ? 'es' : ''}`;
   return `${anos} ano${anos > 1 ? 's' : ''}${m ? ` e ${m} mes${m > 1 ? 'es' : ''}` : ''}`;
 }
+function faixaPorTempo(dias) { let f = 0; for (let i = 0; i < tempoFaixa.length; i++) { if (dias >= tempoFaixa[i]) f = i; else break; } return f; }
+function hojeISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
-function faixaPorTempo(dias) {
-  let f = 0;
-  for (let i = 0; i < tempoFaixa.length; i++) {
-    if (dias >= tempoFaixa[i]) f = i; else break;
-  }
-  return f;
-}
-
-function toast(msg, tipo = 'ok') {
+let toastTimer = null;
+function toast(msg, tipo = 'ok', ms = 3000) {
   const el = document.getElementById('toast');
-  el.innerHTML = (tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : 'ℹ️') + ' ' + msg;
+  el.innerHTML = (tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'erro' ? '❌' : 'ℹ️') + ' ' + msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3000);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
-
 function autoFill() {
-  const c = document.getElementById('cargo').value;
-  const f = parseInt(document.getElementById('faixa').value);
+  const c = document.getElementById('cargo').value, f = parseInt(document.getElementById('faixa').value);
   document.getElementById('salario').value = fmt(base[c][f]);
 }
+setInterval(() => { document.getElementById('relogio').textContent = new Date().toLocaleString('pt-BR'); }, 1000);
 
-// Relógio
-setInterval(() => {
-  document.getElementById('relogio').textContent = new Date().toLocaleString('pt-BR');
-}, 1000);
+function renderTudo() {
+  renderAtivos(); renderDemitidos(); renderKpiAtivos(); renderTabelaBase(); renderHistorico(); autoFill();
+  if (document.getElementById('tab-saldo').classList.contains('active')) renderSaldo();
+  if (document.getElementById('tab-promocao').classList.contains('active')) renderPromocao();
+}
 
-// ════════════════════════════════════════════════════════
-//  ABAS
-// ════════════════════════════════════════════════════════
-function trocarAba(aba) {
+// ════════════════════════ ABAS ════════════════════════
+function trocarAba(aba, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + aba).classList.add('active');
-  event.currentTarget.classList.add('active');
-
+  if (btn) btn.classList.add('active');
   if (aba === 'promocao') renderPromocao();
   if (aba === 'saldo') renderSaldo();
-  if (aba === 'reajuste') renderTabelaBase();
+  if (aba === 'reajuste') { renderTabelaBase(); renderHistorico(); }
 }
 
-// ════════════════════════════════════════════════════════
-//  COLABORADORES
-// ════════════════════════════════════════════════════════
+// ════════════════════════ COLABORADORES ════════════════════════
 function adicionarColaborador() {
-  const nome    = document.getElementById('nome').value.trim();
-  const cargo   = document.getElementById('cargo').value;
-  const faixa   = parseInt(document.getElementById('faixa').value);
+  const nome = document.getElementById('nome').value.trim();
+  const cargo = document.getElementById('cargo').value;
+  const faixa = parseInt(document.getElementById('faixa').value);
   const dataAdm = document.getElementById('dataAdmissao').value;
-
-  if (!nome)    { toast('Informe o nome do colaborador.','warn'); return; }
+  if (!nome) { toast('Informe o nome do colaborador.','warn'); return; }
   if (!dataAdm) { toast('Informe a data de admissão.','warn'); return; }
-
-  const col = {
-    id: proxId++,
-    nome, cargo,
-    faixaManual: faixa,
-    dataAdmissao: dataAdm,
-    salario: base[cargo][faixa],
-    historicoMerito: []
-  };
-
+  const col = { id: proxId++, nome, cargo, faixaManual: faixa, dataAdmissao: dataAdm, salario: base[cargo][faixa], historicoMerito: [] };
   colaboradores.push(col);
-  renderAtivos();
-  renderKpiAtivos();
-  document.getElementById('nome').value = '';
-  document.getElementById('dataAdmissao').value = '';
+  renderAtivos(); renderKpiAtivos();
+  document.getElementById('nome').value = ''; document.getElementById('dataAdmissao').value = '';
   toast(`${nome} adicionado com sucesso!`);
   salvarColaboradorSheets(col);
 }
 
 function getFaixaEfetiva(col) {
-  const hoje = new Date().toISOString().split('T')[0];
+  const hoje = hojeISO();
   const temMerito = col.historicoMerito && col.historicoMerito.length > 0;
-
   if (temMerito) {
-    // Conta o tempo a partir da ÚLTIMA mudança/promoção por mérito (reseta o relógio)
     const ultima = col.historicoMerito[col.historicoMerito.length - 1];
-    const dataRef = ultima.data || col.dataAdmissao;
-    const diasDesdeMerito = diasEntre(dataRef, hoje);
-    const baseFaixa = col.faixaManual; // faixa em que a pessoa ficou após o evento
-
-    // Houve troca de CARGO nesse evento, ou foi só um reajuste/promoção de
-    // faixa dentro do MESMO cargo?
-    const trocouCargo = ultima.cargoAnterior && ultima.cargoNovo &&
-                         ultima.cargoAnterior !== ultima.cargoNovo;
-
+    const diasDesdeMerito = diasEntre(ultima.data || col.dataAdmissao, hoje);
+    const baseFaixa = col.faixaManual;
+    const trocouCargo = ultima.cargoAnterior && ultima.cargoNovo && ultima.cargoAnterior !== ultima.cargoNovo;
     let avanco = 0;
     if (trocouCargo) {
-      // Mudança de cargo: conta o INTERVALO relativo entre faixas a partir
-      // da faixa em que a pessoa ficou (confirmado com o caso do Manoel).
       const diasBase = tempoFaixa[baseFaixa] || 0;
       for (let i = baseFaixa + 1; i < tempoFaixa.length; i++) {
-        if (diasDesdeMerito >= (tempoFaixa[i] - diasBase)) avanco = i - baseFaixa;
-        else break;
+        if (diasDesdeMerito >= (tempoFaixa[i] - diasBase)) avanco = i - baseFaixa; else break;
       }
     } else {
-      // Reajuste/mérito sem troca de cargo: reinicia a tabela INTEIRA do zero
-      // a partir da data do evento (confirmado com o caso da Terezinha:
-      // Nov/2023 F5 → Nov/2027 F6, usando o marco absoluto "4 anos").
-      const fPorTempoDesdeEvento = faixaPorTempo(diasDesdeMerito);
-      avanco = Math.max(0, fPorTempoDesdeEvento - baseFaixa);
+      avanco = Math.max(0, faixaPorTempo(diasDesdeMerito) - baseFaixa);
     }
     return Math.min(7, baseFaixa + avanco);
   }
-
-  // Sem mérito: comportamento original, baseado na data de admissão
-  const dias = diasEntre(col.dataAdmissao, hoje);
-  const porTempo = faixaPorTempo(dias);
-  return Math.max(col.faixaManual, porTempo);
+  return Math.max(col.faixaManual, faixaPorTempo(diasEntre(col.dataAdmissao, hoje)));
 }
 
-function sincronizarSalarios() {
-  colaboradores.forEach(c => { c.salario = base[c.cargo][getFaixaEfetiva(c)]; });
-}
+function sincronizarSalarios() { colaboradores.forEach(c => { c.salario = base[c.cargo][getFaixaEfetiva(c)]; }); }
 
 function renderAtivos() {
   sincronizarSalarios();
@@ -826,36 +437,30 @@ function renderAtivos() {
     tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Nenhum colaborador cadastrado ainda.</p></div></td></tr>';
     return;
   }
-  const hoje = new Date().toISOString().split('T')[0];
+  const hoje = hojeISO();
   tbody.innerHTML = colaboradores.map(col => {
     const dias = diasEntre(col.dataAdmissao, hoje);
     const fEfetiva = getFaixaEfetiva(col);
     const salAtual = base[col.cargo][fEfetiva];
     const progresso = Math.round((fEfetiva / 7) * 100);
     const temMerito = col.historicoMerito && col.historicoMerito.length > 0;
-    const ultimaMerito = temMerito ? col.historicoMerito[col.historicoMerito.length - 1] : null;
+    const um = temMerito ? col.historicoMerito[col.historicoMerito.length - 1] : null;
     const meritoCell = temMerito
       ? `<span class="badge badge-purple">🏅 ${col.historicoMerito.length}x</span>
          <div class="hist-promo">
-           ${ultimaMerito.cargoAnterior ? `<span style="color:var(--gray-600)">${ultimaMerito.cargoAnterior}</span> → <span style="color:var(--verde);font-weight:600">${ultimaMerito.cargoNovo || nomesCargos[col.cargo]}</span><br>` : ''}
-           F${Number(ultimaMerito.de)+1}→F${Number(ultimaMerito.para)+1} · ${ultimaMerito.data ? new Date(normalizarData(ultimaMerito.data)+'T12:00:00').toLocaleDateString('pt-BR') : '–'}
+           ${um.cargoAnterior ? `<span style="color:var(--gray-600)">${um.cargoAnterior}</span> → <span style="color:var(--verde);font-weight:600">${um.cargoNovo || nomesCargos[col.cargo]}</span><br>` : ''}
+           F${Number(um.de)+1}→F${Number(um.para)+1} · ${fmtData(um.data)}
          </div>`
       : `<span style="font-size:12px;color:var(--gray-400)">–</span>`;
-
     return `
     <tr class="${temMerito ? 'merito-row' : ''}">
       <td><strong>${col.nome}</strong></td>
       <td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fEfetiva+1}</span></td>
       <td><strong style="color:var(--verde)">${fmt(salAtual)}</strong></td>
-      <td>${new Date(col.dataAdmissao + 'T12:00:00').toLocaleDateString('pt-BR')}</td>
+      <td>${fmtData(col.dataAdmissao)}</td>
       <td>${tempoFormatado(dias)}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="faixa-bar"><div class="faixa-fill" style="width:${progresso}%"></div></div>
-          <span style="font-size:11px;color:var(--gray-400);white-space:nowrap">${progresso}%</span>
-        </div>
-      </td>
+      <td><div style="display:flex;align-items:center;gap:8px;"><div class="faixa-bar"><div class="faixa-fill" style="width:${progresso}%"></div></div><span style="font-size:11px;color:var(--gray-400);white-space:nowrap">${progresso}%</span></div></td>
       <td>${meritoCell}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap;">
         <button class="btn btn-amber btn-sm" onclick="abrirModalMerito(${Number(col.id)})">🏅 Mérito</button>
@@ -871,192 +476,120 @@ function renderDemitidos() {
     tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr>';
     return;
   }
-  tbody.innerHTML = demitidos.map(d => {
-    const dias = diasEntre(d.dataAdmissao, d.dataDemissao);
-    return `
+  tbody.innerHTML = demitidos.map(d => `
     <tr class="demitido-row">
-      <td>${d.nome}</td>
-      <td>${nomesCargos[d.cargo]}</td>
-      <td><span class="badge badge-gray">F${d.faixa+1}</span></td>
-      <td>${fmt(d.salario)}</td>
-      <td>${new Date(d.dataAdmissao+'T12:00:00').toLocaleDateString('pt-BR')}</td>
-      <td>${new Date(d.dataDemissao+'T12:00:00').toLocaleDateString('pt-BR')}</td>
-      <td>${tempoFormatado(dias)}</td>
-    </tr>`;
-  }).join('');
+      <td>${d.nome}</td><td>${nomesCargos[d.cargo]}</td><td><span class="badge badge-gray">F${d.faixa+1}</span></td>
+      <td>${fmt(d.salario)}</td><td>${fmtData(d.dataAdmissao)}</td><td>${fmtData(d.dataDemissao)}</td>
+      <td>${tempoFormatado(diasEntre(d.dataAdmissao, d.dataDemissao))}</td>
+    </tr>`).join('');
 }
 
 function renderKpiAtivos() {
   const total = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
-  const n = colaboradores.length;
-  const media = n > 0 ? total / n : 0;
+  const n = colaboradores.length, media = n > 0 ? total / n : 0;
   document.getElementById('kpiAtivos').innerHTML = `
     <div class="kpi-card verde"><div class="kpi-label">Colaboradores Ativos</div><div class="kpi-value">${n}</div></div>
     <div class="kpi-card verde"><div class="kpi-label">Massa Salarial Mensal</div><div class="kpi-value">${fmt(total)}</div><div class="kpi-sub">total bruto</div></div>
     <div class="kpi-card blue"><div class="kpi-label">Salário Médio</div><div class="kpi-value">${fmt(media)}</div></div>
-    <div class="kpi-card amber"><div class="kpi-label">Custo Anual Estimado</div><div class="kpi-value">${fmt(total * 13.33)}</div><div class="kpi-sub">com 13º + férias</div></div>
-  `;
+    <div class="kpi-card amber"><div class="kpi-label">Custo Anual Estimado</div><div class="kpi-value">${fmt(total * 13.33)}</div><div class="kpi-sub">com 13º + férias</div></div>`;
 }
 
-// Máscara DD/MM/AAAA para campos de data texto
 function mascaraData(el) {
   let v = el.value.replace(/\D/g, '').slice(0, 8);
   if (v.length >= 5) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
   else if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
   el.value = v;
 }
-
-// Converte DD/MM/AAAA → YYYY-MM-DD para salvar
 function dataParaISO(val) {
   if (!val) return '';
   const s = val.trim();
-  if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) {
-    const [d, m, a] = s.split('/');
-    return `${a}-${m}-${d}`;
-  }
-  return s; // já está em YYYY-MM-DD ou outro formato
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) { const [d, m, a] = s.split('/'); return `${a}-${m}-${d}`; }
+  return s;
 }
-let idMeritoPendente = null;
 
+// ════════════════════════ MÉRITO ════════════════════════
+let idMeritoPendente = null;
 function abrirModalMerito(id) {
   const col = colaboradores.find(c => Number(c.id) === Number(id));
   if (!col) { toast('Colaborador não encontrado.','warn'); return; }
   idMeritoPendente = Number(id);
-
   const fAtual = getFaixaEfetiva(col);
-
-  // Preencher campos informativos
-  document.getElementById('merito_nomeExibicao').value   = col.nome;
+  document.getElementById('merito_nomeExibicao').value = col.nome;
   document.getElementById('merito_cargoAtualTexto').value = nomesCargos[col.cargo];
-  document.getElementById('merito_faixaAtual').value     = `F${fAtual+1} – ${faixasNomes[fAtual].replace(/F\d+ – /,'')}`;
-  document.getElementById('merito_salAtual').value       = fmt(base[col.cargo][fAtual]);
-  document.getElementById('merito_salNovo').value        = '';
-  document.getElementById('merito_aumento').value        = '';
+  document.getElementById('merito_faixaAtual').value = `F${fAtual+1} – ${faixasNomes[fAtual].replace(/F\d+ – /,'')}`;
+  document.getElementById('merito_salAtual').value = fmt(base[col.cargo][fAtual]);
+  document.getElementById('merito_salNovo').value = '';
+  document.getElementById('merito_aumento').value = '';
   document.getElementById('merito_data').value = new Date().toLocaleDateString('pt-BR').slice(0,10);
-  document.getElementById('merito_justificativa').value  = '';
-  document.getElementById('subMerito').textContent       = `Cargo: ${nomesCargos[col.cargo]} · Faixa atual: F${fAtual+1}`;
-
-  // Cargo: iniciar no cargo atual do colaborador
+  document.getElementById('merito_justificativa').value = '';
+  document.getElementById('subMerito').textContent = `Cargo: ${nomesCargos[col.cargo]} · Faixa atual: F${fAtual+1}`;
   document.getElementById('merito_cargo').value = col.cargo;
-
-  // Popular faixas do cargo atual (apenas superiores)
   _popularFaixasMerito(col.cargo, fAtual);
-
   document.getElementById('modalMerito').style.display = 'flex';
 }
-
-// Popular faixas vinculadas ao cargo selecionado
-// Se mudou de cargo: mostra todas as faixas (F1–F8) do novo cargo
-// Se mesmo cargo: mostra só faixas superiores à atual
 function _popularFaixasMerito(cargoCod, fAtualOrigem) {
   const col = colaboradores.find(c => c.id === idMeritoPendente);
-  const cargoOriginal = col ? col.cargo : cargoCod;
-  const mudouCargo = String(cargoCod) !== String(cargoOriginal);
-
+  const mudouCargo = String(cargoCod) !== String(col ? col.cargo : cargoCod);
   const sel = document.getElementById('merito_novaFaixa');
   sel.innerHTML = '<option value="">— selecione a faixa —</option>';
-
-  const inicio = mudouCargo ? 0 : fAtualOrigem + 1;
-  for (let i = inicio; i <= 7; i++) {
+  for (let i = mudouCargo ? 0 : fAtualOrigem + 1; i <= 7; i++) {
     const opt = document.createElement('option');
     opt.value = i;
     opt.textContent = `F${i+1} – ${faixasNomes[i].replace(/F\d+ – /,'')}  ·  ${fmt(base[cargoCod][i])}`;
     sel.appendChild(opt);
   }
-
-  // Limpar preview
   document.getElementById('merito_salNovo').value = '';
   document.getElementById('merito_aumento').value = '';
 }
-
-// Quando troca o cargo no select — recarrega faixas daquele cargo
 function onMeritoCargo() {
+  const col = colaboradores.find(c => c.id === idMeritoPendente);
+  if (!col) return;
+  _popularFaixasMerito(document.getElementById('merito_cargo').value, getFaixaEfetiva(col));
+}
+function previewMerito() {
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   if (!col) return;
   const fAtual = getFaixaEfetiva(col);
   const cargoCod = document.getElementById('merito_cargo').value;
-  _popularFaixasMerito(cargoCod, fAtual);
-}
-
-function previewMerito() {
-  const col = colaboradores.find(c => c.id === idMeritoPendente);
-  if (!col) return;
-  const fAtual    = getFaixaEfetiva(col);
-  const cargoCod  = document.getElementById('merito_cargo').value;
-  const novaF     = parseInt(document.getElementById('merito_novaFaixa').value);
-  if (isNaN(novaF)) {
-    document.getElementById('merito_salNovo').value = '';
-    document.getElementById('merito_aumento').value = '';
-    return;
-  }
-  const salAnt = base[col.cargo][fAtual];   // salário original do colaborador
-  const salNov = base[cargoCod][novaF];      // salário do novo cargo+faixa
-  const delta  = salNov - salAnt;
-  const perc   = ((salNov / salAnt) - 1) * 100;
+  const novaF = parseInt(document.getElementById('merito_novaFaixa').value);
+  if (isNaN(novaF)) { document.getElementById('merito_salNovo').value = ''; document.getElementById('merito_aumento').value = ''; return; }
+  const salAnt = base[col.cargo][fAtual], salNov = base[cargoCod][novaF];
   document.getElementById('merito_salNovo').value = fmt(salNov);
-  document.getElementById('merito_aumento').value = `+ ${fmt(delta)} (${perc.toFixed(2)}% de aumento)`;
+  document.getElementById('merito_aumento').value = `+ ${fmt(salNov - salAnt)} (${(((salNov / salAnt) - 1) * 100).toFixed(2)}% de aumento)`;
 }
-
-function fecharModalMerito() {
-  document.getElementById('modalMerito').style.display = 'none';
-  idMeritoPendente = null;
-}
-
+function fecharModalMerito() { document.getElementById('modalMerito').style.display = 'none'; idMeritoPendente = null; }
 function confirmarMerito() {
   const cargoCod = document.getElementById('merito_cargo').value;
-  const novaF    = parseInt(document.getElementById('merito_novaFaixa').value);
-  const dataRaw  = document.getElementById('merito_data').value.trim();
-  const data     = dataParaISO(dataRaw);
-  const just     = document.getElementById('merito_justificativa').value.trim();
-
-  if (!cargoCod)    { toast('Selecione o cargo de promoção.','warn'); return; }
+  const novaF = parseInt(document.getElementById('merito_novaFaixa').value);
+  const data = dataParaISO(document.getElementById('merito_data').value.trim());
+  const just = document.getElementById('merito_justificativa').value.trim();
+  if (!cargoCod) { toast('Selecione o cargo de promoção.','warn'); return; }
   if (isNaN(novaF)) { toast('Selecione a nova faixa.','warn'); return; }
-  if (!data)        { toast('Informe a data da promoção.','warn'); return; }
-  if (!just)        { toast('Informe a justificativa.','warn'); return; }
-
+  if (!data) { toast('Informe a data da promoção.','warn'); return; }
+  if (!just) { toast('Informe a justificativa.','warn'); return; }
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   if (!col) return;
-
-  const fAnterior     = getFaixaEfetiva(col);
-  const cargoAnteriorCod = col.cargo;
-  const salAnterior   = base[cargoAnteriorCod][fAnterior];
-  const salNovo       = base[cargoCod][novaF];
-
-  // Só registra "mudança de cargo" no histórico quando o cargo realmente mudou
-  const cargoAnterior = String(cargoAnteriorCod) !== String(cargoCod) ? nomesCargos[cargoAnteriorCod] : '';
-  const cargoNovo     = String(cargoAnteriorCod) !== String(cargoCod) ? nomesCargos[cargoCod]         : '';
-
-  const h = { de: fAnterior, para: novaF, cargoAnterior, cargoNovo, salAnterior, salNovo, data, justificativa: just };
-
+  const fAnterior = getFaixaEfetiva(col), cargoAnteriorCod = col.cargo;
+  const salAnterior = base[cargoAnteriorCod][fAnterior], salNovo = base[cargoCod][novaF];
+  const mudou = String(cargoAnteriorCod) !== String(cargoCod);
+  const h = { de: fAnterior, para: novaF, cargoAnterior: mudou ? nomesCargos[cargoAnteriorCod] : '', cargoNovo: mudou ? nomesCargos[cargoCod] : '', salAnterior, salNovo, data, justificativa: just };
   if (!col.historicoMerito) col.historicoMerito = [];
   col.historicoMerito.push(h);
-  col.cargo       = cargoCod;
-  col.faixaManual = novaF;
-  col.salario     = salNovo;
-
-  fecharModalMerito();
-  renderAtivos();
-  renderKpiAtivos();
+  col.cargo = cargoCod; col.faixaManual = novaF; col.salario = salNovo;
+  fecharModalMerito(); renderAtivos(); renderKpiAtivos();
   toast(`🏅 ${col.nome} promovido(a) para ${nomesCargos[cargoCod]} F${novaF+1}!`);
   salvarMeritoSheets(col, h);
 }
 
-// ════════════════════════════════════════════════════════
-//  MODAL DEMISSÃO
-// ════════════════════════════════════════════════════════
+// ════════════════════════ DEMISSÃO ════════════════════════
 function abrirModal(id) {
   idDemissaoPendente = id;
   const col = colaboradores.find(c => c.id === id);
   document.getElementById('nomeDemissao').textContent = `Colaborador: ${col.nome}`;
-  document.getElementById('dataDemissaoInput').value = new Date().toISOString().split('T')[0];
+  document.getElementById('dataDemissaoInput').value = hojeISO();
   document.getElementById('modalDemissao').style.display = 'flex';
 }
-
-function fecharModal() {
-  document.getElementById('modalDemissao').style.display = 'none';
-  idDemissaoPendente = null;
-}
-
+function fecharModal() { document.getElementById('modalDemissao').style.display = 'none'; idDemissaoPendente = null; }
 function confirmarDemissao() {
   const dataDem = document.getElementById('dataDemissaoInput').value;
   if (!dataDem) { toast('Informe a data de demissão.','warn'); return; }
@@ -1066,91 +599,100 @@ function confirmarDemissao() {
   const fEfetiva = getFaixaEfetiva(col);
   demitidos.push({ ...col, faixa: fEfetiva, salario: base[col.cargo][fEfetiva], dataDemissao: dataDem });
   colaboradores.splice(idx, 1);
-  fecharModal();
-  renderAtivos();
-  renderDemitidos();
-  renderKpiAtivos();
+  fecharModal(); renderAtivos(); renderDemitidos(); renderKpiAtivos();
   toast(`${col.nome} desligado e registrado.`,'warn');
   salvarDemissaoSheets(col, dataDem);
 }
 
-// ════════════════════════════════════════════════════════
-//  ATUALIZAÇÃO AUTOMÁTICA DE FAIXAS
-// ════════════════════════════════════════════════════════
+// ════════════════════════ FAIXAS POR TEMPO ════════════════════════
 function atualizarFaixasPorTempo() {
-  let atualizados = 0;
   const colsParaSalvar = [];
   colaboradores.forEach(col => {
-    // IMPORTANTE: nunca sobrescrevemos col.faixaManual aqui.
-    // - Sem mérito: faixaManual é só o piso manual; getFaixaEfetiva já
-    //   calcula a faixa real pelo tempo desde a ADMISSÃO, sempre em tempo real.
-    // - Com mérito: faixaManual é a base definida na promoção; getFaixaEfetiva
-    //   calcula a faixa real pelo tempo desde a DATA DO MÉRITO.
-    // Sobrescrever faixaManual aqui "achataria" essas duas referências e,
-    // a cada recarregamento, inflaria a faixa indevidamente (bug identificado
-    // nos casos de Manoel e Terezinha).
-    const fEfetiva = getFaixaEfetiva(col);
-    const novoSalario = base[col.cargo][fEfetiva];
-    if (novoSalario !== col.salario) {
-      col.salario = novoSalario;
-      atualizados++;
-      colsParaSalvar.push(col);
-    }
+    // faixaManual nunca é sobrescrito aqui (referência de admissão/mérito)
+    const novoSalario = base[col.cargo][getFaixaEfetiva(col)];
+    if (novoSalario !== col.salario) { col.salario = novoSalario; colsParaSalvar.push(col); }
   });
-  renderAtivos();
-  renderKpiAtivos();
-  if (atualizados > 0) {
-    toast(`${atualizados} colaborador(es) com salário sincronizado à faixa atual!`);
-    // Persiste no Sheets só o salário recalculado — faixaManual permanece intocado.
+  renderAtivos(); renderKpiAtivos();
+  if (colsParaSalvar.length) {
+    toast(`${colsParaSalvar.length} colaborador(es) com salário sincronizado à faixa atual!`);
     colsParaSalvar.forEach(col => salvarColaboradorSheets(col));
-  } else {
-    toast('Todos os salários já refletem a faixa atual.', 'info');
-  }
+  } else toast('Todos os salários já refletem a faixa atual.', 'info');
 }
 
-// ════════════════════════════════════════════════════════
-//  REAJUSTE COLETIVO
-// ════════════════════════════════════════════════════════
-function aplicarReajuste() {
-  const perc = parseFloat(document.getElementById('percReajuste').value);
+// ════════════════════════ REAJUSTE COLETIVO ════════════════════════
+function previewReajuste() {
+  const perc = parseNumBR(document.getElementById('percReajuste').value);
+  const el = document.getElementById('previewReajuste');
+  if (!isFinite(perc) || perc <= 0) { el.textContent = ''; return; }
+  const mult = 1 + perc / 100;
+  const massaAtual = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
+  const massaNova = colaboradores.reduce((s, c) => s + round2(base[c.cargo][getFaixaEfetiva(c)] * mult), 0);
+  el.innerHTML = `Prévia: F1 Asst. I ${fmt(base['3'][0])} → <strong>${fmt(round2(base['3'][0] * mult))}</strong> · Massa ativos ${fmt(massaAtual)} → <strong>${fmt(massaNova)}</strong> (+${fmt(massaNova - massaAtual)}/mês)`;
+}
+
+async function aplicarReajuste() {
+  if (reajusteEmAndamento) return;
+  if (bloqueioReajuste) { toast(bloqueioReajuste, 'warn', 5000); return; }
+
+  const perc = round2(parseNumBR(document.getElementById('percReajuste').value));
   const data = document.getElementById('dataReajuste').value;
   const desc = document.getElementById('descReajuste').value.trim() || 'Reajuste Coletivo';
 
-  if (!perc || perc <= 0) { toast('Informe um percentual válido.','warn'); return; }
+  if (!isFinite(perc) || perc <= 0 || perc > 100) { toast('Informe um percentual válido (ex.: 5,5).','warn'); return; }
   if (!data) { toast('Informe a data de vigência.','warn'); return; }
 
-  const baseAnt = base[3][0];
-  const mult = 1 + perc / 100;
+  const duplicado = historicoReajuste.some(h => normalizarData(h.data) === data && Number(h.perc) === perc);
+  if (duplicado && !confirm(`Já existe um reajuste de ${perc.toLocaleString('pt-BR')}% com vigência ${fmtData(data)}.\nAplicar novamente vai reajustar a base DUAS vezes. Continuar?`)) return;
+  if (!confirm(`Aplicar reajuste de ${perc.toLocaleString('pt-BR')}% sobre TODA a tabela salarial?\nVigência: ${fmtData(data)} · ${desc}`)) return;
 
-  Object.keys(base).forEach(c => {
-    base[c] = base[c].map(v => parseFloat((v * mult).toFixed(2)));
-  });
+  const snapBase = JSON.parse(JSON.stringify(base));
+  const snapHist = historicoReajuste.slice();
+  const btn = document.getElementById('btnReajuste');
+  reajusteEmAndamento = true; btn.disabled = true; btn.textContent = '⏳ Aplicando...';
 
-  colaboradores.forEach(col => {
+  let h;
+  try {
+    const mult = 1 + perc / 100;
+    const nova = {};
+    CARGOS.forEach(c => {
+      if (!Array.isArray(base[c]) || base[c].length !== 8) throw new Error(`Tabela do cargo ${nomesCargos[c]} inválida`);
+      nova[c] = base[c].map(v => round2(Number(v) * mult));
+    });
+    h = { data, desc, perc, baseAnt: snapBase['3'][0], novBase: nova['3'][0] };
+    base = nova;
+    historicoReajuste.unshift(h);
+    renderTudo();
+
+    const ok = await salvarReajusteSheets(h, base);
+    if (!ok) throw new Error('o Sheets não confirmou a gravação');
+  } catch (err) {
+    base = snapBase; historicoReajuste = snapHist; renderTudo();
+    toast('Reajuste NÃO aplicado (revertido): ' + err.message, 'erro', 6000);
+    console.error('[Reajuste]', err);
+    reajusteEmAndamento = false; btn.disabled = false; btn.textContent = '✅ Aplicar Reajuste';
+    return;
+  }
+
+  // Base gravada: persiste salários individuais (sequencial p/ não concorrer no Apps Script)
+  let falhas = 0;
+  for (const col of colaboradores) {
     col.salario = base[col.cargo][getFaixaEfetiva(col)];
-  });
+    if (!(await salvarColaboradorSheets(col, true))) falhas++;
+  }
+  indicadorSync(falhas ? `⚠️ Reajuste salvo; ${falhas} salário(s) não gravado(s)` : '✅ Reajuste salvo no Sheets', falhas ? 'aguard' : 'ok');
+  toast(falhas
+    ? `Reajuste de ${perc.toLocaleString('pt-BR')}% aplicado. ${falhas} salário(s) individual(is) não gravaram — use "Verificar Faixas por Tempo" para reenviar.`
+    : `Reajuste de ${perc.toLocaleString('pt-BR')}% aplicado e salvo!`, falhas ? 'warn' : 'ok', 5000);
 
-  const h = { data, desc, perc, baseAnt, novBase: base[3][0] };
-  historicoReajuste.unshift(h);
-
-  renderAtivos();
-  renderKpiAtivos();
-  renderTabelaBase();
-  renderHistorico();
-  toast(`Reajuste de ${perc}% aplicado com sucesso!`);
-  document.getElementById('percReajuste').value = '';
-  document.getElementById('descReajuste').value = '';
-  salvarReajusteSheets(h, base);
+  ['percReajuste','descReajuste'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('previewReajuste').textContent = '';
+  reajusteEmAndamento = false; btn.disabled = false; btn.textContent = '✅ Aplicar Reajuste';
 }
 
 function renderTabelaBase() {
-  const wrap = document.getElementById('tabelaBaseWrap');
   const faixasCols = faixasNomes.map(f => `<th>${f}</th>`).join('');
-  const linhas = Object.keys(base).map(c => {
-    const cells = base[c].map(v => `<td>${fmt(v)}</td>`).join('');
-    return `<tr><td><strong>${nomesCargos[c]}</strong></td>${cells}</tr>`;
-  }).join('');
-  wrap.innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas}</tbody></table>`;
+  const linhas = CARGOS.map(c => `<tr><td><strong>${nomesCargos[c]}</strong></td>${base[c].map(v => `<td>${fmt(v)}</td>`).join('')}</tr>`).join('');
+  document.getElementById('tabelaBaseWrap').innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas}</tbody></table>`;
 }
 
 function renderHistorico() {
@@ -1160,408 +702,255 @@ function renderHistorico() {
     return;
   }
   tbody.innerHTML = historicoReajuste.map(h => `
-    <tr>
-      <td>${new Date(h.data+'T12:00:00').toLocaleDateString('pt-BR')}</td>
-      <td>${h.desc}</td>
-      <td><span class="badge badge-green">+${h.perc}%</span></td>
-      <td>${fmt(h.baseAnt)}</td>
-      <td>${fmt(h.novBase)}</td>
-    </tr>`).join('');
+    <tr><td>${fmtData(h.data)}</td><td>${h.desc}</td><td><span class="badge badge-green">+${Number(h.perc).toLocaleString('pt-BR')}%</span></td><td>${fmt(h.baseAnt)}</td><td>${fmt(h.novBase)}</td></tr>`).join('');
 }
 
-// ════════════════════════════════════════════════════════
-//  ANÁLISE DE PROMOÇÃO
-// ════════════════════════════════════════════════════════
+// ════════════════════════ ANÁLISE DE PROMOÇÃO ════════════════════════
 function renderPromocao() {
-  const hoje = new Date().toISOString().split('T')[0];
+  const hoje = hojeISO();
   const alertas = document.getElementById('alertasPromocao');
   const tbody = document.getElementById('corpoPromocao');
-
   if (colaboradores.length === 0) {
     alertas.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏆</div><p>Sem colaboradores para analisar.</p></div></td></tr>';
     return;
   }
-
-  let alertHTML = '';
-  let linhas = '';
-
+  let alertHTML = '', linhas = '';
   colaboradores.forEach(col => {
     const temMerito = col.historicoMerito && col.historicoMerito.length > 0;
     const fAtual = getFaixaEfetiva(col);
     const diasCasa = diasEntre(col.dataAdmissao, hoje);
-
-    // Quando há mérito, o relógio de tempo-de-faixa reinicia na data do mérito
-    // (mesma regra usada em getFaixaEfetiva) — antes este cálculo usava sempre
-    // a data de admissão, o que gerava previsões de promoção incorretas para
-    // quem já tinha sido promovido por mérito.
     let dias, diasProx;
     if (temMerito) {
       const ultima = col.historicoMerito[col.historicoMerito.length - 1];
       dias = diasEntre(ultima.data || col.dataAdmissao, hoje);
       const baseFaixa = col.faixaManual;
-      const trocouCargo = ultima.cargoAnterior && ultima.cargoNovo &&
-                           ultima.cargoAnterior !== ultima.cargoNovo;
+      const trocouCargo = ultima.cargoAnterior && ultima.cargoNovo && ultima.cargoAnterior !== ultima.cargoNovo;
       if (trocouCargo) {
-        // Mudança de cargo: intervalo relativo entre faixas (caso Manoel).
         const diasBase = tempoFaixa[baseFaixa] || 0;
         diasProx = (fAtual + 1) < tempoFaixa.length ? (tempoFaixa[fAtual + 1] - diasBase) : null;
-      } else {
-        // Reajuste/mérito no mesmo cargo: marco absoluto da tabela, contado
-        // do zero a partir da data do evento (caso Terezinha).
-        diasProx = (fAtual + 1) < tempoFaixa.length ? tempoFaixa[fAtual + 1] : null;
-      }
+      } else diasProx = (fAtual + 1) < tempoFaixa.length ? tempoFaixa[fAtual + 1] : null;
     } else {
       dias = diasCasa;
       diasProx = (fAtual + 1) < tempoFaixa.length ? tempoFaixa[fAtual + 1] : null;
     }
-
     const proxF = fAtual + 1;
-    const proxFNome = proxF <= 7 ? `F${proxF+1}` : '–';
     const diasRestantes = diasProx !== null ? Math.max(0, diasProx - dias) : 0;
     const elegivel = diasProx !== null && dias >= diasProx;
-    const elegivelEm = diasProx !== null
-      ? (elegivel ? 'Elegível agora' : `Em ${tempoFormatado(diasRestantes)}`)
-      : '–';
-
+    const elegivelEm = diasProx !== null ? (elegivel ? 'Elegível agora' : `Em ${tempoFormatado(diasRestantes)}`) : '–';
     const nMerito = (col.historicoMerito || []).length;
-    const meritoBadge = nMerito > 0
-      ? `<span class="badge badge-purple">🏅 ${nMerito}x</span>`
-      : `<span style="font-size:11px;color:var(--gray-400)">–</span>`;
-
+    const meritoBadge = nMerito > 0 ? `<span class="badge badge-purple">🏅 ${nMerito}x</span>` : `<span style="font-size:11px;color:var(--gray-400)">–</span>`;
     let statusBadge, statusClass;
-    if (fAtual === 7) {
-      statusBadge = '🏅 Teto'; statusClass = 'badge-gray';
-    } else if (elegivel) {
+    if (fAtual === 7) { statusBadge = '🏅 Teto'; statusClass = 'badge-gray'; }
+    else if (elegivel) {
       statusBadge = '⚡ Pronto p/ promoção'; statusClass = 'badge-amber';
       alertHTML += `
-      <div class="promo-alert">
-        <div class="promo-alert-icon">⚡</div>
-        <div class="promo-alert-text">
-          <h4>${col.nome} – ${nomesCargos[col.cargo]}</h4>
-          <p>Elegível para promoção de <strong>F${fAtual+1} → F${proxF+1}</strong> · Aumento: ${fmt(base[col.cargo][proxF] - base[col.cargo][fAtual])} (${(((base[col.cargo][proxF]/base[col.cargo][fAtual])-1)*100).toFixed(1)}%)</p>
-        </div>
-      </div>`;
-    } else {
-      statusBadge = '🕐 Aguardando'; statusClass = 'badge-blue';
-    }
-
+      <div class="promo-alert"><div class="promo-alert-icon">⚡</div><div class="promo-alert-text">
+        <h4>${col.nome} – ${nomesCargos[col.cargo]}</h4>
+        <p>Elegível para promoção de <strong>F${fAtual+1} → F${proxF+1}</strong> · Aumento: ${fmt(base[col.cargo][proxF] - base[col.cargo][fAtual])} (${(((base[col.cargo][proxF]/base[col.cargo][fAtual])-1)*100).toFixed(1)}%)</p>
+      </div></div>`;
+    } else { statusBadge = '🕐 Aguardando'; statusClass = 'badge-blue'; }
     linhas += `
     <tr>
-      <td><strong>${col.nome}</strong></td>
-      <td>${nomesCargos[col.cargo]}</td>
+      <td><strong>${col.nome}</strong></td><td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fAtual+1}</span></td>
-      <td>${proxF <= 7 ? `<span class="badge badge-blue">${proxFNome}</span>` : '–'}</td>
-      <td>${new Date(col.dataAdmissao+'T12:00:00').toLocaleDateString('pt-BR')}</td>
-      <td>${tempoFormatado(diasCasa)}</td>
-      <td style="font-size:12.5px;color:var(--gray-600)">${elegivelEm}</td>
-      <td>${meritoBadge}</td>
+      <td>${proxF <= 7 ? `<span class="badge badge-blue">F${proxF+1}</span>` : '–'}</td>
+      <td>${fmtData(col.dataAdmissao)}</td><td>${tempoFormatado(diasCasa)}</td>
+      <td style="font-size:12.5px;color:var(--gray-600)">${elegivelEm}</td><td>${meritoBadge}</td>
       <td><span class="badge ${statusClass}">${statusBadge}</span></td>
     </tr>`;
-
-    // Sub-linhas do histórico de mérito
-    if (nMerito > 0) {
-      (col.historicoMerito || []).forEach((h, i) => {
-        linhas += `
-        <tr style="background:#f5f3ff;">
-          <td colspan="2" style="padding-left:28px;font-size:12px;color:#5B21B6;">
-            ↳ Promoção #${i+1} por mérito
-          </td>
-          <td colspan="2" style="font-size:12px">
-            ${h.cargoAnterior ? `<span style="color:var(--gray-600)">${h.cargoAnterior} F${Number(h.de)+1}</span> → <span style="color:var(--verde);font-weight:600">${h.cargoNovo} F${Number(h.para)+1}</span>` : `<span class="badge badge-gray">F${Number(h.de)+1}</span> → <span class="badge badge-purple">F${Number(h.para)+1}</span>`}
-          </td>
-          <td colspan="2" style="font-size:12px;color:var(--gray-600)">${h.data ? new Date(normalizarData(h.data)+'T12:00:00').toLocaleDateString('pt-BR') : '–'}</td>
-          <td colspan="2" style="font-size:12px;color:var(--gray-600)">${h.justificativa}</td>
-          <td style="font-size:12px;color:var(--verde)">+${fmt(h.salNovo - h.salAnterior)}</td>
-        </tr>`;
-      });
-    }
+    (col.historicoMerito || []).forEach((h, i) => {
+      linhas += `
+      <tr style="background:#f5f3ff;">
+        <td colspan="2" style="padding-left:28px;font-size:12px;color:#5B21B6;">↳ Promoção #${i+1} por mérito</td>
+        <td colspan="2" style="font-size:12px">${h.cargoAnterior ? `<span style="color:var(--gray-600)">${h.cargoAnterior} F${Number(h.de)+1}</span> → <span style="color:var(--verde);font-weight:600">${h.cargoNovo} F${Number(h.para)+1}</span>` : `<span class="badge badge-gray">F${Number(h.de)+1}</span> → <span class="badge badge-purple">F${Number(h.para)+1}</span>`}</td>
+        <td colspan="2" style="font-size:12px;color:var(--gray-600)">${fmtData(h.data)}</td>
+        <td colspan="2" style="font-size:12px;color:var(--gray-600)">${h.justificativa}</td>
+        <td style="font-size:12px;color:var(--verde)">+${fmt(h.salNovo - h.salAnterior)}</td>
+      </tr>`;
+    });
   });
-
   alertas.innerHTML = alertHTML || '<p style="color:var(--gray-400);font-size:13px;margin-bottom:12px;">Nenhum colaborador elegível para promoção imediata por tempo.</p>';
   tbody.innerHTML = linhas;
 }
 
-// ════════════════════════════════════════════════════════
-//  SALDO FINANCEIRO
-// ════════════════════════════════════════════════════════
+// ════════════════════════ SALDO FINANCEIRO ════════════════════════
 function renderSaldo() {
   const massaAtivos = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
   const massaDemitidos = demitidos.reduce((s, d) => s + d.salario, 0);
   const saldoLiquido = massaAtivos - massaDemitidos;
-
   document.getElementById('kpiSaldo').innerHTML = `
     <div class="kpi-card verde"><div class="kpi-label">Massa – Ativos</div><div class="kpi-value">${fmt(massaAtivos)}</div><div class="kpi-sub">${colaboradores.length} colaboradores</div></div>
     <div class="kpi-card red"><div class="kpi-label">Massa – Desligados</div><div class="kpi-value">${fmt(massaDemitidos)}</div><div class="kpi-sub">${demitidos.length} desligamentos</div></div>
-    <div class="kpi-card ${saldoLiquido >= 0 ? 'blue' : 'amber'}">
-      <div class="kpi-label">Saldo (Ativos − Deslig.)</div>
-      <div class="kpi-value">${fmt(saldoLiquido)}</div>
-      <div class="kpi-sub">${saldoLiquido >= 0 ? '▲ Crescimento de folha' : '▼ Redução de folha'}</div>
-    </div>
-    <div class="kpi-card amber"><div class="kpi-label">Custo Anual Est. (Ativos)</div><div class="kpi-value">${fmt(massaAtivos * 13.33)}</div><div class="kpi-sub">com 13º + férias</div></div>
-  `;
+    <div class="kpi-card ${saldoLiquido >= 0 ? 'blue' : 'amber'}"><div class="kpi-label">Saldo (Ativos − Deslig.)</div><div class="kpi-value">${fmt(saldoLiquido)}</div><div class="kpi-sub">${saldoLiquido >= 0 ? '▲ Crescimento de folha' : '▼ Redução de folha'}</div></div>
+    <div class="kpi-card amber"><div class="kpi-label">Custo Anual Est. (Ativos)</div><div class="kpi-value">${fmt(massaAtivos * 13.33)}</div><div class="kpi-sub">com 13º + férias</div></div>`;
 
-  // Por cargo – ativos
-  const cargosAtivos = {};
-  colaboradores.forEach(c => {
-    const k = c.cargo;
-    if (!cargosAtivos[k]) cargosAtivos[k] = {qtd: 0, total: 0};
-    cargosAtivos[k].qtd++;
-    cargosAtivos[k].total += base[c.cargo][getFaixaEfetiva(c)];
-  });
-  const sa = document.getElementById('corpoSaldoCargo');
-  sa.innerHTML = Object.keys(cargosAtivos).length
-    ? Object.entries(cargosAtivos).map(([c, v]) =>
-        `<tr><td>${nomesCargos[c]}</td><td>${v.qtd}</td><td><strong style="color:var(--verde)">${fmt(v.total)}</strong></td></tr>`
-      ).join('') + `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${colaboradores.length}</strong></td><td><strong>${fmt(massaAtivos)}</strong></td></tr>`
-    : '<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:24px">Sem ativos</td></tr>';
+  const agrupar = (lista, valor) => lista.reduce((acc, x) => { (acc[x.cargo] ||= {qtd:0,total:0}); acc[x.cargo].qtd++; acc[x.cargo].total += valor(x); return acc; }, {});
+  const cA = agrupar(colaboradores, c => base[c.cargo][getFaixaEfetiva(c)]);
+  const cD = agrupar(demitidos, d => d.salario);
+  const tabela = (grp, total, n, cor, vazio) => Object.keys(grp).length
+    ? Object.entries(grp).map(([c, v]) => `<tr><td>${nomesCargos[c]}</td><td>${v.qtd}</td><td><strong style="color:${cor}">${fmt(v.total)}</strong></td></tr>`).join('')
+      + `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${n}</strong></td><td><strong>${fmt(total)}</strong></td></tr>`
+    : `<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:24px">${vazio}</td></tr>`;
+  document.getElementById('corpoSaldoCargo').innerHTML = tabela(cA, massaAtivos, colaboradores.length, 'var(--verde)', 'Sem ativos');
+  document.getElementById('corpoSaldoDemitidos').innerHTML = tabela(cD, massaDemitidos, demitidos.length, 'var(--red)', 'Sem desligamentos');
 
-  // Por cargo – demitidos
-  const cargosDemit = {};
-  demitidos.forEach(d => {
-    const k = d.cargo;
-    if (!cargosDemit[k]) cargosDemit[k] = {qtd: 0, total: 0};
-    cargosDemit[k].qtd++;
-    cargosDemit[k].total += d.salario;
-  });
-  const sd = document.getElementById('corpoSaldoDemitidos');
-  sd.innerHTML = Object.keys(cargosDemit).length
-    ? Object.entries(cargosDemit).map(([c, v]) =>
-        `<tr><td>${nomesCargos[c]}</td><td>${v.qtd}</td><td><strong style="color:var(--red)">${fmt(v.total)}</strong></td></tr>`
-      ).join('') + `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${demitidos.length}</strong></td><td><strong>${fmt(massaDemitidos)}</strong></td></tr>`
-    : '<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:24px">Sem desligamentos</td></tr>';
-
-  // Impacto do último reajuste
   const imp = document.getElementById('impactoReajuste');
   if (historicoReajuste.length > 0) {
     const h = historicoReajuste[0];
-    const massaAntes = massaAtivos / (1 + h.perc / 100);
-    const delta = massaAtivos - massaAntes;
+    const delta = massaAtivos - massaAtivos / (1 + h.perc / 100);
     imp.innerHTML = `
-      <div class="kpi-card verde"><div class="kpi-label">Último Reajuste</div><div class="kpi-value">+${h.perc}%</div><div class="kpi-sub">${h.desc} · ${new Date(h.data+'T12:00:00').toLocaleDateString('pt-BR')}</div></div>
+      <div class="kpi-card verde"><div class="kpi-label">Último Reajuste</div><div class="kpi-value">+${Number(h.perc).toLocaleString('pt-BR')}%</div><div class="kpi-sub">${h.desc} · ${fmtData(h.data)}</div></div>
       <div class="kpi-card amber"><div class="kpi-label">Custo Mensal Adicionado</div><div class="kpi-value">${fmt(delta)}</div><div class="kpi-sub">sobre ativos atuais</div></div>
-      <div class="kpi-card red"><div class="kpi-label">Custo Anual Adicionado</div><div class="kpi-value">${fmt(delta * 13.33)}</div><div class="kpi-sub">estimativa com encargos</div></div>
-    `;
-  } else {
-    imp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">Nenhum reajuste registrado ainda.</div>';
-  }
+      <div class="kpi-card red"><div class="kpi-label">Custo Anual Adicionado</div><div class="kpi-value">${fmt(delta * 13.33)}</div><div class="kpi-sub">estimativa com encargos</div></div>`;
+  } else imp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">Nenhum reajuste registrado ainda.</div>';
 }
 
-// ════════════════════════════════════════════════════════
-//  INTEGRAÇÃO GOOGLE SHEETS
-// ════════════════════════════════════════════════════════
+// ════════════════════════ GOOGLE SHEETS ════════════════════════
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTJTEERP51PQkKyecMXYoZ7ug40JktfSLDEA7GO5VdWalt7TzGyZMnWqi2ZINCx2g-/exec';
-
-let salvandoSheets = false;
+const urlConfigurada = () => SCRIPT_URL && !SCRIPT_URL.includes('COLE_AQUI');
+const NOMES_CARGOS_SHEETS = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
 
 function indicadorSync(msg, tipo) {
   const el = document.getElementById('syncStatus');
   if (!el) return;
-  const cores = { ok: '#00843D', erro: '#DC2626', info: '#2563EB', aguard: '#F59E0B' };
-  el.textContent = msg;
-  el.style.color = cores[tipo] || '#475569';
+  const cores = { ok:'#00843D', erro:'#DC2626', info:'#2563EB', aguard:'#F59E0B' };
+  el.textContent = msg; el.style.color = cores[tipo] || '#475569';
 }
 
-async function sheetsGET(acao) {
-  const url = `${SCRIPT_URL}?acao=${acao}&t=${Date.now()}`;
-  const r = await fetch(url);
-  return r.json();
+async function lerJSON(r) {
+  const txt = await r.text();
+  try { return JSON.parse(txt); }
+  catch (e) { throw new Error('Resposta do Apps Script não é JSON (verifique implantação/permissões): ' + txt.slice(0, 120)); }
 }
+async function sheetsGET(acao) { const r = await fetch(`${SCRIPT_URL}?acao=${acao}&t=${Date.now()}`); return lerJSON(r); }
+// text/plain (padrão) evita preflight CORS no Apps Script
+async function sheetsPOST(body) { const r = await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify(body) }); return lerJSON(r); }
 
-async function sheetsPOST(body) {
-  const r = await fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: JSON.stringify(body)
-  });
-  return r.json();
-}
-
-// Normaliza qualquer formato de data para 'YYYY-MM-DD'
 function normalizarData(valor) {
   if (!valor) return '';
-  // Já está no formato correto YYYY-MM-DD
   if (typeof valor === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(valor)) return valor;
-  // Formato DD/MM/AAAA (vindo do Sheets formatado em pt-BR)
-  if (typeof valor === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(valor)) {
-    const [d, m, a] = valor.split('/');
-    return `${a}-${m}-${d}`;
-  }
-  // Objeto Date ou string ISO
-  try {
-    const dt = new Date(valor);
-    if (!isNaN(dt)) {
-      const a = dt.getFullYear();
-      const m = String(dt.getMonth() + 1).padStart(2, '0');
-      const d = String(dt.getDate()).padStart(2, '0');
-      return `${a}-${m}-${d}`;
-    }
-  } catch(e) {}
+  if (typeof valor === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(valor)) { const [d, m, a] = valor.split('/'); return `${a}-${m}-${d}`; }
+  const dt = new Date(valor);
+  if (!isNaN(dt)) return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
   return '';
 }
+
 async function carregarDoSheets() {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('COLE_AQUI')) {
-    indicadorSync('⚠️ URL do Script não configurada', 'erro');
-    return;
-  }
+  if (!urlConfigurada()) { indicadorSync('⚠️ URL do Script não configurada (modo local)', 'erro'); bloqueioReajuste = null; return; }
   indicadorSync('⏳ Carregando dados...', 'aguard');
   try {
     const res = await sheetsGET('carregar');
-    if (!res.ok) { indicadorSync('❌ Erro: ' + res.erro, 'erro'); return; }
+    if (!res.ok) throw new Error(res.erro || 'resposta sem ok');
+    const d = res.dados || {};
 
-    const d = res.dados;
-
-    // Restaurar base salarial
+    // Base salarial: validada antes de substituir a padrão
+    bloqueioReajuste = null;
     if (d.base && Object.keys(d.base).length > 0) {
-      Object.keys(d.base).forEach(k => { base[k] = d.base[k]; });
+      const b = sanitizarBase(d.base);
+      if (b) base = b;
+      else {
+        console.warn('[Sheets] Base salarial em formato inválido:', d.base);
+        bloqueioReajuste = 'A tabela salarial vinda do Sheets está em formato inválido — reajuste bloqueado para não gravar sobre dados errados. Verifique a aba da base no Sheets (console mostra o formato recebido).';
+        toast(bloqueioReajuste, 'erro', 7000);
+      }
     }
 
-    // Restaurar colaboradores
     colaboradores = (d.colaboradores || []).map(c => ({
-      id:            Number(c.id || c.ID),
-      nome:          c.nome || c.Nome,
-      cargo:         String(c.CargoCod || c.cargo || c.cargoCod || '3'),
-      faixaManual:   Number(c.faixaManual ?? c.FaixaManual ?? 0),
-      dataAdmissao:  normalizarData(c.dataAdmissao || c.DataAdmissao),
-      salario:       Number(c.salario || c.Salario),
+      id: Number(c.id || c.ID),
+      nome: c.nome || c.Nome,
+      cargo: String(c.CargoCod || c.cargo || c.cargoCod || '3'),
+      faixaManual: Number(c.faixaManual ?? c.FaixaManual ?? 0),
+      dataAdmissao: normalizarData(c.dataAdmissao || c.DataAdmissao),
+      salario: parseNumBR(c.salario ?? c.Salario),
       historicoMerito: (c.historicoMerito || c.HistoricoMerito || []).map(h => ({
-        de:             Number(h.de ?? h.FaixaDe ?? h.faixaDe),
-        para:           Number(h.para ?? h.FaixaPara ?? h.faixaPara),
-        cargoAnterior:  h.cargoAnterior || h.Cargo || '',
-        cargoNovo:      h.cargoNovo     || h.Para  || '',
-        salAnterior:    Number(h.salAnterior ?? h.SalarioAnterior),
-        salNovo:        Number(h.salNovo ?? h.SalarioNovo),
-        data:           normalizarData(h.data || h.Data),
-        justificativa:  h.justificativa || h.Justificativa || ''
+        de: Number(h.de ?? h.FaixaDe ?? h.faixaDe),
+        para: Number(h.para ?? h.FaixaPara ?? h.faixaPara),
+        cargoAnterior: h.cargoAnterior || h.Cargo || '',
+        cargoNovo: h.cargoNovo || h.Para || '',
+        salAnterior: parseNumBR(h.salAnterior ?? h.SalarioAnterior),
+        salNovo: parseNumBR(h.salNovo ?? h.SalarioNovo),
+        data: normalizarData(h.data || h.Data),
+        justificativa: h.justificativa || h.Justificativa || ''
       }))
-    }));
+    })).filter(c => CARGOS.includes(c.cargo));
 
-    // Restaurar demitidos
     demitidos = (d.demitidos || []).map(dm => ({
-      id:            Number(dm.id || dm.ID),
-      nome:          dm.nome || dm.Nome,
-      cargo:         String(dm.cargo || dm.CargoCod),
-      faixa:         Number(dm.faixa ?? dm.Faixa ?? 0),
-      salario:       Number(dm.salario || dm.Salario),
-      dataAdmissao:  normalizarData(dm.dataAdmissao || dm.DataAdmissao),
-      dataDemissao:  normalizarData(dm.dataDemissao || dm.DataDemissao)
+      id: Number(dm.id || dm.ID),
+      nome: dm.nome || dm.Nome,
+      cargo: String(dm.cargo || dm.CargoCod),
+      faixa: Number(dm.faixa ?? dm.Faixa ?? 0),
+      salario: parseNumBR(dm.salario ?? dm.Salario),
+      dataAdmissao: normalizarData(dm.dataAdmissao || dm.DataAdmissao),
+      dataDemissao: normalizarData(dm.dataDemissao || dm.DataDemissao)
     }));
 
-    // Restaurar histórico de reajuste
+    // Histórico: datas normalizadas e ordenado do mais recente p/ o mais antigo
     historicoReajuste = (d.historicoReajuste || []).map(r => ({
-      data:    r.data || r.Data,
-      desc:    r.desc || r.Descricao,
-      perc:    Number(r.perc ?? r.Percentual ?? 0),
-      baseAnt: Number(r.baseAnt ?? r.BaseAnterior ?? 0),
-      novBase: Number(r.novBase ?? r.NovaBase ?? 0)
-    }));
+      data: normalizarData(r.data || r.Data),
+      desc: r.desc || r.Descricao || 'Reajuste Coletivo',
+      perc: parseNumBR(r.perc ?? r.Percentual ?? 0),
+      baseAnt: parseNumBR(r.baseAnt ?? r.BaseAnterior ?? 0),
+      novBase: parseNumBR(r.novBase ?? r.NovaBase ?? 0)
+    })).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
 
-    // Restaurar proxId — sempre maior que qualquer ID existente para evitar colisão
-    const maxIdColab  = colaboradores.reduce((m, c) => Math.max(m, c.id), 0);
-    const maxIdDemit  = demitidos.reduce((m, d) => Math.max(m, d.id), 0);
-    const proxIdSheets = d.proxId ? Number(d.proxId) : 1;
-    proxId = Math.max(proxIdSheets, maxIdColab + 1, maxIdDemit + 1);
+    const maxIdColab = colaboradores.reduce((m, c) => Math.max(m, c.id || 0), 0);
+    const maxIdDemit = demitidos.reduce((m, d) => Math.max(m, d.id || 0), 0);
+    proxId = Math.max(d.proxId ? Number(d.proxId) : 1, maxIdColab + 1, maxIdDemit + 1);
 
-    renderAtivos();
-    renderDemitidos();
-    renderKpiAtivos();
-    renderTabelaBase();
-    renderHistorico();
-    indicadorSync('✅ Sincronizado com Sheets', 'ok');
+    renderTudo();
+    if (!bloqueioReajuste) indicadorSync('✅ Sincronizado com Sheets', 'ok');
+    else indicadorSync('⚠️ Base salarial inválida no Sheets', 'erro');
   } catch (err) {
+    bloqueioReajuste = 'Falha ao carregar do Sheets — recarregue a página antes de aplicar reajuste (evita sobrescrever a base real com a padrão).';
     indicadorSync('❌ Falha na conexão', 'erro');
-    console.error(err);
+    console.error('[Sheets] carregar:', err);
   }
 }
 
-// ── SALVAR colaborador ────────────────────────────────────
-async function salvarColaboradorSheets(col) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('COLE_AQUI')) return;
-  indicadorSync('💾 Salvando colaborador...', 'aguard');
-  const nomesCargosLocal = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
+async function salvarColaboradorSheets(col, silencioso = false) {
+  if (!urlConfigurada()) return true;
+  if (!silencioso) indicadorSync('💾 Salvando colaborador...', 'aguard');
   try {
-    const res = await sheetsPOST({
-      acao: 'salvarColaborador',
-      dados: {
-        id:          col.id,
-        nome:        col.nome,
-        cargo:       col.cargo,
-        cargo_nome:  nomesCargosLocal[col.cargo],
-        faixaManual: col.faixaManual,
-        dataAdmissao: col.dataAdmissao,
-        salario:     col.salario
-      }
-    });
-    indicadorSync(res.ok ? '✅ Colaborador salvo' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
-  } catch(e) { indicadorSync('❌ Falha ao salvar', 'erro'); }
+    const res = await sheetsPOST({ acao:'salvarColaborador', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], faixaManual:col.faixaManual, dataAdmissao:col.dataAdmissao, salario:col.salario } });
+    if (!silencioso) indicadorSync(res.ok ? '✅ Colaborador salvo' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
+    return !!res.ok;
+  } catch (e) { if (!silencioso) indicadorSync('❌ Falha ao salvar', 'erro'); console.error(e); return false; }
 }
 
-// ── SALVAR demissão ───────────────────────────────────────
 async function salvarDemissaoSheets(col, dataDemissao) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('COLE_AQUI')) return;
+  if (!urlConfigurada()) return true;
   indicadorSync('💾 Registrando desligamento...', 'aguard');
-  const nomesCargosLocal = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
   const fEfetiva = getFaixaEfetiva(col);
   try {
-    const res = await sheetsPOST({
-      acao: 'demitir',
-      dados: {
-        id:            col.id,
-        nome:          col.nome,
-        cargo:         col.cargo,
-        cargo_nome:    nomesCargosLocal[col.cargo],
-        faixa:         fEfetiva,
-        salario:       base[col.cargo][fEfetiva],
-        dataAdmissao:  col.dataAdmissao,
-        dataDemissao
-      }
-    });
+    const res = await sheetsPOST({ acao:'demitir', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], faixa:fEfetiva, salario:base[col.cargo][fEfetiva], dataAdmissao:col.dataAdmissao, dataDemissao } });
     indicadorSync(res.ok ? '✅ Desligamento registrado' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
-  } catch(e) { indicadorSync('❌ Falha ao registrar', 'erro'); }
+    return !!res.ok;
+  } catch (e) { indicadorSync('❌ Falha ao registrar', 'erro'); console.error(e); return false; }
 }
 
-// ── SALVAR promoção por mérito ────────────────────────────
 async function salvarMeritoSheets(col, h) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('COLE_AQUI')) return;
+  if (!urlConfigurada()) return true;
   indicadorSync('💾 Salvando promoção...', 'aguard');
-  const nomesCargosLocal = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
   try {
-    const res = await sheetsPOST({
-      acao: 'promoverMerito',
-      dados: {
-        id:            col.id,
-        nome:          col.nome,
-        cargo:         col.cargo,
-        cargoCod:      col.cargo,
-        cargo_nome:    nomesCargosLocal[col.cargo],
-        cargoAnterior: h.cargoAnterior,
-        faixaDe:       h.de,
-        faixaPara:     h.para,
-        salAnterior:   h.salAnterior,
-        salNovo:       h.salNovo,
-        data:          h.data,
-        justificativa: h.justificativa
-      }
-    });
+    const res = await sheetsPOST({ acao:'promoverMerito', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargoCod:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], cargoAnterior:h.cargoAnterior, faixaDe:h.de, faixaPara:h.para, salAnterior:h.salAnterior, salNovo:h.salNovo, data:h.data, justificativa:h.justificativa } });
     indicadorSync(res.ok ? '✅ Promoção salva' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
-  } catch(e) { indicadorSync('❌ Falha ao salvar promoção', 'erro'); }
+    return !!res.ok;
+  } catch (e) { indicadorSync('❌ Falha ao salvar promoção', 'erro'); console.error(e); return false; }
 }
 
-// ── SALVAR reajuste coletivo ──────────────────────────────
 async function salvarReajusteSheets(h, novaBase) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('COLE_AQUI')) return;
+  if (!urlConfigurada()) return true;
   indicadorSync('💾 Salvando reajuste...', 'aguard');
   try {
-    const res = await sheetsPOST({
-      acao: 'salvarReajuste',
-      dados: { ...h, novaBase }
-    });
-    indicadorSync(res.ok ? '✅ Reajuste salvo no Sheets' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
-  } catch(e) { indicadorSync('❌ Falha ao salvar reajuste', 'erro'); }
+    const res = await sheetsPOST({ acao:'salvarReajuste', dados:{ ...h, novaBase } });
+    if (!res || !res.ok) { indicadorSync('❌ ' + ((res && res.erro) || 'Sheets recusou o reajuste'), 'erro'); console.error('[Sheets] salvarReajuste:', res); return false; }
+    return true;
+  } catch (e) { indicadorSync('❌ Falha ao salvar reajuste', 'erro'); console.error('[Sheets] salvarReajuste:', e); return false; }
 }
 
-// ════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════
+// ════════════════════════ INIT ════════════════════════
+document.getElementById('dataReajuste').value = hojeISO();
 autoFill();
 renderTabelaBase();
 renderKpiAtivos();
