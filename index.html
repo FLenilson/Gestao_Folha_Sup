@@ -14,13 +14,18 @@
     --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04); --shadow:0 4px 12px rgba(0,0,0,.08); --radius:10px;
   }
   body { font-family:'Inter',sans-serif; background:var(--gray-100); color:var(--gray-900); min-height:100vh; display:flex; flex-direction:column; }
-  .topbar { background:var(--verde); color:#fff; display:flex; align-items:center; gap:14px; padding:0 28px; height:58px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  .topbar { background:var(--verde); color:#fff; display:flex; align-items:center; gap:14px; padding:0 28px; min-height:58px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,.2); flex-wrap:wrap; }
   .topbar-logo { width:36px; height:36px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--verde); font-size:14px; letter-spacing:-.5px; flex-shrink:0; }
   .topbar h1 { font-size:15px; font-weight:600; line-height:1.2; }
   .topbar h1 span { font-weight:300; opacity:.8; }
-  .topbar-right { margin-left:auto; font-size:12px; opacity:.75; }
+  .topbar-right { margin-left:auto; font-size:12px; display:flex; align-items:center; flex-wrap:wrap; gap:4px 0; padding:6px 0; }
+  #relogio { opacity:.75; }
+  .user-chip { display:none; align-items:center; gap:6px; margin-right:14px; }
+  .user-chip b { font-weight:600; }
+  .user-chip button { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); color:#fff; border-radius:6px; padding:4px 9px; font-size:11.5px; cursor:pointer; font-family:inherit; }
+  .user-chip button:hover { background:rgba(255,255,255,.28); }
   .tabs-nav { background:var(--white); border-bottom:2px solid var(--gray-200); display:flex; gap:0; padding:0 28px; overflow-x:auto; flex-shrink:0; }
-  .tab-btn { padding:14px 22px; font-size:13px; font-weight:500; color:var(--gray-600); border:none; border-bottom:3px solid transparent; background:none; cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-2px; display:flex; align-items:center; gap:7px; }
+  .tab-btn { padding:14px 22px; font-size:13px; font-weight:500; color:var(--gray-600); border:none; border-bottom:3px solid transparent; background:none; cursor:pointer; white-space:nowrap; transition:color .15s,border-color .15s; margin-bottom:-2px; display:flex; align-items:center; gap:7px; font-family:inherit; }
   .tab-btn .tab-icon { font-size:15px; }
   .tab-btn:hover { color:var(--verde); }
   .tab-btn.active { color:var(--verde); border-bottom-color:var(--verde); font-weight:600; }
@@ -37,15 +42,17 @@
   .form-group input, .form-group select { padding:9px 12px; border:1.5px solid var(--gray-200); border-radius:7px; font-size:13.5px; font-family:'Inter',sans-serif; color:var(--gray-900); background:var(--gray-50); transition:border-color .15s,box-shadow .15s; width:100%; }
   .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--verde); box-shadow:0 0 0 3px rgba(0,132,61,.12); background:var(--white); }
   .form-group input[readonly] { color:var(--verde); font-weight:600; background:var(--verde-lt); border-color:transparent; cursor:default; }
-  .btn { padding:9px 18px; border:none; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:filter .15s,transform .1s; white-space:nowrap; }
+  .btn { padding:9px 18px; border:none; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:filter .15s,transform .1s; white-space:nowrap; font-family:inherit; }
   .btn:active { transform:scale(.98); }
   .btn:hover { filter:brightness(.93); }
   .btn:disabled { opacity:.55; cursor:not-allowed; filter:none; transform:none; }
   .btn-primary { background:var(--verde); color:#fff; }
   .btn-danger { background:var(--red); color:#fff; }
   .btn-amber { background:var(--amber); color:#fff; }
+  .btn-blue { background:var(--blue); color:#fff; }
   .btn-ghost { background:var(--gray-100); color:var(--gray-700); border:1.5px solid var(--gray-200); }
   .btn-sm { padding:5px 11px; font-size:12px; }
+  .btn-block { width:100%; justify-content:center; padding:11px; }
   .table-wrap { overflow-x:auto; border-radius:8px; border:1px solid var(--gray-200); }
   table { width:100%; border-collapse:collapse; font-size:13px; }
   thead th { background:var(--gray-700); color:#fff; padding:11px 14px; text-align:left; font-weight:600; font-size:12px; letter-spacing:.3px; white-space:nowrap; }
@@ -55,12 +62,14 @@
   tbody tr:last-child { border-bottom:none; }
   tbody tr:hover { background:var(--gray-50); }
   tbody td { padding:11px 14px; vertical-align:middle; }
-  .badge { display:inline-flex; align-items:center; padding:3px 9px; border-radius:99px; font-size:11px; font-weight:600; letter-spacing:.2px; }
+  .sub-txt { font-size:11.5px; color:var(--gray-400); margin-top:2px; }
+  .badge { display:inline-flex; align-items:center; padding:3px 9px; border-radius:99px; font-size:11px; font-weight:600; letter-spacing:.2px; white-space:nowrap; }
   .badge-green { background:var(--verde-lt); color:var(--verde-dk); }
   .badge-amber { background:var(--amber-lt); color:#92400E; }
   .badge-red { background:var(--red-lt); color:var(--red); }
   .badge-blue { background:var(--blue-lt); color:var(--blue); }
   .badge-gray { background:var(--gray-200); color:var(--gray-700); }
+  .badge-purple { background:#EDE9FE; color:#5B21B6; }
   .faixa-bar { width:100%; height:6px; background:var(--gray-200); border-radius:3px; overflow:hidden; min-width:80px; }
   .faixa-fill { height:100%; background:linear-gradient(90deg,var(--verde),#00c966); border-radius:3px; transition:width .4s; }
   .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:20px; }
@@ -80,36 +89,99 @@
   .promo-alert-icon { font-size:20px; flex-shrink:0; }
   .promo-alert-text h4 { font-size:13.5px; font-weight:600; color:#92400E; margin-bottom:3px; }
   .promo-alert-text p { font-size:12.5px; color:#78350F; }
+  .alerta { display:flex; gap:10px; align-items:flex-start; border-radius:8px; padding:9px 14px; margin-bottom:8px; font-size:12.5px; border:1.5px solid; line-height:1.5; }
+  .alerta.red { background:var(--red-lt); border-color:#fca5a5; color:#7f1d1d; }
+  .alerta.amber { background:var(--amber-lt); border-color:#fcd34d; color:#78350F; }
+  .alerta.blue { background:var(--blue-lt); border-color:#bfdbfe; color:#1e3a8a; }
   .section-sep { height:1px; background:var(--gray-200); margin:20px 0; }
-  #toast { position:fixed; bottom:28px; right:28px; background:var(--gray-900); color:#fff; padding:12px 20px; border-radius:8px; font-size:13px; font-weight:500; opacity:0; pointer-events:none; transform:translateY(10px); transition:opacity .25s,transform .25s; z-index:999; display:flex; align-items:center; gap:8px; max-width:460px; }
+  .sec-title { font-size:14px; font-weight:600; color:var(--gray-700); margin-bottom:12px; }
+  .filtros { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .filtros label { font-size:11.5px; font-weight:600; color:var(--gray-600); text-transform:uppercase; }
+  .filtros input, .filtros select { padding:7px 10px; border:1.5px solid var(--gray-200); border-radius:7px; font-size:12.5px; font-family:inherit; background:var(--gray-50); }
+  .acoes { display:flex; gap:6px; flex-wrap:wrap; }
+  .form-hint { font-size:12.5px; color:var(--gray-600); margin-top:12px; line-height:1.6; }
+  .chk { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--gray-700); cursor:pointer; }
+  .chk input { width:16px; height:16px; accent-color:var(--verde); }
+  .cob-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+  .cob-card { border:1px solid var(--gray-200); border-radius:8px; padding:12px 14px; background:var(--gray-50); }
+  .cob-card.alerta-card { background:var(--red-lt); border-color:#fca5a5; }
+  .cob-card h4 { font-size:13px; margin-bottom:6px; display:flex; justify-content:space-between; gap:6px; align-items:center; }
+  .cob-item { font-size:12px; color:var(--gray-700); padding:5px 0; border-top:1px dashed var(--gray-200); }
+  .txt-red { color:var(--red); } .txt-verde { color:var(--verde); } .txt-amber { color:#B45309; }
+  #toast { position:fixed; bottom:28px; right:28px; background:var(--gray-900); color:#fff; padding:12px 20px; border-radius:8px; font-size:13px; font-weight:500; opacity:0; pointer-events:none; transform:translateY(10px); transition:opacity .25s,transform .25s; z-index:2000; display:flex; align-items:center; gap:8px; max-width:460px; }
   #toast.show { opacity:1; transform:translateY(0); }
   .empty-state { text-align:center; padding:48px 20px; color:var(--gray-400); }
   .empty-state-icon { font-size:40px; margin-bottom:12px; }
   .empty-state p { font-size:14px; }
   .demitido-row { background:#fff9f9 !important; }
   .demitido-row td { color:var(--gray-600); }
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:500; align-items:center; justify-content:center; }
-  .modal-box { background:#fff; border-radius:14px; padding:28px; width:440px; max-width:95vw; box-shadow:0 20px 60px rgba(0,0,0,.22); animation:slideUp .2s ease; }
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:500; align-items:center; justify-content:center; padding:16px; }
+  .modal-box { background:#fff; border-radius:14px; padding:28px; width:440px; max-width:95vw; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.22); animation:slideUp .2s ease; }
   @keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
   .modal-title { font-size:16px; font-weight:700; margin-bottom:4px; }
   .modal-sub { font-size:13px; color:var(--gray-600); margin-bottom:20px; }
   .modal-footer { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
   .merito-row { background:#f0fdf4 !important; }
-  .badge-purple { background:#EDE9FE; color:#5B21B6; }
   .hist-promo { font-size:11.5px; color:var(--gray-600); background:var(--gray-100); border-radius:6px; padding:6px 10px; margin-top:4px; display:inline-block; max-width:240px; }
   .faixa-select-up { border-color:var(--verde) !important; color:var(--verde); font-weight:600; }
+  .login-overlay { position:fixed; inset:0; background:linear-gradient(135deg,var(--verde-dk),var(--verde)); z-index:1500; display:flex; align-items:center; justify-content:center; padding:16px; }
+  .login-box { background:#fff; border-radius:16px; padding:32px; width:390px; max-width:100%; box-shadow:0 24px 60px rgba(0,0,0,.3); }
+  .login-logo { width:54px; height:54px; border-radius:50%; background:var(--verde); color:#fff; font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; }
+  .login-box h2 { text-align:center; font-size:18px; margin-bottom:4px; }
+  .login-box .sub { text-align:center; font-size:12.5px; color:var(--gray-600); margin-bottom:20px; line-height:1.5; }
+  .login-box .form-group { margin-bottom:12px; }
+  .login-msg { font-size:12.5px; color:var(--red); min-height:18px; margin-bottom:8px; text-align:center; }
+  .login-foot { font-size:11px; color:var(--gray-400); text-align:center; margin-top:14px; }
   @media (max-width:640px) {
     .main { padding:16px; } .topbar { padding:0 16px; } .tabs-nav { padding:0 10px; } .tab-btn { padding:12px 14px; font-size:12px; }
+    .card { padding:16px; } #relogio { display:none; }
   }
 </style>
 </head>
 <body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">UV</div>
+    <h2>Gestão Salarial</h2>
+    <p class="sub">Unimed Vale do Sepotuba</p>
+    <div class="login-msg" id="loginMsg"></div>
+
+    <div data-login="carregando" style="text-align:center;color:var(--gray-600);font-size:13px;padding:12px 0;">⏳ Conectando...</div>
+
+    <div data-login="login" style="display:none">
+      <div class="form-group"><label>Usuário</label><input type="text" id="lg_login" autocomplete="username" autocapitalize="off"></div>
+      <div class="form-group"><label>Senha</label><input type="password" id="lg_senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')tentarLogin()"></div>
+      <button class="btn btn-primary btn-block" onclick="tentarLogin()">🔐 Entrar</button>
+      <p class="login-foot">Esqueceu a senha? Peça ao administrador para redefinir.</p>
+    </div>
+
+    <div data-login="setup" style="display:none">
+      <p class="sub" style="margin-bottom:14px;"><b>Primeiro acesso:</b> crie o usuário administrador.</p>
+      <div class="form-group"><label>Nome</label><input type="text" id="st_nome"></div>
+      <div class="form-group"><label>Usuário (login)</label><input type="text" id="st_login" autocapitalize="off" placeholder="ex.: lenilson"></div>
+      <div class="form-group"><label>Senha (mín. 6)</label><input type="password" id="st_senha" autocomplete="new-password"></div>
+      <div class="form-group"><label>Confirmar Senha</label><input type="password" id="st_senha2" autocomplete="new-password" onkeydown="if(event.key==='Enter')criarPrimeiroAdmin()"></div>
+      <button class="btn btn-primary btn-block" onclick="criarPrimeiroAdmin()">✅ Criar Administrador</button>
+    </div>
+
+    <div data-login="offline" style="display:none;text-align:center;">
+      <p class="sub">Não foi possível conectar ao Google Sheets para validar os usuários.</p>
+      <button class="btn btn-primary btn-block" onclick="location.reload()">🔄 Tentar novamente</button>
+    </div>
+  </div>
+</div>
 
 <div class="topbar">
   <div class="topbar-logo">UV</div>
   <h1>Gestão Salarial &nbsp;<span>Unimed Vale do Sepotuba</span></h1>
   <div class="topbar-right">
     <span id="syncStatus" style="margin-right:16px;font-size:12px;font-weight:500;">⏳ Aguardando...</span>
+    <span class="user-chip" id="userChip">👤 <b id="userNome"></b>
+      <button onclick="abrirModalSenha(false)">🔑 Senha</button>
+      <button onclick="sair()">Sair</button>
+    </span>
     <span id="relogio"></span>
   </div>
 </div>
@@ -119,13 +191,15 @@
   <button class="tab-btn" onclick="trocarAba('reajuste', this)"><span class="tab-icon">📊</span> Reajuste Coletivo</button>
   <button class="tab-btn" onclick="trocarAba('promocao', this)"><span class="tab-icon">🏆</span> Análise de Promoção</button>
   <button class="tab-btn" onclick="trocarAba('saldo', this)"><span class="tab-icon">💰</span> Saldo Financeiro</button>
+  <button class="tab-btn" onclick="trocarAba('ferias', this)"><span class="tab-icon">🏖️</span> Férias</button>
+  <button class="tab-btn" data-perm="usuarios" onclick="trocarAba('usuarios', this)"><span class="tab-icon">🔐</span> Usuários</button>
 </div>
 
 <div class="main">
 
   <!-- ABA 1 – COLABORADORES -->
   <div id="tab-colaboradores" class="tab-panel active">
-    <div class="card">
+    <div class="card" data-perm="colab">
       <div class="card-header"><div class="card-title"><div class="card-title-icon">➕</div>Adicionar Colaborador</div></div>
       <div class="form-grid">
         <div class="form-group"><label>Nome Completo</label><input type="text" id="nome" placeholder="Nome do colaborador"></div>
@@ -142,8 +216,10 @@
         </div>
         <div class="form-group"><label>Data de Admissão</label><input type="date" id="dataAdmissao"></div>
         <div class="form-group"><label>Salário Base</label><input type="text" id="salario" readonly placeholder="Calculado automaticamente"></div>
+        <div class="form-group"><label>Reposição de Vaga</label><select id="vagaRepos" onchange="previewVagaAdd()"><option value="">— Aumento de quadro —</option></select></div>
         <div class="form-group" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="adicionarColaborador()">➕ Adicionar</button></div>
       </div>
+      <div class="form-hint" id="hintVaga"></div>
     </div>
 
     <div class="kpi-grid" id="kpiAtivos"></div>
@@ -151,7 +227,10 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title"><div class="card-title-icon">✅</div>Funcionários Ativos</div>
-        <button class="btn btn-ghost btn-sm" onclick="atualizarFaixasPorTempo()">🔄 Verificar Faixas por Tempo</button>
+        <div class="filtros">
+          <input type="search" id="buscaAtivos" placeholder="🔎 Buscar nome ou cargo" oninput="renderAtivos()">
+          <button class="btn btn-ghost btn-sm" data-perm="colab" onclick="atualizarFaixasPorTempo()">🔄 Verificar Faixas por Tempo</button>
+        </div>
       </div>
       <div class="table-wrap">
         <table>
@@ -165,8 +244,8 @@
       <div class="card-header"><div class="card-title"><div class="card-title-icon">🚪</div>Funcionários Desligados</div></div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa</th><th>Último Salário</th><th>Admissão</th><th>Demissão</th><th>Tempo de Casa</th></tr></thead>
-          <tbody id="corpoDemitidos"><tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr></tbody>
+          <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa</th><th>Último Salário</th><th>Admissão</th><th>Demissão</th><th>Tempo de Casa</th><th>Vaga</th></tr></thead>
+          <tbody id="corpoDemitidos"><tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -177,7 +256,7 @@
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-title-icon">📊</div>Reajuste Coletivo da Base Salarial</div></div>
 
-      <div class="reajuste-box">
+      <div class="reajuste-box" data-perm="reajuste">
         <div class="form-group"><label>Percentual de Reajuste (%)</label><input type="text" inputmode="decimal" id="percReajuste" placeholder="Ex: 5,5" oninput="previewReajuste()"></div>
         <div class="form-group"><label>Data de Vigência</label><input type="date" id="dataReajuste"></div>
         <div class="form-group"><label>Descrição / ACT</label><input type="text" id="descReajuste" placeholder="Ex: ACT 2025"></div>
@@ -186,7 +265,7 @@
       </div>
 
       <div id="historicoReajuste">
-        <h3 style="font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Histórico de Reajustes</h3>
+        <h3 class="sec-title">Histórico de Reajustes</h3>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Data</th><th>Descrição</th><th>%</th><th>Base Anterior</th><th>Nova Base F1 Asst.I</th></tr></thead>
@@ -196,7 +275,7 @@
       </div>
 
       <div class="section-sep"></div>
-      <h3 style="font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Tabela Salarial Vigente</h3>
+      <h3 class="sec-title">Tabela Salarial Vigente</h3>
       <div class="table-wrap" id="tabelaBaseWrap"></div>
     </div>
   </div>
@@ -210,7 +289,7 @@
       </div>
       <div id="alertasPromocao"></div>
       <div class="section-sep"></div>
-      <h3 style="font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Todos os Colaboradores</h3>
+      <h3 class="sec-title">Todos os Colaboradores</h3>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Nome</th><th>Cargo</th><th>Faixa Atual</th><th>Próx. Faixa</th><th>Admissão</th><th>Tempo de Casa</th><th>Elegível em</th><th>Promoções Mérito</th><th>Status</th></tr></thead>
@@ -223,22 +302,132 @@
   <!-- ABA 4 – SALDO FINANCEIRO -->
   <div id="tab-saldo" class="tab-panel">
     <div class="card">
+      <div class="card-header">
+        <div class="card-title"><div class="card-title-icon">🔁</div>Saldo de Vagas – Desligamentos × Reposições</div>
+        <div class="filtros">
+          <label for="fatorEnc">Fator encargos</label>
+          <input type="text" id="fatorEnc" inputmode="decimal" style="width:76px" title="1,00 = somente salário. Informe o fator de encargos usado pela folha para ver o custo total." onchange="salvarFator()">
+          <select id="filtroVaga" onchange="renderVagas()"><option value="">Todas as vagas</option><option>Aberta</option><option>Economia</option><option>Estouro</option><option>Neutra</option></select>
+          <button class="btn btn-ghost btn-sm" onclick="exportarVagas()">⬇️ CSV</button>
+        </div>
+      </div>
+      <div class="kpi-grid" id="kpiVagas"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Desligado</th><th>Demissão</th><th>Salário Deslig.</th><th>Reposto por</th><th>Admissão</th><th>Salário Contrat.</th><th>Saldo da Vaga</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="corpoVagas"></tbody>
+        </table>
+      </div>
+      <p class="form-hint"><b>Regra:</b> cada desligamento abre uma vaga com saldo igual ao último salário. Sem contratação, o saldo inteiro fica disponível. Na reposição, saldo = salário do desligado − salário da contratação. Se o novo salário for menor, a diferença fica como <span class="txt-verde"><b>economia</b></span>. Se for maior, o saldo fica negativo (<span class="txt-red"><b>estouro</b></span>) e é abatido do saldo líquido. O salário de contratação fica congelado no vínculo; méritos posteriores não alteram o saldo da vaga.</p>
+    </div>
+
+    <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-title-icon">💰</div>Saldo Financeiro – Ativos vs. Desligados</div></div>
       <div class="kpi-grid" id="kpiSaldo"></div>
       <div class="section-sep"></div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
         <div>
-          <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Ativos por Cargo</h3>
+          <h3 class="sec-title">Ativos por Cargo</h3>
           <div class="table-wrap"><table><thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Salarial</th></tr></thead><tbody id="corpoSaldoCargo"></tbody></table></div>
         </div>
         <div>
-          <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Desligados por Cargo</h3>
+          <h3 class="sec-title">Desligados por Cargo</h3>
           <div class="table-wrap"><table><thead><tr><th>Cargo</th><th>Qtd</th><th>Massa Economizada</th></tr></thead><tbody id="corpoSaldoDemitidos"></tbody></table></div>
         </div>
       </div>
       <div class="section-sep"></div>
-      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-700);">Impacto do Último Reajuste</h3>
+      <h3 class="sec-title">Impacto do Último Reajuste</h3>
       <div id="impactoReajuste" class="kpi-grid"></div>
+    </div>
+  </div>
+
+  <!-- ABA 5 – FÉRIAS -->
+  <div id="tab-ferias" class="tab-panel">
+    <div class="kpi-grid" id="kpiFerias"></div>
+
+    <div class="card" data-perm="ferias">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🏖️</div>Programar Férias</div></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Colaborador</label><select id="fe_colab" onchange="onFeColab()"></select></div>
+        <div class="form-group"><label>Período Aquisitivo</label><select id="fe_periodo" onchange="previewFerias()"></select></div>
+        <div class="form-group"><label>Data de Saída</label><input type="date" id="fe_inicio" onchange="previewFerias()"></div>
+        <div class="form-group"><label>Quantidade de Dias</label>
+          <select id="fe_dias" onchange="previewFerias()"><option value="5">5 dias</option><option value="10">10 dias</option><option value="15">15 dias</option><option value="20">20 dias</option><option value="30" selected>30 dias</option></select>
+        </div>
+        <div class="form-group"><label>Último Dia de Gozo</label><input type="text" id="fe_ultimo" readonly></div>
+        <div class="form-group"><label>Data de Retorno</label><input type="text" id="fe_retorno" readonly></div>
+        <div class="form-group"><label>Quem Cobre (Substituto)</label><select id="fe_sub" onchange="previewFerias()"></select></div>
+        <div class="form-group"><label>Observação</label><input type="text" id="fe_obs" placeholder="Opcional"></div>
+        <div class="form-group" style="justify-content:flex-end;"><label class="chk"><input type="checkbox" id="fe_abono" onchange="previewFerias()"> Abono pecuniário (vender 10 dias)</label></div>
+        <div class="form-group" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="salvarFerias()">💾 Programar Férias</button></div>
+      </div>
+      <div id="fe_preview" class="form-hint"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><div class="card-title-icon">⏰</div>Alertas de Período Concessivo</div>
+        <div class="filtros" title="Períodos com limite concessivo anterior a esta data são considerados quitados (histórico anterior ao controle).">
+          <label for="cfg_corte">Controle a partir de</label><input type="date" id="cfg_corte" onchange="salvarCorte()">
+        </div>
+      </div>
+      <div id="alertasFerias"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><div class="card-title-icon">📅</div>Programação de Férias</div>
+        <div class="filtros">
+          <input type="search" id="fe_busca" placeholder="🔎 Colaborador ou substituto" oninput="renderFerias()">
+          <select id="fe_fstatus" onchange="renderFerias()"><option value="">Todos os status</option><option>Programada</option><option>Aprovada</option><option>Em gozo</option><option>Concluída</option><option>Cancelada</option></select>
+          <button class="btn btn-ghost btn-sm" onclick="exportarFerias()">⬇️ CSV</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Colaborador</th><th>Período Aquisitivo</th><th>Saída</th><th>Retorno</th><th>Dias</th><th>Pagar até</th><th>Substituto</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="corpoFerias"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🛡️</div>Quadro de Cobertura</div></div>
+      <div class="cob-grid" id="cobGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">📒</div>Saldo de Férias por Colaborador</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Colaborador</th><th>Admissão</th><th>Período Aquisitivo</th><th>Utilizado / Programado</th><th>Saldo</th><th>Limite Concessivo</th><th>Situação</th></tr></thead>
+          <tbody id="corpoSaldoFerias"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 6 – USUÁRIOS -->
+  <div id="tab-usuarios" class="tab-panel">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">➕</div>Novo Usuário</div></div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nome</label><input type="text" id="us_nome"></div>
+        <div class="form-group"><label>Usuário (login)</label><input type="text" id="us_login" autocapitalize="off"></div>
+        <div class="form-group"><label>Perfil</label><select id="us_perfil"><option value="gestor">Gestor</option><option value="rh">RH / Folha</option><option value="admin">Administrador</option></select></div>
+        <div class="form-group"><label>Senha Inicial (mín. 6)</label><input type="password" id="us_senha" autocomplete="new-password"></div>
+        <div class="form-group" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="criarUsuario()">➕ Criar</button></div>
+      </div>
+      <p class="form-hint"><b>Administrador:</b> acesso total e gestão de usuários. <b>RH / Folha:</b> colaboradores, mérito, desligamento, reajuste, vagas, férias e aprovação. <b>Gestor:</b> consulta geral e programação de férias. A senha inicial deve ser trocada no primeiro acesso.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🔐</div>Usuários Cadastrados</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Login</th><th>Perfil</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
+          <tbody id="corpoUsuarios"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -275,14 +464,63 @@
 </div>
 
 <!-- MODAL DEMISSÃO -->
-<div id="modalDemissao" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:12px;padding:28px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.2);">
-    <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;">Registrar Desligamento</h3>
-    <p id="nomeDemissao" style="font-size:13px;color:var(--gray-600);margin-bottom:16px;"></p>
-    <div class="form-group" style="margin-bottom:16px;"><label>Data de Demissão</label><input type="date" id="dataDemissaoInput"></div>
-    <div style="display:flex;gap:10px;justify-content:flex-end;">
+<div id="modalDemissao" class="modal-overlay">
+  <div class="modal-box" style="width:380px;">
+    <div class="modal-title">Registrar Desligamento</div>
+    <p id="nomeDemissao" class="modal-sub"></p>
+    <div class="form-group" style="margin-bottom:8px;"><label>Data de Demissão</label><input type="date" id="dataDemissaoInput"></div>
+    <p class="form-hint" style="margin-top:4px;">Uma vaga com o saldo do último salário será aberta. Férias futuras do colaborador serão canceladas e as coberturas sob responsabilidade dele ficarão sem substituto.</p>
+    <div class="modal-footer">
       <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
       <button class="btn btn-danger" onclick="confirmarDemissao()">🚪 Confirmar Desligamento</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VÍNCULO DE VAGA -->
+<div id="modalVinculo" class="modal-overlay">
+  <div class="modal-box" style="width:480px;">
+    <div class="modal-title">🔁 Vincular Contratação à Vaga</div>
+    <p class="modal-sub" id="vin_sub"></p>
+    <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="form-group" style="grid-column:1/-1"><label>Colaborador Contratado</label><select id="vin_colab" onchange="onVinColab()"></select></div>
+      <div class="form-group"><label>Salário na Contratação</label><input type="text" id="vin_salario" inputmode="decimal" oninput="previewVinculo()"></div>
+      <div class="form-group"><label>Data</label><input type="date" id="vin_data"></div>
+    </div>
+    <div class="form-hint" id="vin_prev"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharModalGen('modalVinculo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarVinculo()">🔁 Vincular</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL COBERTURA -->
+<div id="modalCobertura" class="modal-overlay">
+  <div class="modal-box" style="width:440px;">
+    <div class="modal-title">🛡️ Definir Cobertura</div>
+    <p class="modal-sub" id="cob_sub"></p>
+    <div class="form-group"><label>Substituto</label><select id="cob_sub_sel" onchange="previewCobertura()"></select></div>
+    <div class="form-hint" id="cob_prev"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharModalGen('modalCobertura')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarCobertura()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SENHA -->
+<div id="modalSenha" class="modal-overlay">
+  <div class="modal-box" style="width:380px;">
+    <div class="modal-title">🔑 Alterar Senha</div>
+    <p class="modal-sub" id="ms_sub">Defina uma nova senha de acesso.</p>
+    <div class="form-group" id="ms_atual_wrap" style="margin-bottom:12px;"><label>Senha Atual</label><input type="password" id="ms_atual" autocomplete="current-password"></div>
+    <div class="form-group" style="margin-bottom:12px;"><label>Nova Senha (mín. 6)</label><input type="password" id="ms_nova" autocomplete="new-password"></div>
+    <div class="form-group"><label>Confirmar Nova Senha</label><input type="password" id="ms_conf" autocomplete="new-password" onkeydown="if(event.key==='Enter')confirmarSenha()"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="ms_cancel" onclick="fecharModalGen('modalSenha')">Cancelar</button>
+      <button class="btn btn-ghost" id="ms_sair" onclick="sair()" style="display:none">Sair</button>
+      <button class="btn btn-primary" onclick="confirmarSenha()">💾 Salvar</button>
     </div>
   </div>
 </div>
@@ -308,9 +546,25 @@ let idDemissaoPendente = null, proxId = 1;
 let bloqueioReajuste = 'Aguarde o carregamento dos dados do Sheets.';
 let reajusteEmAndamento = false;
 
+// Módulos novos (persistidos via chave/valor no Sheets — aba "Extras"; fallback local)
+let usuarios = [], ferias = [], vinculos = {}, sessao = null;
+let kvModo = 'local'; // 'sheets' | 'local' (backend sem módulo KV) | 'offline'
+const CONFIG_PADRAO = { dataCorteFerias: null, fatorEncargos: 1 };
+let config = { ...CONFIG_PADRAO };
+const DIAS_FERIAS = [5, 10, 15, 20, 30];
+
 // ════════════════════════ UTILITÁRIOS ════════════════════════
 const fmt = v => 'R$ ' + Number(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
 const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+const val = id => { const el = $(id); return el ? el.value : ''; };
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function lsGetJSON(k) { try { const v = lsGet(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function ssGetJSON(k) { try { const v = sessionStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function ssSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+function ssDel(k) { try { sessionStorage.removeItem(k); } catch (e) {} }
 
 // Aceita 5,5 | 5.5 | "1.770,00" | "R$ 1770.00" | número
 function parseNumBR(v) {
@@ -348,6 +602,9 @@ function parseDateSafe(str) {
   if (/^\d{2}\/\d{2}\/\d{4}/.test(s)) { const [d, m, a] = s.split('/'); return new Date(`${a}-${m}-${d}T12:00:00`); }
   return new Date(s);
 }
+function isoDe(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function addDias(iso, n) { const d = parseDateSafe(iso); d.setDate(d.getDate() + n); return isoDe(d); }
+function addAnos(iso, n) { const d = parseDateSafe(iso); d.setFullYear(d.getFullYear() + n); return isoDe(d); }
 function fmtData(v) { const n = normalizarData(v); return n ? new Date(n + 'T12:00:00').toLocaleDateString('pt-BR') : '–'; }
 function diasEntre(d1, d2) { const a = parseDateSafe(d1), b = parseDateSafe(d2); return Math.max(0, Math.floor((b - a) / 86400000)); }
 function tempoFormatado(dias) {
@@ -357,53 +614,325 @@ function tempoFormatado(dias) {
   return `${anos} ano${anos > 1 ? 's' : ''}${m ? ` e ${m} mes${m > 1 ? 'es' : ''}` : ''}`;
 }
 function faixaPorTempo(dias) { let f = 0; for (let i = 0; i < tempoFaixa.length; i++) { if (dias >= tempoFaixa[i]) f = i; else break; } return f; }
-function hojeISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function hojeISO() { return isoDe(new Date()); }
+const sobrepoe = (a1, a2, b1, b2) => a1 <= b2 && b1 <= a2;
 
 let toastTimer = null;
 function toast(msg, tipo = 'ok', ms = 3000) {
-  const el = document.getElementById('toast');
-  el.innerHTML = (tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'erro' ? '❌' : 'ℹ️') + ' ' + msg;
+  const el = $('toast');
+  el.innerHTML = (tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'erro' ? '❌' : 'ℹ️') + ' ' + esc(msg);
   el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 function autoFill() {
-  const c = document.getElementById('cargo').value, f = parseInt(document.getElementById('faixa').value);
-  document.getElementById('salario').value = fmt(base[c][f]);
+  const c = val('cargo'), f = parseInt(val('faixa'));
+  $('salario').value = fmt(base[c][f]);
+  previewVagaAdd();
 }
-setInterval(() => { document.getElementById('relogio').textContent = new Date().toLocaleString('pt-BR'); }, 1000);
+setInterval(() => { $('relogio').textContent = new Date().toLocaleString('pt-BR'); }, 1000);
+
+function baixarCSV(nomeArq, linhas) {
+  const csv = '\ufeff' + linhas.map(l => l.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+  a.download = nomeArq; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+const numCSV = v => Number(v || 0).toFixed(2).replace('.', ',');
 
 function renderTudo() {
-  renderAtivos(); renderDemitidos(); renderKpiAtivos(); renderTabelaBase(); renderHistorico(); autoFill();
-  if (document.getElementById('tab-saldo').classList.contains('active')) renderSaldo();
-  if (document.getElementById('tab-promocao').classList.contains('active')) renderPromocao();
+  renderAtivos(); renderDemitidos(); renderKpiAtivos(); renderTabelaBase(); renderHistorico();
+  popularSelectVagaAdd(); popularSelectsFerias(); autoFill();
+  if ($('tab-saldo').classList.contains('active')) renderSaldo();
+  if ($('tab-promocao').classList.contains('active')) renderPromocao();
+  if ($('tab-ferias').classList.contains('active')) renderFerias();
+  if ($('tab-usuarios').classList.contains('active')) renderUsuarios();
 }
 
 // ════════════════════════ ABAS ════════════════════════
 function trocarAba(aba, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + aba).classList.add('active');
+  $('tab-' + aba).classList.add('active');
   if (btn) btn.classList.add('active');
   if (aba === 'promocao') renderPromocao();
   if (aba === 'saldo') renderSaldo();
   if (aba === 'reajuste') { renderTabelaBase(); renderHistorico(); }
+  if (aba === 'ferias') { popularSelectsFerias(); renderFerias(); }
+  if (aba === 'usuarios') renderUsuarios();
+}
+
+// ════════════════════════ SHA-256 (sem dependência de HTTPS) ════════════════════════
+const _K = [], _H = [];
+(function () { let n = 2, c = 0; while (c < 64) { let p = true; for (let d = 2; d * d <= n; d++) if (n % d === 0) { p = false; break; } if (p) { if (c < 8) _H[c] = (Math.pow(n, 1/2) * 4294967296) | 0; _K[c++] = (Math.pow(n, 1/3) * 4294967296) | 0; } n++; } })();
+const _ror = (x, n) => (x >>> n) | (x << (32 - n));
+function sha256Hex(msg) {
+  const b = Array.from(new TextEncoder().encode(msg)), l = b.length * 8;
+  b.push(0x80); while (b.length % 64 !== 56) b.push(0);
+  for (let i = 7; i >= 0; i--) b.push(i >= 4 ? 0 : (l >>> (i * 8)) & 255);
+  const h = _H.slice(), w = new Array(64);
+  for (let j = 0; j < b.length; j += 64) {
+    for (let i = 0; i < 16; i++) w[i] = (b[j+4*i] << 24) | (b[j+4*i+1] << 16) | (b[j+4*i+2] << 8) | b[j+4*i+3];
+    for (let i = 16; i < 64; i++) { const x = w[i-15], y = w[i-2]; w[i] = (w[i-16] + (_ror(x,7) ^ _ror(x,18) ^ (x >>> 3)) + w[i-7] + (_ror(y,17) ^ _ror(y,19) ^ (y >>> 10))) | 0; }
+    let [a, bb, c, d, e, f, g, hh] = h;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (hh + (_ror(e,6) ^ _ror(e,11) ^ _ror(e,25)) + ((e & f) ^ (~e & g)) + _K[i] + w[i]) | 0;
+      const t2 = ((_ror(a,2) ^ _ror(a,13) ^ _ror(a,22)) + ((a & bb) ^ (a & c) ^ (bb & c))) | 0;
+      hh = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+    }
+    [a, bb, c, d, e, f, g, hh].forEach((v, i) => { h[i] = (h[i] + v) | 0; });
+  }
+  return h.map(x => (x >>> 0).toString(16).padStart(8, '0')).join('');
+}
+function hashSenha(senha, salt) { let h = sha256Hex(salt + '|' + senha); for (let i = 0; i < 1500; i++) h = sha256Hex(salt + h); return h; }
+function gerarSalt() {
+  try { const a = new Uint8Array(16); crypto.getRandomValues(a); return Array.from(a, x => x.toString(16).padStart(2, '0')).join(''); }
+  catch (e) { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+}
+
+// ════════════════════════ ARMAZENAMENTO CHAVE/VALOR ════════════════════════
+const KV_LOCAL = k => 'gs_kv_' + k;
+async function kvGet(chave) {
+  const local = lsGetJSON(KV_LOCAL(chave));
+  if (!urlConfigurada()) { kvModo = 'local'; return local; }
+  let r;
+  try { r = await fetch(`${SCRIPT_URL}?acao=kvGet&chave=${encodeURIComponent(chave)}&t=${Date.now()}`); }
+  catch (e) { kvModo = 'offline'; console.warn('[KV] offline:', e); return local; }
+  try {
+    const j = await lerJSON(r);
+    if (j && j.ok && 'valor' in j) {
+      kvModo = 'sheets';
+      let v = j.valor;
+      if (typeof v === 'string') { try { v = v ? JSON.parse(v) : null; } catch (e) { v = null; } }
+      if (v == null && local != null) { await kvSet(chave, local); return local; } // migra dados locais para o Sheets
+      if (v != null) lsSet(KV_LOCAL(chave), JSON.stringify(v));
+      return v;
+    }
+  } catch (e) { console.warn('[KV] Apps Script sem módulo KV:', e.message); }
+  kvModo = 'local';
+  return local;
+}
+async function kvSet(chave, valor) {
+  lsSet(KV_LOCAL(chave), JSON.stringify(valor));
+  if (kvModo !== 'sheets') return true;
+  try {
+    const res = await sheetsPOST({ acao:'kvSet', chave, valor: JSON.stringify(valor) });
+    if (!res.ok) { indicadorSync('❌ ' + (res.erro || 'Falha ao gravar ' + chave), 'erro'); return false; }
+    return true;
+  } catch (e) { indicadorSync('❌ Falha ao gravar ' + chave, 'erro'); console.error('[KV]', e); return false; }
+}
+// Recarrega do Sheets antes de alterar (reduz sobrescrita entre usuários simultâneos)
+async function recarregar(chave) {
+  if (kvModo !== 'sheets') return;
+  const v = await kvGet(chave);
+  if (v == null) return;
+  if (chave === 'ferias' && Array.isArray(v)) ferias = v;
+  if (chave === 'vinculosVagas' && typeof v === 'object') vinculos = v;
+  if (chave === 'usuarios' && Array.isArray(v)) usuarios = v;
+  if (chave === 'configRH' && typeof v === 'object') config = { ...CONFIG_PADRAO, ...v };
+}
+async function persistir(chave) {
+  const valor = { ferias, vinculosVagas: vinculos, usuarios, configRH: config }[chave];
+  indicadorSync('💾 Salvando...', 'aguard');
+  const ok = await kvSet(chave, valor);
+  if (ok) indicadorSync(kvModo === 'sheets' ? '✅ Salvo no Sheets' : '💾 Salvo neste navegador', kvModo === 'sheets' ? 'ok' : 'aguard');
+  return ok;
+}
+
+// ════════════════════════ LOGIN / PERFIS ════════════════════════
+const PERFIS = { admin:'Administrador', rh:'RH / Folha', gestor:'Gestor' };
+const PERMS = { admin:['*'], rh:['colab','merito','demitir','reajuste','vaga','ferias','ferias_aprovar','config'], gestor:['ferias'] };
+function pode(p) { if (!sessao) return false; const l = PERMS[sessao.perfil] || []; return l.includes('*') || l.includes(p); }
+function exigir(p) { if (pode(p)) return true; toast('Seu perfil não tem permissão para esta ação.', 'warn'); return false; }
+function aplicarPermissoes() {
+  document.querySelectorAll('[data-perm]').forEach(el => { el.style.display = pode(el.dataset.perm) ? '' : 'none'; });
+  $('fatorEnc').disabled = !pode('config'); $('cfg_corte').disabled = !pode('config');
+}
+function mostrarLogin(modo, msg) {
+  $('loginOverlay').style.display = 'flex';
+  document.querySelectorAll('[data-login]').forEach(el => { el.style.display = el.dataset.login === modo ? '' : 'none'; });
+  $('loginMsg').textContent = msg || '';
+  const foco = { login:'lg_login', setup:'st_nome' }[modo];
+  if (foco) setTimeout(() => $(foco).focus(), 50);
+}
+const loginValido = l => /^[a-z0-9._-]{3,30}$/.test(l);
+
+function tentarLogin() {
+  const lock = lsGetJSON('gs_lock') || { n:0, ate:0 };
+  if (lock.ate > Date.now()) { $('loginMsg').textContent = `Muitas tentativas. Aguarde ${Math.ceil((lock.ate - Date.now()) / 60000)} min.`; return; }
+  const login = val('lg_login').trim().toLowerCase(), senha = val('lg_senha');
+  const u = usuarios.find(x => x.login === login);
+  if (!u || !u.ativo || hashSenha(senha, u.salt) !== u.hash) {
+    lock.n++; if (lock.n >= 5) { lock.ate = Date.now() + 5 * 60000; lock.n = 0; }
+    lsSet('gs_lock', JSON.stringify(lock));
+    $('loginMsg').textContent = 'Usuário ou senha inválidos.'; $('lg_senha').value = '';
+    return;
+  }
+  lsSet('gs_lock', JSON.stringify({ n:0, ate:0 }));
+  $('lg_senha').value = '';
+  iniciarSessao(u);
+}
+
+async function criarPrimeiroAdmin() {
+  const nome = val('st_nome').trim(), login = val('st_login').trim().toLowerCase(), s1 = val('st_senha'), s2 = val('st_senha2');
+  const msg = $('loginMsg');
+  if (!nome) { msg.textContent = 'Informe o nome.'; return; }
+  if (!loginValido(login)) { msg.textContent = 'Login: 3 a 30 caracteres (letras minúsculas, números, . _ -).'; return; }
+  if (s1.length < 6) { msg.textContent = 'A senha deve ter ao menos 6 caracteres.'; return; }
+  if (s1 !== s2) { msg.textContent = 'As senhas não conferem.'; return; }
+  const salt = gerarSalt();
+  usuarios = [{ login, nome, perfil:'admin', salt, hash:hashSenha(s1, salt), ativo:true, trocarSenha:false, criadoEm:hojeISO(), criadoPor:login }];
+  if (!(await kvSet('usuarios', usuarios))) { msg.textContent = 'Falha ao salvar o usuário. Tente novamente.'; return; }
+  iniciarSessao(usuarios[0]);
+}
+
+function iniciarSessao(u) {
+  sessao = { login:u.login, nome:u.nome, perfil:u.perfil };
+  ssSet('gs_sessao', JSON.stringify({ login:u.login, exp:Date.now() + 8 * 3600000 }));
+  entrar(u);
+}
+function restaurarSessao() {
+  const s = ssGetJSON('gs_sessao');
+  if (!s || s.exp < Date.now()) return null;
+  return usuarios.find(x => x.login === s.login && x.ativo) || null;
+}
+function sair() { ssDel('gs_sessao'); location.reload(); }
+
+async function entrar(u) {
+  sessao = { login:u.login, nome:u.nome, perfil:u.perfil };
+  $('loginOverlay').style.display = 'none';
+  $('userChip').style.display = 'inline-flex';
+  $('userNome').textContent = `${u.nome} · ${PERFIS[u.perfil] || u.perfil}`;
+  aplicarPermissoes();
+  const [f, v, cfg] = await Promise.all([kvGet('ferias'), kvGet('vinculosVagas'), kvGet('configRH')]);
+  ferias = Array.isArray(f) ? f : [];
+  vinculos = (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+  config = { ...CONFIG_PADRAO, ...(cfg && typeof cfg === 'object' ? cfg : {}) };
+  if (!config.dataCorteFerias && pode('config')) { config.dataCorteFerias = hojeISO(); persistir('configRH'); }
+  $('fatorEnc').value = Number(config.fatorEncargos || 1).toLocaleString('pt-BR', { minimumFractionDigits:2, maximumFractionDigits:4 });
+  $('cfg_corte').value = config.dataCorteFerias || hojeISO();
+  await carregarDoSheets();
+  renderTudo();
+  if (kvModo === 'local' && urlConfigurada()) toast('Usuários, férias e vagas estão salvos só neste navegador. Instale o módulo KV no Apps Script para compartilhar.', 'info', 7000);
+  if (u.trocarSenha) abrirModalSenha(true);
+}
+
+// ── Troca de senha
+let senhaForcada = false;
+function abrirModalSenha(forcada) {
+  senhaForcada = !!forcada;
+  ['ms_atual','ms_nova','ms_conf'].forEach(id => $(id).value = '');
+  $('ms_atual_wrap').style.display = senhaForcada ? 'none' : '';
+  $('ms_cancel').style.display = senhaForcada ? 'none' : '';
+  $('ms_sair').style.display = senhaForcada ? '' : 'none';
+  $('ms_sub').textContent = senhaForcada ? 'Sua senha é temporária. Defina uma nova senha para continuar.' : 'Defina uma nova senha de acesso.';
+  $('modalSenha').style.display = 'flex';
+  setTimeout(() => $(senhaForcada ? 'ms_nova' : 'ms_atual').focus(), 50);
+}
+async function confirmarSenha() {
+  const atual = val('ms_atual'), nova = val('ms_nova'), conf = val('ms_conf');
+  if (nova.length < 6) { toast('A nova senha deve ter ao menos 6 caracteres.', 'warn'); return; }
+  if (nova !== conf) { toast('As senhas não conferem.', 'warn'); return; }
+  await recarregar('usuarios');
+  const u = usuarios.find(x => x.login === sessao.login);
+  if (!u) { toast('Usuário não encontrado.', 'erro'); return; }
+  if (!senhaForcada && hashSenha(atual, u.salt) !== u.hash) { toast('Senha atual incorreta.', 'warn'); return; }
+  if (hashSenha(nova, u.salt) === u.hash) { toast('A nova senha deve ser diferente da atual.', 'warn'); return; }
+  u.salt = gerarSalt(); u.hash = hashSenha(nova, u.salt); u.trocarSenha = false;
+  if (await persistir('usuarios')) { senhaForcada = false; fecharModalGen('modalSenha'); toast('Senha alterada com sucesso!'); }
+}
+
+// ── Gestão de usuários (admin)
+function renderUsuarios() {
+  const tb = $('corpoUsuarios');
+  if (!pode('usuarios')) { tb.innerHTML = ''; return; }
+  const admins = usuarios.filter(u => u.perfil === 'admin' && u.ativo).length;
+  tb.innerHTML = usuarios.map(u => {
+    const eu = u.login === sessao.login, ultimoAdm = u.perfil === 'admin' && u.ativo && admins <= 1;
+    const perfilSel = eu || ultimoAdm
+      ? `<span class="badge badge-blue">${PERFIS[u.perfil]}</span>`
+      : `<select class="filtros" style="padding:5px 8px;border:1.5px solid var(--gray-200);border-radius:6px;font-size:12px" onchange="mudarPerfil('${esc(u.login)}', this.value)">${Object.entries(PERFIS).map(([k, n]) => `<option value="${k}" ${k === u.perfil ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+    return `<tr>
+      <td><strong>${esc(u.nome)}</strong>${eu ? ' <span class="badge badge-green">você</span>' : ''}</td>
+      <td>${esc(u.login)}</td><td>${perfilSel}</td>
+      <td>${u.ativo ? '<span class="badge badge-green">Ativo</span>' : '<span class="badge badge-red">Inativo</span>'}${u.trocarSenha ? ' <span class="badge badge-amber">senha temporária</span>' : ''}</td>
+      <td>${fmtData(u.criadoEm)}</td>
+      <td><div class="acoes">
+        <button class="btn btn-ghost btn-sm" onclick="redefinirSenha('${esc(u.login)}')">🔑 Redefinir senha</button>
+        ${eu || ultimoAdm ? '' : `<button class="btn ${u.ativo ? 'btn-danger' : 'btn-primary'} btn-sm" onclick="toggleUsuario('${esc(u.login)}')">${u.ativo ? '⛔ Desativar' : '✅ Ativar'}</button>`}
+      </div></td></tr>`;
+  }).join('') || '<tr><td colspan="6"><div class="empty-state"><p>Nenhum usuário.</p></div></td></tr>';
+}
+async function criarUsuario() {
+  if (!exigir('usuarios')) return;
+  const nome = val('us_nome').trim(), login = val('us_login').trim().toLowerCase(), perfil = val('us_perfil'), senha = val('us_senha');
+  if (!nome) { toast('Informe o nome.', 'warn'); return; }
+  if (!loginValido(login)) { toast('Login: 3 a 30 caracteres (letras minúsculas, números, . _ -).', 'warn'); return; }
+  if (senha.length < 6) { toast('Senha inicial com ao menos 6 caracteres.', 'warn'); return; }
+  await recarregar('usuarios');
+  if (usuarios.some(u => u.login === login)) { toast('Este login já existe.', 'warn'); return; }
+  const salt = gerarSalt();
+  usuarios.push({ login, nome, perfil, salt, hash:hashSenha(senha, salt), ativo:true, trocarSenha:true, criadoEm:hojeISO(), criadoPor:sessao.login });
+  if (await persistir('usuarios')) { ['us_nome','us_login','us_senha'].forEach(id => $(id).value = ''); toast(`Usuário ${login} criado. Ele trocará a senha no 1º acesso.`); }
+  renderUsuarios();
+}
+async function mudarPerfil(login, perfil) {
+  if (!exigir('usuarios')) return;
+  await recarregar('usuarios');
+  const u = usuarios.find(x => x.login === login); if (!u) return;
+  if (u.perfil === 'admin' && perfil !== 'admin' && usuarios.filter(x => x.perfil === 'admin' && x.ativo).length <= 1) { toast('Deve existir ao menos um administrador ativo.', 'warn'); renderUsuarios(); return; }
+  u.perfil = perfil;
+  if (await persistir('usuarios')) toast(`Perfil de ${login} alterado para ${PERFIS[perfil]}.`);
+  renderUsuarios();
+}
+async function toggleUsuario(login) {
+  if (!exigir('usuarios') || login === sessao.login) return;
+  await recarregar('usuarios');
+  const u = usuarios.find(x => x.login === login); if (!u) return;
+  if (u.ativo && u.perfil === 'admin' && usuarios.filter(x => x.perfil === 'admin' && x.ativo).length <= 1) { toast('Deve existir ao menos um administrador ativo.', 'warn'); return; }
+  if (!confirm(`${u.ativo ? 'Desativar' : 'Ativar'} o usuário ${login}?`)) return;
+  u.ativo = !u.ativo;
+  if (await persistir('usuarios')) toast(`Usuário ${login} ${u.ativo ? 'ativado' : 'desativado'}.`);
+  renderUsuarios();
+}
+async function redefinirSenha(login) {
+  if (!exigir('usuarios')) return;
+  const s = prompt(`Nova senha temporária para "${login}" (mín. 6 caracteres).\nO usuário deverá trocá-la no próximo acesso:`);
+  if (s === null) return;
+  if (s.length < 6) { toast('Senha muito curta.', 'warn'); return; }
+  await recarregar('usuarios');
+  const u = usuarios.find(x => x.login === login); if (!u) return;
+  u.salt = gerarSalt(); u.hash = hashSenha(s, u.salt); u.trocarSenha = login !== sessao.login;
+  if (await persistir('usuarios')) toast(`Senha de ${login} redefinida.`);
+  renderUsuarios();
 }
 
 // ════════════════════════ COLABORADORES ════════════════════════
-function adicionarColaborador() {
-  const nome = document.getElementById('nome').value.trim();
-  const cargo = document.getElementById('cargo').value;
-  const faixa = parseInt(document.getElementById('faixa').value);
-  const dataAdm = document.getElementById('dataAdmissao').value;
+async function adicionarColaborador() {
+  if (!exigir('colab')) return;
+  const nome = val('nome').trim();
+  const cargo = val('cargo');
+  const faixa = parseInt(val('faixa'));
+  const dataAdm = val('dataAdmissao');
+  const vagaId = Number(val('vagaRepos')) || null;
   if (!nome) { toast('Informe o nome do colaborador.','warn'); return; }
   if (!dataAdm) { toast('Informe a data de admissão.','warn'); return; }
+  if (dataAdm > addDias(hojeISO(), 60) && !confirm('Data de admissão mais de 60 dias no futuro. Confirmar?')) return;
+  if (colaboradores.some(c => c.nome.trim().toLowerCase() === nome.toLowerCase()) && !confirm(`Já existe um colaborador ativo chamado "${nome}". Adicionar mesmo assim?`)) return;
+  if (vagaId && vinculos[vagaId]) { toast('Esta vaga já foi reposta. Selecione outra.', 'warn'); popularSelectVagaAdd(); return; }
   const col = { id: proxId++, nome, cargo, faixaManual: faixa, dataAdmissao: dataAdm, salario: base[cargo][faixa], historicoMerito: [] };
   colaboradores.push(col);
   renderAtivos(); renderKpiAtivos();
-  document.getElementById('nome').value = ''; document.getElementById('dataAdmissao').value = '';
+  $('nome').value = ''; $('dataAdmissao').value = ''; $('vagaRepos').value = '';
   toast(`${nome} adicionado com sucesso!`);
   salvarColaboradorSheets(col);
+  if (vagaId) {
+    await recarregar('vinculosVagas');
+    vinculos[vagaId] = { colabId: col.id, nome: col.nome, cargo: col.cargo, salario: col.salario, data: dataAdm, por: sessao.login, em: new Date().toISOString() };
+    await persistir('vinculosVagas');
+  }
+  renderTudo();
 }
 
 function getFaixaEfetiva(col) {
@@ -432,13 +961,17 @@ function sincronizarSalarios() { colaboradores.forEach(c => { c.salario = base[c
 
 function renderAtivos() {
   sincronizarSalarios();
-  const tbody = document.getElementById('corpoAtivos');
+  const tbody = $('corpoAtivos');
   if (colaboradores.length === 0) {
     tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">📋</div><p>Nenhum colaborador cadastrado ainda.</p></div></td></tr>';
     return;
   }
+  const termo = val('buscaAtivos').trim().toLowerCase();
+  const lista = colaboradores.filter(c => !termo || (c.nome + ' ' + nomesCargos[c.cargo]).toLowerCase().includes(termo));
+  if (!lista.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><p>Nenhum colaborador encontrado para a busca.</p></div></td></tr>'; return; }
   const hoje = hojeISO();
-  tbody.innerHTML = colaboradores.map(col => {
+  const emFerias = new Set(ferias.filter(f => statusFerias(f) === 'Em gozo').map(f => f.colabId));
+  tbody.innerHTML = lista.map(col => {
     const dias = diasEntre(col.dataAdmissao, hoje);
     const fEfetiva = getFaixaEfetiva(col);
     const salAtual = base[col.cargo][fEfetiva];
@@ -448,13 +981,17 @@ function renderAtivos() {
     const meritoCell = temMerito
       ? `<span class="badge badge-purple">🏅 ${col.historicoMerito.length}x</span>
          <div class="hist-promo">
-           ${um.cargoAnterior ? `<span style="color:var(--gray-600)">${um.cargoAnterior}</span> → <span style="color:var(--verde);font-weight:600">${um.cargoNovo || nomesCargos[col.cargo]}</span><br>` : ''}
+           ${um.cargoAnterior ? `<span style="color:var(--gray-600)">${esc(um.cargoAnterior)}</span> → <span style="color:var(--verde);font-weight:600">${esc(um.cargoNovo || nomesCargos[col.cargo])}</span><br>` : ''}
            F${Number(um.de)+1}→F${Number(um.para)+1} · ${fmtData(um.data)}
          </div>`
       : `<span style="font-size:12px;color:var(--gray-400)">–</span>`;
+    const acoes = [
+      pode('merito') ? `<button class="btn btn-amber btn-sm" onclick="abrirModalMerito(${Number(col.id)})">🏅 Mérito</button>` : '',
+      pode('demitir') ? `<button class="btn btn-danger btn-sm" onclick="abrirModal(${Number(col.id)})">🚪 Demitir</button>` : ''
+    ].join('');
     return `
     <tr class="${temMerito ? 'merito-row' : ''}">
-      <td><strong>${col.nome}</strong></td>
+      <td><strong>${esc(col.nome)}</strong>${emFerias.has(col.id) ? ' <span class="badge badge-amber">🏖️ férias</span>' : ''}</td>
       <td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fEfetiva+1}</span></td>
       <td><strong style="color:var(--verde)">${fmt(salAtual)}</strong></td>
@@ -462,32 +999,34 @@ function renderAtivos() {
       <td>${tempoFormatado(dias)}</td>
       <td><div style="display:flex;align-items:center;gap:8px;"><div class="faixa-bar"><div class="faixa-fill" style="width:${progresso}%"></div></div><span style="font-size:11px;color:var(--gray-400);white-space:nowrap">${progresso}%</span></div></td>
       <td>${meritoCell}</td>
-      <td style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn btn-amber btn-sm" onclick="abrirModalMerito(${Number(col.id)})">🏅 Mérito</button>
-        <button class="btn btn-danger btn-sm" onclick="abrirModal(${Number(col.id)})">🚪 Demitir</button>
-      </td>
+      <td><div class="acoes">${acoes || '<span style="font-size:12px;color:var(--gray-400)">–</span>'}</div></td>
     </tr>`;
   }).join('');
 }
 
 function renderDemitidos() {
-  const tbody = document.getElementById('corpoDemitidos');
+  const tbody = $('corpoDemitidos');
   if (demitidos.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr>';
     return;
   }
-  tbody.innerHTML = demitidos.map(d => `
+  const vg = Object.fromEntries(listaVagas().map(v => [v.d.id, v]));
+  tbody.innerHTML = demitidos.map(d => {
+    const v = vg[d.id];
+    const vagaCell = v ? (v.v ? `${badgeVaga(v.status)}<div class="sub-txt">por ${esc(v.v.nome)}</div>` : badgeVaga('Aberta')) : '–';
+    return `
     <tr class="demitido-row">
-      <td>${d.nome}</td><td>${nomesCargos[d.cargo]}</td><td><span class="badge badge-gray">F${d.faixa+1}</span></td>
+      <td>${esc(d.nome)}</td><td>${nomesCargos[d.cargo] || '–'}</td><td><span class="badge badge-gray">F${d.faixa+1}</span></td>
       <td>${fmt(d.salario)}</td><td>${fmtData(d.dataAdmissao)}</td><td>${fmtData(d.dataDemissao)}</td>
-      <td>${tempoFormatado(diasEntre(d.dataAdmissao, d.dataDemissao))}</td>
-    </tr>`).join('');
+      <td>${tempoFormatado(diasEntre(d.dataAdmissao, d.dataDemissao))}</td><td>${vagaCell}</td>
+    </tr>`;
+  }).join('');
 }
 
 function renderKpiAtivos() {
   const total = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
   const n = colaboradores.length, media = n > 0 ? total / n : 0;
-  document.getElementById('kpiAtivos').innerHTML = `
+  $('kpiAtivos').innerHTML = `
     <div class="kpi-card verde"><div class="kpi-label">Colaboradores Ativos</div><div class="kpi-value">${n}</div></div>
     <div class="kpi-card verde"><div class="kpi-label">Massa Salarial Mensal</div><div class="kpi-value">${fmt(total)}</div><div class="kpi-sub">total bruto</div></div>
     <div class="kpi-card blue"><div class="kpi-label">Salário Médio</div><div class="kpi-value">${fmt(media)}</div></div>
@@ -510,27 +1049,28 @@ function dataParaISO(val) {
 // ════════════════════════ MÉRITO ════════════════════════
 let idMeritoPendente = null;
 function abrirModalMerito(id) {
+  if (!exigir('merito')) return;
   const col = colaboradores.find(c => Number(c.id) === Number(id));
   if (!col) { toast('Colaborador não encontrado.','warn'); return; }
   idMeritoPendente = Number(id);
   const fAtual = getFaixaEfetiva(col);
-  document.getElementById('merito_nomeExibicao').value = col.nome;
-  document.getElementById('merito_cargoAtualTexto').value = nomesCargos[col.cargo];
-  document.getElementById('merito_faixaAtual').value = `F${fAtual+1} – ${faixasNomes[fAtual].replace(/F\d+ – /,'')}`;
-  document.getElementById('merito_salAtual').value = fmt(base[col.cargo][fAtual]);
-  document.getElementById('merito_salNovo').value = '';
-  document.getElementById('merito_aumento').value = '';
-  document.getElementById('merito_data').value = new Date().toLocaleDateString('pt-BR').slice(0,10);
-  document.getElementById('merito_justificativa').value = '';
-  document.getElementById('subMerito').textContent = `Cargo: ${nomesCargos[col.cargo]} · Faixa atual: F${fAtual+1}`;
-  document.getElementById('merito_cargo').value = col.cargo;
+  $('merito_nomeExibicao').value = col.nome;
+  $('merito_cargoAtualTexto').value = nomesCargos[col.cargo];
+  $('merito_faixaAtual').value = `F${fAtual+1} – ${faixasNomes[fAtual].replace(/F\d+ – /,'')}`;
+  $('merito_salAtual').value = fmt(base[col.cargo][fAtual]);
+  $('merito_salNovo').value = '';
+  $('merito_aumento').value = '';
+  $('merito_data').value = new Date().toLocaleDateString('pt-BR').slice(0,10);
+  $('merito_justificativa').value = '';
+  $('subMerito').textContent = `Cargo: ${nomesCargos[col.cargo]} · Faixa atual: F${fAtual+1}`;
+  $('merito_cargo').value = col.cargo;
   _popularFaixasMerito(col.cargo, fAtual);
-  document.getElementById('modalMerito').style.display = 'flex';
+  $('modalMerito').style.display = 'flex';
 }
 function _popularFaixasMerito(cargoCod, fAtualOrigem) {
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   const mudouCargo = String(cargoCod) !== String(col ? col.cargo : cargoCod);
-  const sel = document.getElementById('merito_novaFaixa');
+  const sel = $('merito_novaFaixa');
   sel.innerHTML = '<option value="">— selecione a faixa —</option>';
   for (let i = mudouCargo ? 0 : fAtualOrigem + 1; i <= 7; i++) {
     const opt = document.createElement('option');
@@ -538,39 +1078,41 @@ function _popularFaixasMerito(cargoCod, fAtualOrigem) {
     opt.textContent = `F${i+1} – ${faixasNomes[i].replace(/F\d+ – /,'')}  ·  ${fmt(base[cargoCod][i])}`;
     sel.appendChild(opt);
   }
-  document.getElementById('merito_salNovo').value = '';
-  document.getElementById('merito_aumento').value = '';
+  $('merito_salNovo').value = '';
+  $('merito_aumento').value = '';
 }
 function onMeritoCargo() {
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   if (!col) return;
-  _popularFaixasMerito(document.getElementById('merito_cargo').value, getFaixaEfetiva(col));
+  _popularFaixasMerito(val('merito_cargo'), getFaixaEfetiva(col));
 }
 function previewMerito() {
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   if (!col) return;
   const fAtual = getFaixaEfetiva(col);
-  const cargoCod = document.getElementById('merito_cargo').value;
-  const novaF = parseInt(document.getElementById('merito_novaFaixa').value);
-  if (isNaN(novaF)) { document.getElementById('merito_salNovo').value = ''; document.getElementById('merito_aumento').value = ''; return; }
+  const cargoCod = val('merito_cargo');
+  const novaF = parseInt(val('merito_novaFaixa'));
+  if (isNaN(novaF)) { $('merito_salNovo').value = ''; $('merito_aumento').value = ''; return; }
   const salAnt = base[col.cargo][fAtual], salNov = base[cargoCod][novaF];
-  document.getElementById('merito_salNovo').value = fmt(salNov);
-  document.getElementById('merito_aumento').value = `+ ${fmt(salNov - salAnt)} (${(((salNov / salAnt) - 1) * 100).toFixed(2)}% de aumento)`;
+  $('merito_salNovo').value = fmt(salNov);
+  $('merito_aumento').value = `${salNov >= salAnt ? '+' : '−'} ${fmt(Math.abs(salNov - salAnt))} (${(((salNov / salAnt) - 1) * 100).toFixed(2)}%)`;
 }
-function fecharModalMerito() { document.getElementById('modalMerito').style.display = 'none'; idMeritoPendente = null; }
+function fecharModalMerito() { $('modalMerito').style.display = 'none'; idMeritoPendente = null; }
 function confirmarMerito() {
-  const cargoCod = document.getElementById('merito_cargo').value;
-  const novaF = parseInt(document.getElementById('merito_novaFaixa').value);
-  const data = dataParaISO(document.getElementById('merito_data').value.trim());
-  const just = document.getElementById('merito_justificativa').value.trim();
+  if (!exigir('merito')) return;
+  const cargoCod = val('merito_cargo');
+  const novaF = parseInt(val('merito_novaFaixa'));
+  const data = dataParaISO(val('merito_data').trim());
+  const just = val('merito_justificativa').trim();
   if (!cargoCod) { toast('Selecione o cargo de promoção.','warn'); return; }
   if (isNaN(novaF)) { toast('Selecione a nova faixa.','warn'); return; }
-  if (!data) { toast('Informe a data da promoção.','warn'); return; }
+  if (!data || !/^\d{4}-\d{2}-\d{2}$/.test(data) || isNaN(parseDateSafe(data))) { toast('Informe uma data válida (DD/MM/AAAA).','warn'); return; }
   if (!just) { toast('Informe a justificativa.','warn'); return; }
   const col = colaboradores.find(c => c.id === idMeritoPendente);
   if (!col) return;
   const fAnterior = getFaixaEfetiva(col), cargoAnteriorCod = col.cargo;
   const salAnterior = base[cargoAnteriorCod][fAnterior], salNovo = base[cargoCod][novaF];
+  if (salNovo < salAnterior && !confirm(`O novo salário (${fmt(salNovo)}) é MENOR que o atual (${fmt(salAnterior)}). Confirmar mesmo assim?`)) return;
   const mudou = String(cargoAnteriorCod) !== String(cargoCod);
   const h = { de: fAnterior, para: novaF, cargoAnterior: mudou ? nomesCargos[cargoAnteriorCod] : '', cargoNovo: mudou ? nomesCargos[cargoCod] : '', salAnterior, salNovo, data, justificativa: just };
   if (!col.historicoMerito) col.historicoMerito = [];
@@ -583,29 +1125,49 @@ function confirmarMerito() {
 
 // ════════════════════════ DEMISSÃO ════════════════════════
 function abrirModal(id) {
+  if (!exigir('demitir')) return;
   idDemissaoPendente = id;
   const col = colaboradores.find(c => c.id === id);
-  document.getElementById('nomeDemissao').textContent = `Colaborador: ${col.nome}`;
-  document.getElementById('dataDemissaoInput').value = hojeISO();
-  document.getElementById('modalDemissao').style.display = 'flex';
+  if (!col) return;
+  $('nomeDemissao').textContent = `Colaborador: ${col.nome} · ${nomesCargos[col.cargo]} · ${fmt(base[col.cargo][getFaixaEfetiva(col)])}`;
+  $('dataDemissaoInput').value = hojeISO();
+  $('modalDemissao').style.display = 'flex';
 }
-function fecharModal() { document.getElementById('modalDemissao').style.display = 'none'; idDemissaoPendente = null; }
-function confirmarDemissao() {
-  const dataDem = document.getElementById('dataDemissaoInput').value;
+function fecharModal() { $('modalDemissao').style.display = 'none'; idDemissaoPendente = null; }
+async function confirmarDemissao() {
+  if (!exigir('demitir')) return;
+  const dataDem = val('dataDemissaoInput');
   if (!dataDem) { toast('Informe a data de demissão.','warn'); return; }
   const idx = colaboradores.findIndex(c => c.id === idDemissaoPendente);
   if (idx === -1) return;
   const col = { ...colaboradores[idx] };
+  if (dataDem < col.dataAdmissao) { toast('A demissão não pode ser anterior à admissão.','warn'); return; }
   const fEfetiva = getFaixaEfetiva(col);
-  demitidos.push({ ...col, faixa: fEfetiva, salario: base[col.cargo][fEfetiva], dataDemissao: dataDem });
+  const salario = base[col.cargo][fEfetiva];
+  demitidos.push({ ...col, faixa: fEfetiva, salario, dataDemissao: dataDem });
   colaboradores.splice(idx, 1);
-  fecharModal(); renderAtivos(); renderDemitidos(); renderKpiAtivos();
-  toast(`${col.nome} desligado e registrado.`,'warn');
+  fecharModal();
+  toast(`${col.nome} desligado. Vaga aberta com saldo de ${fmt(salario)}.`,'warn', 4500);
   salvarDemissaoSheets(col, dataDem);
+
+  // Reflexos em férias: cancela futuras do desligado e libera coberturas sob responsabilidade dele
+  await recarregar('ferias');
+  let canc = 0, desc = 0;
+  ferias.forEach(f => {
+    if (f.status === 'Cancelada') return;
+    if (f.colabId === col.id && f.inicio > dataDem) { f.status = 'Cancelada'; f.obs = (f.obs ? f.obs + ' | ' : '') + 'Cancelada por desligamento'; canc++; }
+    if (f.substitutoId === col.id && ultimoDia(f) >= dataDem) { f.substitutoId = null; f.substitutoNome = ''; desc++; }
+  });
+  if (canc || desc) {
+    await persistir('ferias');
+    setTimeout(() => toast(`Férias: ${canc} cancelada(s) do desligado; ${desc} programação(ões) ficaram sem cobertura.`, 'warn', 6000), 4600);
+  }
+  renderTudo();
 }
 
 // ════════════════════════ FAIXAS POR TEMPO ════════════════════════
 function atualizarFaixasPorTempo() {
+  if (!exigir('colab')) return;
   const colsParaSalvar = [];
   colaboradores.forEach(col => {
     // faixaManual nunca é sobrescrito aqui (referência de admissão/mérito)
@@ -621,8 +1183,8 @@ function atualizarFaixasPorTempo() {
 
 // ════════════════════════ REAJUSTE COLETIVO ════════════════════════
 function previewReajuste() {
-  const perc = parseNumBR(document.getElementById('percReajuste').value);
-  const el = document.getElementById('previewReajuste');
+  const perc = parseNumBR(val('percReajuste'));
+  const el = $('previewReajuste');
   if (!isFinite(perc) || perc <= 0) { el.textContent = ''; return; }
   const mult = 1 + perc / 100;
   const massaAtual = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
@@ -631,12 +1193,13 @@ function previewReajuste() {
 }
 
 async function aplicarReajuste() {
+  if (!exigir('reajuste')) return;
   if (reajusteEmAndamento) return;
   if (bloqueioReajuste) { toast(bloqueioReajuste, 'warn', 5000); return; }
 
-  const perc = round2(parseNumBR(document.getElementById('percReajuste').value));
-  const data = document.getElementById('dataReajuste').value;
-  const desc = document.getElementById('descReajuste').value.trim() || 'Reajuste Coletivo';
+  const perc = round2(parseNumBR(val('percReajuste')));
+  const data = val('dataReajuste');
+  const desc = val('descReajuste').trim() || 'Reajuste Coletivo';
 
   if (!isFinite(perc) || perc <= 0 || perc > 100) { toast('Informe um percentual válido (ex.: 5,5).','warn'); return; }
   if (!data) { toast('Informe a data de vigência.','warn'); return; }
@@ -647,7 +1210,7 @@ async function aplicarReajuste() {
 
   const snapBase = JSON.parse(JSON.stringify(base));
   const snapHist = historicoReajuste.slice();
-  const btn = document.getElementById('btnReajuste');
+  const btn = $('btnReajuste');
   reajusteEmAndamento = true; btn.disabled = true; btn.textContent = '⏳ Aplicando...';
 
   let h;
@@ -684,32 +1247,32 @@ async function aplicarReajuste() {
     ? `Reajuste de ${perc.toLocaleString('pt-BR')}% aplicado. ${falhas} salário(s) individual(is) não gravaram — use "Verificar Faixas por Tempo" para reenviar.`
     : `Reajuste de ${perc.toLocaleString('pt-BR')}% aplicado e salvo!`, falhas ? 'warn' : 'ok', 5000);
 
-  ['percReajuste','descReajuste'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('previewReajuste').textContent = '';
+  ['percReajuste','descReajuste'].forEach(id => $(id).value = '');
+  $('previewReajuste').textContent = '';
   reajusteEmAndamento = false; btn.disabled = false; btn.textContent = '✅ Aplicar Reajuste';
 }
 
 function renderTabelaBase() {
   const faixasCols = faixasNomes.map(f => `<th>${f}</th>`).join('');
   const linhas = CARGOS.map(c => `<tr><td><strong>${nomesCargos[c]}</strong></td>${base[c].map(v => `<td>${fmt(v)}</td>`).join('')}</tr>`).join('');
-  document.getElementById('tabelaBaseWrap').innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas}</tbody></table>`;
+  $('tabelaBaseWrap').innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas}</tbody></table>`;
 }
 
 function renderHistorico() {
-  const tbody = document.getElementById('corpoHistorico');
+  const tbody = $('corpoHistorico');
   if (historicoReajuste.length === 0) {
     tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📜</div><p>Nenhum reajuste aplicado.</p></div></td></tr>';
     return;
   }
   tbody.innerHTML = historicoReajuste.map(h => `
-    <tr><td>${fmtData(h.data)}</td><td>${h.desc}</td><td><span class="badge badge-green">+${Number(h.perc).toLocaleString('pt-BR')}%</span></td><td>${fmt(h.baseAnt)}</td><td>${fmt(h.novBase)}</td></tr>`).join('');
+    <tr><td>${fmtData(h.data)}</td><td>${esc(h.desc)}</td><td><span class="badge badge-green">+${Number(h.perc).toLocaleString('pt-BR')}%</span></td><td>${fmt(h.baseAnt)}</td><td>${fmt(h.novBase)}</td></tr>`).join('');
 }
 
 // ════════════════════════ ANÁLISE DE PROMOÇÃO ════════════════════════
 function renderPromocao() {
   const hoje = hojeISO();
-  const alertas = document.getElementById('alertasPromocao');
-  const tbody = document.getElementById('corpoPromocao');
+  const alertas = $('alertasPromocao');
+  const tbody = $('corpoPromocao');
   if (colaboradores.length === 0) {
     alertas.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏆</div><p>Sem colaboradores para analisar.</p></div></td></tr>';
@@ -746,13 +1309,13 @@ function renderPromocao() {
       statusBadge = '⚡ Pronto p/ promoção'; statusClass = 'badge-amber';
       alertHTML += `
       <div class="promo-alert"><div class="promo-alert-icon">⚡</div><div class="promo-alert-text">
-        <h4>${col.nome} – ${nomesCargos[col.cargo]}</h4>
+        <h4>${esc(col.nome)} – ${nomesCargos[col.cargo]}</h4>
         <p>Elegível para promoção de <strong>F${fAtual+1} → F${proxF+1}</strong> · Aumento: ${fmt(base[col.cargo][proxF] - base[col.cargo][fAtual])} (${(((base[col.cargo][proxF]/base[col.cargo][fAtual])-1)*100).toFixed(1)}%)</p>
       </div></div>`;
     } else { statusBadge = '🕐 Aguardando'; statusClass = 'badge-blue'; }
     linhas += `
     <tr>
-      <td><strong>${col.nome}</strong></td><td>${nomesCargos[col.cargo]}</td>
+      <td><strong>${esc(col.nome)}</strong></td><td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fAtual+1}</span></td>
       <td>${proxF <= 7 ? `<span class="badge badge-blue">F${proxF+1}</span>` : '–'}</td>
       <td>${fmtData(col.dataAdmissao)}</td><td>${tempoFormatado(diasCasa)}</td>
@@ -763,9 +1326,9 @@ function renderPromocao() {
       linhas += `
       <tr style="background:#f5f3ff;">
         <td colspan="2" style="padding-left:28px;font-size:12px;color:#5B21B6;">↳ Promoção #${i+1} por mérito</td>
-        <td colspan="2" style="font-size:12px">${h.cargoAnterior ? `<span style="color:var(--gray-600)">${h.cargoAnterior} F${Number(h.de)+1}</span> → <span style="color:var(--verde);font-weight:600">${h.cargoNovo} F${Number(h.para)+1}</span>` : `<span class="badge badge-gray">F${Number(h.de)+1}</span> → <span class="badge badge-purple">F${Number(h.para)+1}</span>`}</td>
+        <td colspan="2" style="font-size:12px">${h.cargoAnterior ? `<span style="color:var(--gray-600)">${esc(h.cargoAnterior)} F${Number(h.de)+1}</span> → <span style="color:var(--verde);font-weight:600">${esc(h.cargoNovo)} F${Number(h.para)+1}</span>` : `<span class="badge badge-gray">F${Number(h.de)+1}</span> → <span class="badge badge-purple">F${Number(h.para)+1}</span>`}</td>
         <td colspan="2" style="font-size:12px;color:var(--gray-600)">${fmtData(h.data)}</td>
-        <td colspan="2" style="font-size:12px;color:var(--gray-600)">${h.justificativa}</td>
+        <td colspan="2" style="font-size:12px;color:var(--gray-600)">${esc(h.justificativa)}</td>
         <td style="font-size:12px;color:var(--verde)">+${fmt(h.salNovo - h.salAnterior)}</td>
       </tr>`;
     });
@@ -774,12 +1337,143 @@ function renderPromocao() {
   tbody.innerHTML = linhas;
 }
 
+// ════════════════════════ SALDO DE VAGAS (DESLIGADOS × REPOSIÇÕES) ════════════════════════
+function listaVagas() {
+  return demitidos.map(d => {
+    const v = vinculos[d.id] || null;
+    const salDem = Number(d.salario) || 0, salCon = v ? Number(v.salario) || 0 : 0;
+    const saldo = round2(salDem - salCon);
+    const status = !v ? 'Aberta' : saldo > 0 ? 'Economia' : saldo < 0 ? 'Estouro' : 'Neutra';
+    return { d, v, salDem, salCon, saldo, status };
+  }).sort((a, b) => (b.d.dataDemissao || '').localeCompare(a.d.dataDemissao || ''));
+}
+function badgeVaga(st) {
+  const m = { Aberta:'badge-blue', Economia:'badge-green', Estouro:'badge-red', Neutra:'badge-gray' };
+  const ic = { Aberta:'🟦', Economia:'▼', Estouro:'▲', Neutra:'=' };
+  return `<span class="badge ${m[st]}">${ic[st]} ${st}</span>`;
+}
+const fatorEnc = () => Number(config.fatorEncargos) > 0 ? Number(config.fatorEncargos) : 1;
+
+function popularSelectVagaAdd() {
+  const sel = $('vagaRepos'); if (!sel) return;
+  const atual = sel.value;
+  const abertas = listaVagas().filter(v => v.status === 'Aberta');
+  sel.innerHTML = '<option value="">— Aumento de quadro —</option>' + abertas.map(v =>
+    `<option value="${v.d.id}">${esc(v.d.nome)} · ${nomesCargos[v.d.cargo] || ''} · ${fmt(v.salDem)}</option>`).join('');
+  if (abertas.some(v => String(v.d.id) === atual)) sel.value = atual;
+}
+function previewVagaAdd() {
+  const sel = $('vagaRepos'), hint = $('hintVaga'); if (!sel || !hint) return;
+  const id = Number(sel.value);
+  if (!id) {
+    const n = demitidos.filter(d => !vinculos[d.id]).length;
+    hint.innerHTML = n ? `Há <b>${n}</b> vaga(s) aberta(s). Se esta contratação repõe um desligado, selecione a vaga para abater o saldo.` : '';
+    return;
+  }
+  const d = demitidos.find(x => x.id === id); if (!d) { hint.innerHTML = ''; return; }
+  const sal = base[val('cargo')][parseInt(val('faixa'))], s = round2(d.salario - sal);
+  hint.innerHTML = `Vaga de <b>${esc(d.nome)}</b> (${nomesCargos[d.cargo] || ''}): ${fmt(d.salario)} − ${fmt(sal)} = <b class="${s >= 0 ? 'txt-verde' : 'txt-red'}">${fmt(s)}</b> ${s > 0 ? '→ economia (saldo remanescente)' : s < 0 ? '→ estouro (contratação acima do saldo da vaga)' : '→ neutro'}`;
+}
+
+function renderVagas() {
+  const fat = fatorEnc(), todas = listaVagas(), filtro = val('filtroVaga');
+  const abertas = todas.filter(v => v.status === 'Aberta');
+  const econ = todas.filter(v => v.status === 'Economia'), est = todas.filter(v => v.status === 'Estouro');
+  const soma = arr => arr.reduce((s, v) => s + v.saldo, 0) * fat;
+  const liquido = soma(todas);
+  const rotFat = fat !== 1 ? ` · fator ${fat.toLocaleString('pt-BR')}` : '';
+  $('kpiVagas').innerHTML = `
+    <div class="kpi-card blue"><div class="kpi-label">Vagas em Aberto</div><div class="kpi-value">${fmt(soma(abertas))}</div><div class="kpi-sub">${abertas.length} vaga(s) sem reposição${rotFat}</div></div>
+    <div class="kpi-card verde"><div class="kpi-label">Economia em Reposições</div><div class="kpi-value">${fmt(soma(econ))}</div><div class="kpi-sub">${econ.length} contratação(ões) abaixo do saldo</div></div>
+    <div class="kpi-card red"><div class="kpi-label">Estouro em Reposições</div><div class="kpi-value">${fmt(soma(est))}</div><div class="kpi-sub">${est.length} contratação(ões) acima do saldo</div></div>
+    <div class="kpi-card ${liquido >= 0 ? 'verde' : 'red'}"><div class="kpi-label">Saldo Líquido Disponível</div><div class="kpi-value">${fmt(liquido)}</div><div class="kpi-sub">/mês · ${fmt(liquido * 13.33)}/ano est.</div></div>`;
+  const lista = todas.filter(v => !filtro || v.status === filtro);
+  $('corpoVagas').innerHTML = lista.length ? lista.map(v => `
+    <tr>
+      <td><strong>${esc(v.d.nome)}</strong><div class="sub-txt">${nomesCargos[v.d.cargo] || ''} · F${(Number(v.d.faixa) || 0) + 1}</div></td>
+      <td>${fmtData(v.d.dataDemissao)}</td>
+      <td>${fmt(v.salDem * fat)}</td>
+      <td>${v.v ? `<strong>${esc(v.v.nome)}</strong><div class="sub-txt">${nomesCargos[v.v.cargo] || ''}</div>` : '<span style="color:var(--gray-400)">—</span>'}</td>
+      <td>${v.v ? fmtData(v.v.data) : '–'}</td>
+      <td>${v.v ? fmt(v.salCon * fat) : '–'}</td>
+      <td><strong class="${v.saldo > 0 ? 'txt-verde' : v.saldo < 0 ? 'txt-red' : ''}">${fmt(v.saldo * fat)}</strong></td>
+      <td>${badgeVaga(v.status)}</td>
+      <td><div class="acoes">${pode('vaga') ? (v.v
+        ? `<button class="btn btn-ghost btn-sm" onclick="desvincularVaga(${v.d.id})">↩️ Desvincular</button>`
+        : `<button class="btn btn-primary btn-sm" onclick="abrirVinculo(${v.d.id})">🔁 Vincular</button>`) : '–'}</div></td>
+    </tr>`).join('')
+    : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🔁</div><p>${demitidos.length ? 'Nenhuma vaga neste filtro.' : 'Nenhum desligamento registrado.'}</p></div></td></tr>`;
+}
+
+let vagaPendente = null;
+function abrirVinculo(demId) {
+  if (!exigir('vaga')) return;
+  const d = demitidos.find(x => x.id === demId); if (!d) return;
+  vagaPendente = demId;
+  const usados = new Set(Object.values(vinculos).map(v => Number(v.colabId)));
+  const cand = colaboradores.filter(c => !usados.has(c.id)).sort((a, b) => (b.dataAdmissao || '').localeCompare(a.dataAdmissao || ''));
+  if (!cand.length) { toast('Todos os colaboradores ativos já estão vinculados a uma vaga.', 'warn'); return; }
+  $('vin_sub').textContent = `Vaga de ${d.nome} (${nomesCargos[d.cargo] || ''}) · desligado em ${fmtData(d.dataDemissao)} · saldo ${fmt(d.salario)}`;
+  $('vin_colab').innerHTML = cand.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]} · adm. ${fmtData(c.dataAdmissao)}</option>`).join('');
+  const sug = cand.find(c => c.dataAdmissao >= (d.dataDemissao || '')) || cand[0];
+  $('vin_colab').value = sug.id;
+  onVinColab();
+  $('modalVinculo').style.display = 'flex';
+}
+function onVinColab() {
+  const c = colaboradores.find(x => x.id === Number(val('vin_colab'))); if (!c) return;
+  $('vin_salario').value = fmt(base[c.cargo][getFaixaEfetiva(c)]).replace('R$ ', '');
+  $('vin_data').value = c.dataAdmissao || hojeISO();
+  previewVinculo();
+}
+function previewVinculo() {
+  const d = demitidos.find(x => x.id === vagaPendente), sal = parseNumBR(val('vin_salario'));
+  if (!d || !isFinite(sal)) { $('vin_prev').innerHTML = ''; return; }
+  const s = round2(d.salario - sal);
+  $('vin_prev').innerHTML = `Saldo da vaga: ${fmt(d.salario)} − ${fmt(sal)} = <b class="${s >= 0 ? 'txt-verde' : 'txt-red'}">${fmt(s)}</b> ${s > 0 ? '(economia)' : s < 0 ? '(estouro)' : '(neutro)'}. Ajuste o salário se a contratação ocorreu antes de reajustes/méritos.`;
+}
+async function confirmarVinculo() {
+  if (!exigir('vaga')) return;
+  const c = colaboradores.find(x => x.id === Number(val('vin_colab'))), sal = round2(parseNumBR(val('vin_salario'))), data = val('vin_data');
+  if (!c) { toast('Selecione o colaborador.', 'warn'); return; }
+  if (!isFinite(sal) || sal <= 0) { toast('Informe o salário de contratação.', 'warn'); return; }
+  await recarregar('vinculosVagas');
+  if (vinculos[vagaPendente]) { toast('Esta vaga já foi vinculada por outro usuário.', 'warn'); fecharModalGen('modalVinculo'); renderSaldo(); return; }
+  if (Object.values(vinculos).some(v => Number(v.colabId) === c.id)) { toast('Este colaborador já repõe outra vaga.', 'warn'); return; }
+  vinculos[vagaPendente] = { colabId: c.id, nome: c.nome, cargo: c.cargo, salario: sal, data: data || c.dataAdmissao, por: sessao.login, em: new Date().toISOString() };
+  if (await persistir('vinculosVagas')) toast(`Vaga reposta por ${c.nome}.`);
+  fecharModalGen('modalVinculo'); renderTudo(); renderSaldo();
+}
+async function desvincularVaga(demId) {
+  if (!exigir('vaga')) return;
+  const v = vinculos[demId]; if (!v) return;
+  if (!confirm(`Desvincular ${v.nome} desta vaga? O saldo volta a ficar em aberto.`)) return;
+  await recarregar('vinculosVagas');
+  delete vinculos[demId];
+  if (await persistir('vinculosVagas')) toast('Vínculo removido. Vaga reaberta.', 'info');
+  renderTudo(); renderSaldo();
+}
+async function salvarFator() {
+  if (!exigir('config')) return;
+  const f = parseNumBR(val('fatorEnc'));
+  if (!isFinite(f) || f < 1 || f > 3) { toast('Fator entre 1,00 e 3,00 (1,00 = só salário).', 'warn'); $('fatorEnc').value = fatorEnc().toLocaleString('pt-BR', { minimumFractionDigits:2 }); return; }
+  await recarregar('configRH');
+  config.fatorEncargos = f;
+  await persistir('configRH'); renderVagas();
+}
+function exportarVagas() {
+  const fat = fatorEnc();
+  baixarCSV(`saldo_vagas_${hojeISO()}.csv`, [['Desligado','Cargo','Demissão','Salário Desligado','Reposto por','Cargo Contratado','Data Contratação','Salário Contratação','Saldo da Vaga','Status','Fator Encargos'],
+    ...listaVagas().map(v => [v.d.nome, nomesCargos[v.d.cargo] || '', fmtData(v.d.dataDemissao), numCSV(v.salDem * fat), v.v ? v.v.nome : '', v.v ? nomesCargos[v.v.cargo] || '' : '', v.v ? fmtData(v.v.data) : '', v.v ? numCSV(v.salCon * fat) : '', numCSV(v.saldo * fat), v.status, String(fat).replace('.', ',')])]);
+}
+
 // ════════════════════════ SALDO FINANCEIRO ════════════════════════
 function renderSaldo() {
+  renderVagas();
   const massaAtivos = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
   const massaDemitidos = demitidos.reduce((s, d) => s + d.salario, 0);
   const saldoLiquido = massaAtivos - massaDemitidos;
-  document.getElementById('kpiSaldo').innerHTML = `
+  $('kpiSaldo').innerHTML = `
     <div class="kpi-card verde"><div class="kpi-label">Massa – Ativos</div><div class="kpi-value">${fmt(massaAtivos)}</div><div class="kpi-sub">${colaboradores.length} colaboradores</div></div>
     <div class="kpi-card red"><div class="kpi-label">Massa – Desligados</div><div class="kpi-value">${fmt(massaDemitidos)}</div><div class="kpi-sub">${demitidos.length} desligamentos</div></div>
     <div class="kpi-card ${saldoLiquido >= 0 ? 'blue' : 'amber'}"><div class="kpi-label">Saldo (Ativos − Deslig.)</div><div class="kpi-value">${fmt(saldoLiquido)}</div><div class="kpi-sub">${saldoLiquido >= 0 ? '▲ Crescimento de folha' : '▼ Redução de folha'}</div></div>
@@ -789,22 +1483,325 @@ function renderSaldo() {
   const cA = agrupar(colaboradores, c => base[c.cargo][getFaixaEfetiva(c)]);
   const cD = agrupar(demitidos, d => d.salario);
   const tabela = (grp, total, n, cor, vazio) => Object.keys(grp).length
-    ? Object.entries(grp).map(([c, v]) => `<tr><td>${nomesCargos[c]}</td><td>${v.qtd}</td><td><strong style="color:${cor}">${fmt(v.total)}</strong></td></tr>`).join('')
+    ? Object.entries(grp).map(([c, v]) => `<tr><td>${nomesCargos[c] || c}</td><td>${v.qtd}</td><td><strong style="color:${cor}">${fmt(v.total)}</strong></td></tr>`).join('')
       + `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${n}</strong></td><td><strong>${fmt(total)}</strong></td></tr>`
     : `<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:24px">${vazio}</td></tr>`;
-  document.getElementById('corpoSaldoCargo').innerHTML = tabela(cA, massaAtivos, colaboradores.length, 'var(--verde)', 'Sem ativos');
-  document.getElementById('corpoSaldoDemitidos').innerHTML = tabela(cD, massaDemitidos, demitidos.length, 'var(--red)', 'Sem desligamentos');
+  $('corpoSaldoCargo').innerHTML = tabela(cA, massaAtivos, colaboradores.length, 'var(--verde)', 'Sem ativos');
+  $('corpoSaldoDemitidos').innerHTML = tabela(cD, massaDemitidos, demitidos.length, 'var(--red)', 'Sem desligamentos');
 
-  const imp = document.getElementById('impactoReajuste');
+  const imp = $('impactoReajuste');
   if (historicoReajuste.length > 0) {
     const h = historicoReajuste[0];
     const delta = massaAtivos - massaAtivos / (1 + h.perc / 100);
     imp.innerHTML = `
-      <div class="kpi-card verde"><div class="kpi-label">Último Reajuste</div><div class="kpi-value">+${Number(h.perc).toLocaleString('pt-BR')}%</div><div class="kpi-sub">${h.desc} · ${fmtData(h.data)}</div></div>
+      <div class="kpi-card verde"><div class="kpi-label">Último Reajuste</div><div class="kpi-value">+${Number(h.perc).toLocaleString('pt-BR')}%</div><div class="kpi-sub">${esc(h.desc)} · ${fmtData(h.data)}</div></div>
       <div class="kpi-card amber"><div class="kpi-label">Custo Mensal Adicionado</div><div class="kpi-value">${fmt(delta)}</div><div class="kpi-sub">sobre ativos atuais</div></div>
       <div class="kpi-card red"><div class="kpi-label">Custo Anual Adicionado</div><div class="kpi-value">${fmt(delta * 13.33)}</div><div class="kpi-sub">estimativa com encargos</div></div>`;
   } else imp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">Nenhum reajuste registrado ainda.</div>';
 }
+
+// ════════════════════════ FÉRIAS ════════════════════════
+const ultimoDia = f => addDias(f.inicio, Number(f.dias) - 1);
+const consumo = f => Number(f.dias) + (f.abono ? 10 : 0);
+const corteFerias = () => config.dataCorteFerias || hojeISO();
+function statusFerias(f) {
+  if (f.status === 'Cancelada') return 'Cancelada';
+  const h = hojeISO();
+  if (h > ultimoDia(f)) return 'Concluída';
+  if (h >= f.inicio) return 'Em gozo';
+  return f.status || 'Programada';
+}
+function periodosAquisitivos(col) {
+  const out = []; if (!col || !col.dataAdmissao) return out;
+  const hoje = hojeISO();
+  for (let k = 0; k < 60; k++) {
+    const ini = addAnos(col.dataAdmissao, k); if (ini > hoje) break;
+    out.push({ k, ini, fim: addDias(addAnos(col.dataAdmissao, k + 1), -1), limite: addDias(addAnos(col.dataAdmissao, k + 2), -1), get completo() { return this.fim < hoje; } });
+  }
+  return out;
+}
+const periodosControlados = col => periodosAquisitivos(col).filter(p => p.limite >= corteFerias());
+const feriasDoPeriodo = (colId, k, ignorarId) => ferias.filter(f => f.colabId === colId && f.periodoK === k && f.status !== 'Cancelada' && f.id !== ignorarId);
+const saldoPeriodo = (colId, k) => 30 - feriasDoPeriodo(colId, k).reduce((s, f) => s + consumo(f), 0);
+function conflitosSubstituto(subId, ini, fim, ignorarId) {
+  const vivas = ferias.filter(f => f.status !== 'Cancelada' && f.id !== ignorarId);
+  return {
+    emFerias: vivas.filter(f => f.colabId === subId && sobrepoe(ini, fim, f.inicio, ultimoDia(f))),
+    cobrindo: vivas.filter(f => f.substitutoId === subId && sobrepoe(ini, fim, f.inicio, ultimoDia(f)))
+  };
+}
+const badgeStatusFerias = st => `<span class="badge ${{ Programada:'badge-blue', Aprovada:'badge-green', 'Em gozo':'badge-amber', 'Concluída':'badge-gray', Cancelada:'badge-red' }[st] || 'badge-gray'}">${st}</span>`;
+
+function popularSelectsFerias() {
+  const selC = $('fe_colab'); if (!selC) return;
+  const atual = selC.value;
+  const ord = colaboradores.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  selC.innerHTML = '<option value="">— selecione —</option>' + ord.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]}</option>`).join('');
+  if (ord.some(c => String(c.id) === atual)) selC.value = atual;
+  popularPeriodosESub();
+}
+function popularPeriodosESub() {
+  const col = colaboradores.find(c => c.id === Number(val('fe_colab')));
+  const selP = $('fe_periodo'), selS = $('fe_sub');
+  const pAtual = selP.value, sAtual = selS.value;
+  if (!col) { selP.innerHTML = '<option value="">— selecione o colaborador —</option>'; }
+  else {
+    const ps = periodosControlados(col).filter(p => saldoPeriodo(col.id, p.k) > 0);
+    selP.innerHTML = ps.length ? ps.map(p => `<option value="${p.k}">${fmtData(p.ini)} a ${fmtData(p.fim)} · saldo ${saldoPeriodo(col.id, p.k)}d${p.completo ? '' : ' (em aquisição)'}</option>`).join('')
+      : '<option value="">Sem saldo de férias</option>';
+    if (ps.some(p => String(p.k) === pAtual)) selP.value = pAtual;
+  }
+  const outros = colaboradores.filter(c => !col || c.id !== col.id).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  selS.innerHTML = '<option value="">— Sem substituto —</option>' + outros.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]}</option>`).join('');
+  if (outros.some(c => String(c.id) === sAtual)) selS.value = sAtual;
+  previewFerias();
+}
+function onFeColab() { popularPeriodosESub(); }
+
+function lerFormFerias() {
+  return { colabId: Number(val('fe_colab')) || null, periodoK: parseInt(val('fe_periodo')), inicio: val('fe_inicio'), dias: Number(val('fe_dias')),
+    abono: $('fe_abono').checked, subId: Number(val('fe_sub')) || null, obs: val('fe_obs').trim() };
+}
+function validarFerias(d, ignorarId) {
+  const erros = [], avisos = [];
+  const col = colaboradores.find(c => c.id === d.colabId);
+  if (!col) erros.push('Selecione o colaborador.');
+  if (isNaN(d.periodoK)) erros.push('Selecione o período aquisitivo.');
+  if (!d.inicio) erros.push('Informe a data de saída.');
+  if (!DIAS_FERIAS.includes(d.dias)) erros.push('Quantidade de dias inválida.');
+  if (erros.length) return { erros, avisos };
+  const per = periodosAquisitivos(col).find(p => p.k === d.periodoK);
+  if (!per) return { erros: ['Período aquisitivo inválido.'], avisos };
+  const ult = addDias(d.inicio, d.dias - 1);
+  const parcelas = feriasDoPeriodo(col.id, d.periodoK, ignorarId);
+  const usado = parcelas.reduce((s, f) => s + consumo(f), 0), novo = d.dias + (d.abono ? 10 : 0);
+  const restante = 30 - usado - novo;
+  if (d.inicio < col.dataAdmissao) erros.push('A saída não pode ser anterior à admissão.');
+  if (d.abono && d.dias > 20) erros.push('Com abono pecuniário (10 dias vendidos), o gozo máximo é de 20 dias.');
+  if (d.abono && parcelas.some(p => p.abono)) erros.push('O abono pecuniário já foi lançado neste período aquisitivo.');
+  if (usado + novo > 30) erros.push(`Saldo insuficiente no período: restam ${30 - usado} dia(s) e foram solicitados ${novo}.`);
+  if (parcelas.length + 1 > 3) erros.push('A CLT permite no máximo 3 períodos de gozo por período aquisitivo.');
+  const temMaior = [...parcelas.map(p => Number(p.dias)), d.dias].some(x => x >= 14);
+  if (!temMaior && (parcelas.length + 1 === 3 || restante < 14)) erros.push('Um dos períodos de gozo deve ter no mínimo 14 dias (CLT art. 134 §1º). Use 15, 20 ou 30 dias nesta ou em outra parcela.');
+  const conf = ferias.find(f => f.colabId === col.id && f.status !== 'Cancelada' && f.id !== ignorarId && sobrepoe(d.inicio, ult, f.inicio, ultimoDia(f)));
+  if (conf) erros.push(`Conflito com férias já lançadas de ${fmtData(conf.inicio)} a ${fmtData(ultimoDia(conf))}.`);
+  if (d.subId) {
+    if (d.subId === col.id) erros.push('O colaborador não pode cobrir as próprias férias.');
+    const sub = colaboradores.find(c => c.id === d.subId);
+    const c = conflitosSubstituto(d.subId, d.inicio, ult, ignorarId);
+    c.emFerias.forEach(f => erros.push(`${sub ? sub.nome : 'O substituto'} estará de férias de ${fmtData(f.inicio)} a ${fmtData(ultimoDia(f))}.`));
+    c.cobrindo.forEach(f => avisos.push(`${sub ? sub.nome : 'O substituto'} já cobre ${f.nome} (${fmtData(f.inicio)}–${fmtData(ultimoDia(f))}) no mesmo período: acumulará funções.`));
+  } else avisos.push('Nenhum substituto definido para cobrir estas férias.');
+  ferias.filter(f => f.substitutoId === col.id && f.status !== 'Cancelada' && f.id !== ignorarId && sobrepoe(d.inicio, ult, f.inicio, ultimoDia(f)))
+    .forEach(f => avisos.push(`${col.nome} é substituto(a) de ${f.nome} neste período — será preciso redefinir aquela cobertura.`));
+  if (d.inicio <= per.fim) avisos.push('Período aquisitivo ainda não completo na data de saída: concessão antecipada.');
+  if (ult > per.limite) avisos.push(`Término após o limite concessivo (${fmtData(per.limite)}): pagamento em dobro (CLT art. 137).`);
+  const dow = parseDateSafe(d.inicio).getDay();
+  if (dow === 5 || dow === 6) avisos.push('Início na sexta ou no sábado: a CLT veda o início nos 2 dias que antecedem feriado ou repouso semanal (art. 134 §3º).');
+  const hoje = hojeISO();
+  if (d.inicio < hoje) avisos.push('Data de saída no passado (lançamento retroativo).');
+  else if (d.inicio < addDias(hoje, 30)) avisos.push('Comunicação de férias exige 30 dias de antecedência (CLT art. 135).');
+  return { erros, avisos, ult, per, restante, col };
+}
+function previewFerias() {
+  const d = lerFormFerias(), box = $('fe_preview');
+  if (d.inicio && DIAS_FERIAS.includes(d.dias)) { $('fe_ultimo').value = fmtData(addDias(d.inicio, d.dias - 1)); $('fe_retorno').value = fmtData(addDias(d.inicio, d.dias)); }
+  else { $('fe_ultimo').value = ''; $('fe_retorno').value = ''; }
+  if (!d.colabId || !d.inicio) { box.innerHTML = ''; return; }
+  const v = validarFerias(d);
+  let html = '';
+  if (v.per) html += `<div class="alerta blue">📌 Período aquisitivo ${fmtData(v.per.ini)} a ${fmtData(v.per.fim)} · limite concessivo ${fmtData(v.per.limite)} · saldo após este lançamento: <b>${Math.max(0, v.restante)} dia(s)</b> · pagamento até <b>${fmtData(addDias(d.inicio, -2))}</b> (CLT art. 145)${d.abono ? ' · abono de 10 dias' : ''}</div>`;
+  html += v.erros.map(e => `<div class="alerta red">⛔ ${esc(e)}</div>`).join('') + v.avisos.map(a => `<div class="alerta amber">⚠️ ${esc(a)}</div>`).join('');
+  box.innerHTML = html;
+}
+
+async function salvarFerias() {
+  if (!exigir('ferias')) return;
+  await recarregar('ferias');
+  const d = lerFormFerias(), v = validarFerias(d);
+  if (v.erros.length) { previewFerias(); toast(v.erros[0], 'warn', 5000); return; }
+  if (v.avisos.length && !confirm('Atenção:\n• ' + v.avisos.join('\n• ') + '\n\nConfirmar a programação mesmo assim?')) return;
+  const sub = colaboradores.find(c => c.id === d.subId);
+  ferias.push({
+    id: 'FER' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    colabId: v.col.id, nome: v.col.nome, cargo: v.col.cargo, periodoK: d.periodoK, periodoIni: v.per.ini, periodoFim: v.per.fim, limite: v.per.limite,
+    inicio: d.inicio, dias: d.dias, retorno: addDias(d.inicio, d.dias), abono: d.abono,
+    substitutoId: sub ? sub.id : null, substitutoNome: sub ? sub.nome : '', obs: d.obs,
+    status: 'Programada', criadoPor: sessao.login, criadoEm: new Date().toISOString()
+  });
+  if (await persistir('ferias')) toast(`Férias de ${v.col.nome} programadas: ${fmtData(d.inicio)} a ${fmtData(v.ult)} · retorno ${fmtData(addDias(d.inicio, d.dias))}.`, 'ok', 4500);
+  ['fe_inicio','fe_obs'].forEach(id => $(id).value = ''); $('fe_abono').checked = false; $('fe_sub').value = '';
+  popularPeriodosESub(); renderFerias(); renderAtivos();
+}
+async function aprovarFerias(id) {
+  if (!exigir('ferias_aprovar')) return;
+  await recarregar('ferias');
+  const f = ferias.find(x => x.id === id); if (!f || f.status !== 'Programada') return;
+  if (!f.substitutoId && !confirm(`As férias de ${f.nome} estão sem substituto. Aprovar mesmo assim?`)) return;
+  f.status = 'Aprovada'; f.aprovadoPor = sessao.login; f.aprovadoEm = new Date().toISOString();
+  if (await persistir('ferias')) toast(`Férias de ${f.nome} aprovadas.`);
+  renderFerias();
+}
+async function cancelarFerias(id) {
+  if (!exigir('ferias')) return;
+  const f0 = ferias.find(x => x.id === id); if (!f0) return;
+  const motivo = prompt(`Cancelar as férias de ${f0.nome} (${fmtData(f0.inicio)} a ${fmtData(ultimoDia(f0))})?\nInforme o motivo:`);
+  if (motivo === null) return;
+  await recarregar('ferias');
+  const f = ferias.find(x => x.id === id); if (!f) return;
+  f.status = 'Cancelada'; f.canceladoPor = sessao.login; f.canceladoEm = new Date().toISOString();
+  if (motivo.trim()) f.obs = (f.obs ? f.obs + ' | ' : '') + 'Cancelamento: ' + motivo.trim();
+  if (await persistir('ferias')) toast('Programação cancelada; o saldo do período foi devolvido.', 'info');
+  popularPeriodosESub(); renderFerias(); renderAtivos();
+}
+
+let feriasCobPendente = null;
+function abrirCobertura(id) {
+  if (!exigir('ferias')) return;
+  const f = ferias.find(x => x.id === id); if (!f) return;
+  feriasCobPendente = id;
+  $('cob_sub').textContent = `${f.nome} · ${fmtData(f.inicio)} a ${fmtData(ultimoDia(f))} (${f.dias} dias)`;
+  const outros = colaboradores.filter(c => c.id !== f.colabId).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  $('cob_sub_sel').innerHTML = '<option value="">— Sem substituto —</option>' + outros.map(c => {
+    const cf = conflitosSubstituto(c.id, f.inicio, ultimoDia(f), f.id);
+    const tag = cf.emFerias.length ? ' ⛔ de férias' : cf.cobrindo.length ? ` ⚠️ já cobre ${cf.cobrindo.length}` : '';
+    return `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]}${tag}</option>`;
+  }).join('');
+  $('cob_sub_sel').value = f.substitutoId && outros.some(c => c.id === f.substitutoId) ? f.substitutoId : '';
+  previewCobertura();
+  $('modalCobertura').style.display = 'flex';
+}
+function previewCobertura() {
+  const f = ferias.find(x => x.id === feriasCobPendente), subId = Number(val('cob_sub_sel'));
+  if (!f || !subId) { $('cob_prev').innerHTML = f && !subId ? '<div class="alerta amber">⚠️ As férias ficarão sem cobertura.</div>' : ''; return; }
+  const cf = conflitosSubstituto(subId, f.inicio, ultimoDia(f), f.id);
+  $('cob_prev').innerHTML = cf.emFerias.map(x => `<div class="alerta red">⛔ Substituto de férias de ${fmtData(x.inicio)} a ${fmtData(ultimoDia(x))}.</div>`).join('')
+    + cf.cobrindo.map(x => `<div class="alerta amber">⚠️ Já cobre ${esc(x.nome)} (${fmtData(x.inicio)}–${fmtData(ultimoDia(x))}).</div>`).join('')
+    || '<div class="alerta blue">✅ Disponível no período.</div>';
+}
+async function confirmarCobertura() {
+  if (!exigir('ferias')) return;
+  await recarregar('ferias');
+  const f = ferias.find(x => x.id === feriasCobPendente); if (!f) return;
+  const subId = Number(val('cob_sub_sel')) || null, sub = colaboradores.find(c => c.id === subId);
+  if (sub) {
+    const cf = conflitosSubstituto(sub.id, f.inicio, ultimoDia(f), f.id);
+    if (cf.emFerias.length) { toast(`${sub.nome} estará de férias no período.`, 'warn'); return; }
+    if (cf.cobrindo.length && !confirm(`${sub.nome} já cobre ${cf.cobrindo.map(x => x.nome).join(', ')} no período. Acumular?`)) return;
+  }
+  f.substitutoId = sub ? sub.id : null; f.substitutoNome = sub ? sub.nome : '';
+  if (await persistir('ferias')) toast(sub ? `${sub.nome} cobrirá ${f.nome}.` : 'Cobertura removida.', sub ? 'ok' : 'info');
+  fecharModalGen('modalCobertura'); renderFerias();
+}
+async function salvarCorte() {
+  if (!exigir('config')) return;
+  const d = val('cfg_corte'); if (!d) return;
+  await recarregar('configRH');
+  config.dataCorteFerias = d;
+  await persistir('configRH');
+  popularPeriodosESub(); renderFerias();
+}
+
+function renderFerias() {
+  const hoje = hojeISO(), em30 = addDias(hoje, 30);
+  const comSt = ferias.map(f => ({ f, st: statusFerias(f) }));
+  const vivas = comSt.filter(x => !['Cancelada', 'Concluída'].includes(x.st)).map(x => x.f);
+  const emGozo = comSt.filter(x => x.st === 'Em gozo').map(x => x.f);
+  const prox = vivas.filter(f => f.inicio > hoje && f.inicio <= em30);
+  const semCob = vivas.filter(f => !f.substitutoId);
+
+  // Alertas de período concessivo + linhas de saldo
+  const alertas = [], linhasSaldo = [];
+  let nVenc = 0, nAVencer = 0;
+  colaboradores.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).forEach(col => {
+    const ps = periodosControlados(col);
+    ps.forEach(p => {
+      const saldo = saldoPeriodo(col.id, p.k), usado = 30 - saldo, dl = diasEntre(hoje, p.limite);
+      let sit;
+      if (!p.completo) sit = '<span class="badge badge-gray">Em aquisição</span>';
+      else if (saldo <= 0) sit = '<span class="badge badge-green">Quitado</span>';
+      else if (p.limite < hoje) { sit = '<span class="badge badge-red">Vencido · dobra</span>'; nVenc++; alertas.push({ n: 3, h: `<div class="alerta red">⛔ <b>${esc(col.nome)}</b>: período ${fmtData(p.ini)}–${fmtData(p.fim)} com <b>${saldo} dia(s)</b> não programados e limite concessivo vencido em ${fmtData(p.limite)} — férias em dobro (CLT art. 137).</div>` }); }
+      else if (dl <= 90) { sit = `<span class="badge badge-amber">Vence em ${dl}d</span>`; nAVencer++; alertas.push({ n: 2, h: `<div class="alerta amber">⏰ <b>${esc(col.nome)}</b>: ${saldo} dia(s) a programar até ${fmtData(addDias(p.limite, -(saldo - 1)))} (limite concessivo ${fmtData(p.limite)}).</div>` }); }
+      else sit = '<span class="badge badge-blue">A programar</span>';
+      feriasDoPeriodo(col.id, p.k).filter(f => ultimoDia(f) > p.limite).forEach(f => alertas.push({ n: 3, h: `<div class="alerta red">⛔ <b>${esc(col.nome)}</b>: férias de ${fmtData(f.inicio)} terminam após o limite concessivo (${fmtData(p.limite)}) — gerará dobra.</div>` }));
+      if (p.completo || usado > 0) linhasSaldo.push(`<tr><td><strong>${esc(col.nome)}</strong><div class="sub-txt">${nomesCargos[col.cargo]}</div></td><td>${fmtData(col.dataAdmissao)}</td><td>${fmtData(p.ini)} a ${fmtData(p.fim)}</td><td>${usado} dia(s)</td><td><strong class="${saldo > 0 && p.completo ? 'txt-amber' : 'txt-verde'}">${saldo} dia(s)</strong></td><td>${fmtData(p.limite)}</td><td>${sit}</td></tr>`);
+    });
+    if (!ps.some(p => p.completo || saldoPeriodo(col.id, p.k) < 30)) {
+      const p = ps[ps.length - 1];
+      if (p) linhasSaldo.push(`<tr><td><strong>${esc(col.nome)}</strong><div class="sub-txt">${nomesCargos[col.cargo]}</div></td><td>${fmtData(col.dataAdmissao)}</td><td>${fmtData(p.ini)} a ${fmtData(p.fim)}</td><td>0 dia(s)</td><td>30 dia(s)</td><td>${fmtData(p.limite)}</td><td><span class="badge badge-gray">Em aquisição</span></td></tr>`);
+    }
+  });
+  semCob.filter(f => f.inicio <= em30).forEach(f => alertas.push({ n: 2, h: `<div class="alerta amber">🛡️ <b>${esc(f.nome)}</b> sai em ${fmtData(f.inicio)} sem substituto definido.</div>` }));
+
+  $('kpiFerias').innerHTML = `
+    <div class="kpi-card amber"><div class="kpi-label">Em Férias Hoje</div><div class="kpi-value">${emGozo.length}</div><div class="kpi-sub">${emGozo.map(f => esc(f.nome.split(' ')[0])).join(', ') || '—'}</div></div>
+    <div class="kpi-card blue"><div class="kpi-label">Saídas em 30 Dias</div><div class="kpi-value">${prox.length}</div><div class="kpi-sub">programadas/aprovadas</div></div>
+    <div class="kpi-card ${semCob.length ? 'red' : 'verde'}"><div class="kpi-label">Sem Cobertura</div><div class="kpi-value">${semCob.length}</div><div class="kpi-sub">férias ativas/futuras sem substituto</div></div>
+    <div class="kpi-card ${nVenc ? 'red' : 'verde'}"><div class="kpi-label">Períodos Vencidos</div><div class="kpi-value">${nVenc}</div><div class="kpi-sub">${nAVencer} a vencer em 90 dias</div></div>`;
+  $('alertasFerias').innerHTML = alertas.sort((a, b) => b.n - a.n).map(a => a.h).join('') || '<p style="color:var(--gray-400);font-size:13px;">Nenhum período vencido ou a vencer nos próximos 90 dias. ✅</p>';
+  $('corpoSaldoFerias').innerHTML = linhasSaldo.join('') || '<tr><td colspan="7"><div class="empty-state"><p>Sem colaboradores ativos.</p></div></td></tr>';
+
+  // Programação
+  const termo = val('fe_busca').trim().toLowerCase(), fst = val('fe_fstatus');
+  const fim = st => ['Concluída', 'Cancelada'].includes(st) ? 1 : 0;
+  const lista = comSt.filter(x => (!fst || x.st === fst) && (!termo || (x.f.nome + ' ' + (x.f.substitutoNome || '')).toLowerCase().includes(termo)))
+    .sort((a, b) => fim(a.st) - fim(b.st) || (fim(a.st) ? b.f.inicio.localeCompare(a.f.inicio) : a.f.inicio.localeCompare(b.f.inicio)));
+  $('corpoFerias').innerHTML = lista.length ? lista.map(({ f, st }) => {
+    const ativo = !['Concluída', 'Cancelada'].includes(st);
+    const subAtivo = f.substitutoId && colaboradores.some(c => c.id === f.substitutoId);
+    const cf = f.substitutoId && ativo ? conflitosSubstituto(f.substitutoId, f.inicio, ultimoDia(f), f.id) : { emFerias: [], cobrindo: [] };
+    const subCell = f.substitutoId
+      ? `${esc(f.substitutoNome)}${!subAtivo ? ' <span class="badge badge-red">desligado</span>' : ''}${cf.emFerias.length ? ' <span class="badge badge-red">de férias</span>' : ''}${cf.cobrindo.length ? ` <span class="badge badge-amber">acumula ${cf.cobrindo.length + 1}</span>` : ''}`
+      : (ativo ? '<span class="badge badge-red">Sem cobertura</span>' : '<span style="color:var(--gray-400)">—</span>');
+    const acoes = [
+      st === 'Programada' && pode('ferias_aprovar') ? `<button class="btn btn-primary btn-sm" onclick="aprovarFerias('${f.id}')">✅ Aprovar</button>` : '',
+      ativo && pode('ferias') ? `<button class="btn btn-blue btn-sm" onclick="abrirCobertura('${f.id}')">🛡️ Cobertura</button>` : '',
+      ativo && pode('ferias') ? `<button class="btn btn-ghost btn-sm" onclick="cancelarFerias('${f.id}')">✖ Cancelar</button>` : ''
+    ].join('');
+    return `<tr${st === 'Cancelada' ? ' style="opacity:.6"' : ''}>
+      <td><strong>${esc(f.nome)}</strong><div class="sub-txt">${nomesCargos[f.cargo] || ''}${f.obs ? ' · ' + esc(f.obs) : ''}</div></td>
+      <td style="font-size:12px">${fmtData(f.periodoIni)} a ${fmtData(f.periodoFim)}</td>
+      <td>${fmtData(f.inicio)}</td>
+      <td><strong>${fmtData(f.retorno || addDias(f.inicio, f.dias))}</strong></td>
+      <td><span class="badge badge-blue">${f.dias}d</span>${f.abono ? ' <span class="badge badge-purple">+10 abono</span>' : ''}</td>
+      <td style="font-size:12px">${fmtData(addDias(f.inicio, -2))}</td>
+      <td>${subCell}</td>
+      <td>${badgeStatusFerias(st)}${f.aprovadoPor ? `<div class="sub-txt">por ${esc(f.aprovadoPor)}</div>` : ''}</td>
+      <td><div class="acoes">${acoes || '–'}</div></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏖️</div><p>${ferias.length ? 'Nenhuma programação neste filtro.' : 'Nenhuma férias programada ainda.'}</p></div></td></tr>`;
+
+  // Quadro de cobertura
+  const grupos = {};
+  vivas.filter(f => f.substitutoId).forEach(f => { (grupos[f.substitutoId] ||= { nome: f.substitutoNome, itens: [] }).itens.push(f); });
+  let cob = Object.entries(grupos).sort((a, b) => a[1].nome.localeCompare(b[1].nome, 'pt-BR')).map(([id, g]) => {
+    const subId = Number(id), ativo = colaboradores.some(c => c.id === subId);
+    const itens = g.itens.sort((a, b) => a.inicio.localeCompare(b.inicio));
+    const problema = !ativo || itens.some(f => conflitosSubstituto(subId, f.inicio, ultimoDia(f), f.id).emFerias.length);
+    return `<div class="cob-card${problema ? ' alerta-card' : ''}"><h4><span>🛡️ ${esc(g.nome)}</span>${!ativo ? '<span class="badge badge-red">desligado</span>' : `<span class="badge badge-blue">${itens.length} cobertura(s)</span>`}</h4>
+      ${itens.map(f => {
+        const cf = conflitosSubstituto(subId, f.inicio, ultimoDia(f), f.id);
+        const flag = cf.emFerias.length ? ' <span class="txt-red">⛔ substituto de férias</span>' : cf.cobrindo.length ? ' <span class="txt-amber">⚠️ acúmulo</span>' : '';
+        return `<div class="cob-item">cobre <b>${esc(f.nome)}</b> · ${fmtData(f.inicio)} → ${fmtData(ultimoDia(f))} ${statusFerias(f) === 'Em gozo' ? '<span class="badge badge-amber">agora</span>' : ''}${flag}</div>`;
+      }).join('')}</div>`;
+  }).join('');
+  if (semCob.length) cob = `<div class="cob-card alerta-card"><h4><span>⚠️ Sem cobertura</span><span class="badge badge-red">${semCob.length}</span></h4>${semCob.sort((a, b) => a.inicio.localeCompare(b.inicio)).map(f => `<div class="cob-item"><b>${esc(f.nome)}</b> · ${fmtData(f.inicio)} → ${fmtData(ultimoDia(f))}${pode('ferias') ? ` · <a href="#" onclick="abrirCobertura('${f.id}');return false;">definir</a>` : ''}</div>`).join('')}</div>` + cob;
+  $('cobGrid').innerHTML = cob || '<p style="color:var(--gray-400);font-size:13px;">Nenhuma férias ativa ou futura.</p>';
+}
+function exportarFerias() {
+  baixarCSV(`ferias_${hojeISO()}.csv`, [['Colaborador','Cargo','Período Aquisitivo','Saída','Último Dia','Retorno','Dias','Abono','Pagar até','Substituto','Status','Observação','Lançado por'],
+    ...ferias.slice().sort((a, b) => a.inicio.localeCompare(b.inicio)).map(f => [f.nome, nomesCargos[f.cargo] || '', `${fmtData(f.periodoIni)} a ${fmtData(f.periodoFim)}`, fmtData(f.inicio), fmtData(ultimoDia(f)), fmtData(f.retorno || addDias(f.inicio, f.dias)), f.dias, f.abono ? '10' : '', fmtData(addDias(f.inicio, -2)), f.substitutoNome || '', statusFerias(f), f.obs || '', f.criadoPor || ''])]);
+}
+
+// ════════════════════════ MODAIS ════════════════════════
+function fecharModalGen(id) { $(id).style.display = 'none'; }
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if ($('modalMerito').style.display === 'flex') fecharModalMerito();
+  if ($('modalDemissao').style.display === 'flex') fecharModal();
+  ['modalVinculo', 'modalCobertura'].forEach(fecharModalGen);
+  if (!senhaForcada) fecharModalGen('modalSenha');
+});
 
 // ════════════════════════ GOOGLE SHEETS ════════════════════════
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTJTEERP51PQkKyecMXYoZ7ug40JktfSLDEA7GO5VdWalt7TzGyZMnWqi2ZINCx2g-/exec';
@@ -812,10 +1809,10 @@ const urlConfigurada = () => SCRIPT_URL && !SCRIPT_URL.includes('COLE_AQUI');
 const NOMES_CARGOS_SHEETS = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
 
 function indicadorSync(msg, tipo) {
-  const el = document.getElementById('syncStatus');
+  const el = $('syncStatus');
   if (!el) return;
-  const cores = { ok:'#00843D', erro:'#DC2626', info:'#2563EB', aguard:'#F59E0B' };
-  el.textContent = msg; el.style.color = cores[tipo] || '#475569';
+  const cores = { ok:'#FFFFFF', erro:'#FECACA', info:'#BFDBFE', aguard:'#FDE68A' };
+  el.textContent = msg; el.style.color = cores[tipo] || '#FFFFFF';
 }
 
 async function lerJSON(r) {
@@ -858,7 +1855,7 @@ async function carregarDoSheets() {
 
     colaboradores = (d.colaboradores || []).map(c => ({
       id: Number(c.id || c.ID),
-      nome: c.nome || c.Nome,
+      nome: String(c.nome || c.Nome || ''),
       cargo: String(c.CargoCod || c.cargo || c.cargoCod || '3'),
       faixaManual: Number(c.faixaManual ?? c.FaixaManual ?? 0),
       dataAdmissao: normalizarData(c.dataAdmissao || c.DataAdmissao),
@@ -877,7 +1874,7 @@ async function carregarDoSheets() {
 
     demitidos = (d.demitidos || []).map(dm => ({
       id: Number(dm.id || dm.ID),
-      nome: dm.nome || dm.Nome,
+      nome: String(dm.nome || dm.Nome || ''),
       cargo: String(dm.cargo || dm.CargoCod),
       faixa: Number(dm.faixa ?? dm.Faixa ?? 0),
       salario: parseNumBR(dm.salario ?? dm.Salario),
@@ -899,7 +1896,7 @@ async function carregarDoSheets() {
     proxId = Math.max(d.proxId ? Number(d.proxId) : 1, maxIdColab + 1, maxIdDemit + 1);
 
     renderTudo();
-    if (!bloqueioReajuste) indicadorSync('✅ Sincronizado com Sheets', 'ok');
+    if (!bloqueioReajuste) indicadorSync(kvModo === 'sheets' ? '✅ Sincronizado com Sheets' : '✅ Sheets · ⚠️ módulos extras locais', 'ok');
     else indicadorSync('⚠️ Base salarial inválida no Sheets', 'erro');
   } catch (err) {
     bloqueioReajuste = 'Falha ao carregar do Sheets — recarregue a página antes de aplicar reajuste (evita sobrescrever a base real com a padrão).';
@@ -950,11 +1947,18 @@ async function salvarReajusteSheets(h, novaBase) {
 }
 
 // ════════════════════════ INIT ════════════════════════
-document.getElementById('dataReajuste').value = hojeISO();
-autoFill();
-renderTabelaBase();
-renderKpiAtivos();
-carregarDoSheets();
+async function iniciar() {
+  $('dataReajuste').value = hojeISO();
+  autoFill(); renderTabelaBase(); renderKpiAtivos();
+  mostrarLogin('carregando');
+  const u = await kvGet('usuarios');
+  usuarios = Array.isArray(u) ? u : [];
+  if (!usuarios.length) { mostrarLogin(kvModo === 'offline' ? 'offline' : 'setup'); return; }
+  const s = restaurarSessao();
+  if (s) { entrar(s); return; }
+  mostrarLogin('login');
+}
+iniciar();
 </script>
 </body>
 </html>
