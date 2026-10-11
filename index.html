@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestão Salarial – Unimed Vale do Sepotuba</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#00843D">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gestão Salarial">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -132,6 +140,19 @@
   .login-box .form-group { margin-bottom:12px; }
   .login-msg { font-size:12.5px; color:var(--red); min-height:18px; margin-bottom:8px; text-align:center; }
   .login-foot { font-size:11px; color:var(--gray-400); text-align:center; margin-top:14px; }
+  .area-filtro { margin-left:auto; display:flex; align-items:center; gap:8px; padding:8px 0 8px 16px; flex-shrink:0; }
+  .area-filtro label { font-size:11.5px; font-weight:600; color:var(--gray-600); text-transform:uppercase; }
+  .area-filtro select { padding:7px 10px; border:1.5px solid var(--verde); border-radius:7px; font-size:12.5px; font-family:inherit; background:var(--verde-lt); color:var(--verde-dk); font-weight:600; }
+  .area-tag { display:inline-block; font-size:10.5px; font-weight:600; color:var(--blue); background:var(--blue-lt); border-radius:4px; padding:1px 6px; margin-top:3px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; background:var(--gray-100); border:1.5px solid var(--gray-200); border-radius:99px; padding:4px 6px 4px 12px; font-size:12.5px; font-weight:500; }
+  .chip button { border:none; background:none; cursor:pointer; font-size:12px; padding:2px 4px; border-radius:4px; }
+  .chip button:hover { background:var(--gray-200); }
+  .plano-tbl input, .plano-tbl select { padding:6px 8px; border:1.5px solid var(--gray-200); border-radius:6px; font-size:12.5px; font-family:inherit; background:var(--gray-50); width:100%; min-width:70px; }
+  .plano-tbl input.num { text-align:right; min-width:92px; }
+  .plano-tbl td { padding:6px 8px; }
+  .chk-list { display:flex; flex-wrap:wrap; gap:6px 14px; padding:6px 0; }
+  .chk-list label { display:flex; align-items:center; gap:6px; font-size:12.5px; text-transform:none; letter-spacing:0; font-weight:500; color:var(--gray-700); cursor:pointer; }
   @media (max-width:640px) {
     .main { padding:16px; } .topbar { padding:0 16px; } .tabs-nav { padding:0 10px; } .tab-btn { padding:12px 14px; font-size:12px; }
     .card { padding:16px; } #relogio { display:none; }
@@ -154,7 +175,8 @@
       <div class="form-group"><label>Usuário</label><input type="text" id="lg_login" autocomplete="username" autocapitalize="off"></div>
       <div class="form-group"><label>Senha</label><input type="password" id="lg_senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')tentarLogin()"></div>
       <button class="btn btn-primary btn-block" onclick="tentarLogin()">🔐 Entrar</button>
-      <p class="login-foot">Esqueceu a senha? Peça ao administrador para redefinir.</p>
+      <p class="login-foot">Esqueceu a senha? Peça ao administrador para redefinir. · <a href="#" onclick="abrirConexao();return false;">⚙️ Conexão</a></p>
+      <button class="btn btn-ghost btn-block" id="btnInstalarLogin" style="display:none;margin-top:12px" onclick="instalarApp()">📲 Instalar como aplicativo</button>
     </div>
 
     <div data-login="setup" style="display:none">
@@ -166,9 +188,18 @@
       <button class="btn btn-primary btn-block" onclick="criarPrimeiroAdmin()">✅ Criar Administrador</button>
     </div>
 
+    <div data-login="conexao" style="display:none">
+      <p class="sub" style="margin-bottom:14px;"><b>Conexão com o Google Sheets</b><br>Cole a URL do app da Web do Apps Script (termina em <b>/exec</b>).</p>
+      <div class="form-group"><label>URL do Apps Script</label><input type="url" id="cx_url" placeholder="https://script.google.com/macros/s/.../exec" onkeydown="if(event.key==='Enter')testarConexao()"></div>
+      <button class="btn btn-primary btn-block" id="cx_btn" onclick="testarConexao()">🔌 Testar e salvar</button>
+      <p class="login-foot"><a href="#" onclick="usarModoLocal();return false;">Usar sem Sheets (modo teste, dados só neste navegador)</a></p>
+    </div>
+
     <div data-login="offline" style="display:none;text-align:center;">
       <p class="sub">Não foi possível conectar ao Google Sheets para validar os usuários.</p>
+      <p class="sub" id="kvErroTxt" style="font-size:11px;color:var(--gray-400);word-break:break-word;"></p>
       <button class="btn btn-primary btn-block" onclick="location.reload()">🔄 Tentar novamente</button>
+      <p class="login-foot"><a href="#" onclick="abrirConexao();return false;">⚙️ Conexão</a></p>
     </div>
   </div>
 </div>
@@ -178,6 +209,7 @@
   <h1>Gestão Salarial &nbsp;<span>Unimed Vale do Sepotuba</span></h1>
   <div class="topbar-right">
     <span id="syncStatus" style="margin-right:16px;font-size:12px;font-weight:500;">⏳ Aguardando...</span>
+    <span class="user-chip" id="btnInstalar" style="display:none"><button onclick="instalarApp()">📲 Instalar app</button></span>
     <span class="user-chip" id="userChip">👤 <b id="userNome"></b>
       <button onclick="abrirModalSenha(false)">🔑 Senha</button>
       <button onclick="sair()">Sair</button>
@@ -192,7 +224,9 @@
   <button class="tab-btn" onclick="trocarAba('promocao', this)"><span class="tab-icon">🏆</span> Análise de Promoção</button>
   <button class="tab-btn" onclick="trocarAba('saldo', this)"><span class="tab-icon">💰</span> Saldo Financeiro</button>
   <button class="tab-btn" onclick="trocarAba('ferias', this)"><span class="tab-icon">🏖️</span> Férias</button>
+  <button class="tab-btn" data-perm="config" onclick="trocarAba('plano', this)"><span class="tab-icon">⚙️</span> Plano de Cargos</button>
   <button class="tab-btn" data-perm="usuarios" onclick="trocarAba('usuarios', this)"><span class="tab-icon">🔐</span> Usuários</button>
+  <div class="area-filtro"><label for="filtroAreaGlobal">Área</label><select id="filtroAreaGlobal" onchange="mudarFiltroArea(this.value)"></select></div>
 </div>
 
 <div class="main">
@@ -203,17 +237,9 @@
       <div class="card-header"><div class="card-title"><div class="card-title-icon">➕</div>Adicionar Colaborador</div></div>
       <div class="form-grid">
         <div class="form-group"><label>Nome Completo</label><input type="text" id="nome" placeholder="Nome do colaborador"></div>
-        <div class="form-group"><label>Cargo</label>
-          <select id="cargo" onchange="autoFill()">
-            <option value="3">Assistente Adm I</option><option value="4">Assistente Adm II</option><option value="5">Analista Adm JR</option><option value="6">Analista Adm PL</option><option value="7">Analista Adm SR</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Faixa Atual</label>
-          <select id="faixa" onchange="autoFill()">
-            <option value="0">F1 – Admissão</option><option value="1">F2 – 90 dias</option><option value="2">F3 – 9 meses</option><option value="3">F4 – 18 meses</option>
-            <option value="4">F5 – 2 anos</option><option value="5">F6 – 4 anos</option><option value="6">F7 – 6 anos</option><option value="7">F8 – 8 anos</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Área</label><select id="areaColab" onchange="popularCargosForm();popularSelectVagaAdd();previewVagaAdd()"></select></div>
+        <div class="form-group"><label>Cargo</label><select id="cargo" onchange="autoFill()"></select></div>
+        <div class="form-group"><label>Faixa Atual</label><select id="faixa" onchange="autoFill()"></select></div>
         <div class="form-group"><label>Data de Admissão</label><input type="date" id="dataAdmissao"></div>
         <div class="form-group"><label>Salário Base</label><input type="text" id="salario" readonly placeholder="Calculado automaticamente"></div>
         <div class="form-group"><label>Reposição de Vaga</label><select id="vagaRepos" onchange="previewVagaAdd()"><option value="">— Aumento de quadro —</option></select></div>
@@ -257,6 +283,7 @@
       <div class="card-header"><div class="card-title"><div class="card-title-icon">📊</div>Reajuste Coletivo da Base Salarial</div></div>
 
       <div class="reajuste-box" data-perm="reajuste">
+        <div class="form-group"><label>Aplicar a</label><select id="areaReajuste" onchange="previewReajuste()"></select></div>
         <div class="form-group"><label>Percentual de Reajuste (%)</label><input type="text" inputmode="decimal" id="percReajuste" placeholder="Ex: 5,5" oninput="previewReajuste()"></div>
         <div class="form-group"><label>Data de Vigência</label><input type="date" id="dataReajuste"></div>
         <div class="form-group"><label>Descrição / ACT</label><input type="text" id="descReajuste" placeholder="Ex: ACT 2025"></div>
@@ -268,7 +295,7 @@
         <h3 class="sec-title">Histórico de Reajustes</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Data</th><th>Descrição</th><th>%</th><th>Base Anterior</th><th>Nova Base F1 Asst.I</th></tr></thead>
+            <thead><tr><th>Data</th><th>Descrição</th><th>%</th><th>Base Anterior (ref.)</th><th>Nova Base (ref.)</th></tr></thead>
             <tbody id="corpoHistorico"><tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📜</div><p>Nenhum reajuste aplicado.</p></div></td></tr></tbody>
           </table>
         </div>
@@ -301,6 +328,16 @@
 
   <!-- ABA 4 – SALDO FINANCEIRO -->
   <div id="tab-saldo" class="tab-panel">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🏢</div>Resumo por Área</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Área</th><th>Ativos</th><th>Massa Salarial</th><th>Salário Médio</th><th>Desligados</th><th>Vagas Abertas</th><th>Saldo Líquido de Vagas</th><th>Em Férias Hoje</th></tr></thead>
+          <tbody id="corpoPorArea"></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-header">
         <div class="card-title"><div class="card-title-icon">🔁</div>Saldo de Vagas – Desligamentos × Reposições</div>
@@ -407,7 +444,36 @@
     </div>
   </div>
 
-  <!-- ABA 6 – USUÁRIOS -->
+  <!-- ABA 6 – PLANO DE CARGOS -->
+  <div id="tab-plano" class="tab-panel">
+    <div class="alerta blue" id="planoAviso">ℹ️ Alterações nesta aba ficam em rascunho até clicar em <b>Salvar Plano</b>. Salários editados aqui são ajustes manuais da tabela (não entram no histórico de reajustes).</div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🏢</div>Áreas</div>
+        <div class="filtros"><input type="text" id="pl_novaArea" placeholder="Nova área (ex.: Enfermagem)" onkeydown="if(event.key==='Enter')plAddArea()"><button class="btn btn-primary btn-sm" onclick="plAddArea()">➕ Adicionar</button></div>
+      </div>
+      <div class="chips" id="pl_areas"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">🪜</div>Faixas de Progressão</div>
+        <div class="filtros"><button class="btn btn-ghost btn-sm" onclick="plAddFaixa()">➕ Faixa</button><button class="btn btn-ghost btn-sm" onclick="plRemFaixa()">➖ Remover última</button></div>
+      </div>
+      <div class="table-wrap"><table class="plano-tbl"><thead><tr><th>Faixa</th><th>Descrição</th><th>Dias de casa para atingir</th></tr></thead><tbody id="pl_faixas"></tbody></table></div>
+      <p class="form-hint">A progressão automática usa os dias de casa (ou desde a última promoção por mérito). A F1 é sempre 0 dia (admissão), e os prazos devem ser crescentes.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="card-title-icon">💼</div>Cargos e Tabela Salarial</div>
+        <div class="filtros"><select id="pl_filtroArea" onchange="renderPlano()"></select><button class="btn btn-ghost btn-sm" onclick="plAddCargo()">➕ Cargo</button></div>
+      </div>
+      <div class="table-wrap"><table class="plano-tbl"><thead id="pl_cargosHead"></thead><tbody id="pl_cargos"></tbody></table></div>
+      <p class="form-hint">Cargo com área <b>Geral</b> fica disponível para todas as áreas. Cargos em uso por colaboradores ativos não podem ser excluídos.</p>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:20px;">
+      <button class="btn btn-ghost" onclick="plDescartar()">↩️ Descartar alterações</button>
+      <button class="btn btn-primary" id="btnSalvarPlano" onclick="plSalvar()">💾 Salvar Plano</button>
+    </div>
+  </div>
+
+  <!-- ABA 7 – USUÁRIOS -->
   <div id="tab-usuarios" class="tab-panel">
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-title-icon">➕</div>Novo Usuário</div></div>
@@ -416,15 +482,16 @@
         <div class="form-group"><label>Usuário (login)</label><input type="text" id="us_login" autocapitalize="off"></div>
         <div class="form-group"><label>Perfil</label><select id="us_perfil"><option value="gestor">Gestor</option><option value="rh">RH / Folha</option><option value="admin">Administrador</option></select></div>
         <div class="form-group"><label>Senha Inicial (mín. 6)</label><input type="password" id="us_senha" autocomplete="new-password"></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Áreas permitidas (nenhuma marcada = todas)</label><div class="chk-list" id="us_areas"></div></div>
         <div class="form-group" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="criarUsuario()">➕ Criar</button></div>
       </div>
-      <p class="form-hint"><b>Administrador:</b> acesso total e gestão de usuários. <b>RH / Folha:</b> colaboradores, mérito, desligamento, reajuste, vagas, férias e aprovação. <b>Gestor:</b> consulta geral e programação de férias. A senha inicial deve ser trocada no primeiro acesso.</p>
+      <p class="form-hint"><b>Administrador:</b> acesso total, plano de cargos e usuários. <b>RH / Folha:</b> colaboradores, mérito, desligamento, reajuste, vagas, férias e aprovação. <b>Gestor:</b> consulta e programação de férias. Usuário restrito a áreas vê e opera <b>somente</b> essas áreas. Reajuste, plano de cargos e configurações exigem acesso a todas as áreas.</p>
     </div>
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-title-icon">🔐</div>Usuários Cadastrados</div></div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Nome</th><th>Login</th><th>Perfil</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
+          <thead><tr><th>Nome</th><th>Login</th><th>Perfil</th><th>Áreas</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
           <tbody id="corpoUsuarios"></tbody>
         </table>
       </div>
@@ -444,9 +511,7 @@
       <div class="form-group" style="grid-column:1/-1"><label>Colaborador</label><input type="text" id="merito_nomeExibicao" readonly></div>
       <div class="form-group"><label>Cargo Atual</label><input type="text" id="merito_cargoAtualTexto" readonly></div>
       <div class="form-group"><label>Promover para o Cargo</label>
-        <select id="merito_cargo" onchange="onMeritoCargo()">
-          <option value="3">Assistente Adm I</option><option value="4">Assistente Adm II</option><option value="5">Analista Adm JR</option><option value="6">Analista Adm PL</option><option value="7">Analista Adm SR</option>
-        </select>
+        <select id="merito_cargo" onchange="onMeritoCargo()"></select>
       </div>
       <div class="form-group"><label>Faixa Atual</label><input type="text" id="merito_faixaAtual" readonly></div>
       <div class="form-group"><label>Nova Faixa</label><select id="merito_novaFaixa" onchange="previewMerito()"><option value="">— selecione —</option></select></div>
@@ -509,6 +574,20 @@
   </div>
 </div>
 
+<!-- MODAL ÁREAS DO USUÁRIO -->
+<div id="modalAreasUser" class="modal-overlay">
+  <div class="modal-box" style="width:420px;">
+    <div class="modal-title">🏢 Áreas Permitidas</div>
+    <p class="modal-sub" id="mau_sub"></p>
+    <div class="chk-list" id="mau_lista"></div>
+    <p class="form-hint">Nenhuma marcada = acesso a todas as áreas.</p>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharModalGen('modalAreasUser')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarAreasUser()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL SENHA -->
 <div id="modalSenha" class="modal-overlay">
   <div class="modal-box" style="width:380px;">
@@ -526,11 +605,41 @@
 </div>
 
 <script>
-// ════════════════════════ DADOS ════════════════════════
-const nomesCargos = { 3:'Assistente Adm I', 4:'Assistente Adm II', 5:'Analista Adm JR', 6:'Analista Adm PL', 7:'Analista Adm SR' };
-const CARGOS = ['3','4','5','6','7'];
-const faixasNomes = ['F1 – Admissão','F2 – 90 dias','F3 – 9 meses','F4 – 18 meses','F5 – 2 anos','F6 – 4 anos','F7 – 6 anos','F8 – 8 anos'];
-const tempoFaixa = [0, 90, 270, 540, 730, 1460, 2190, 2920];
+// ════════════════════════ PLANO DE CARGOS (configurável) ════════════════════════
+const PLANO_PADRAO = {
+  areas: [{ id:'adm', nome:'Administrativo' }],
+  faixas: [{ nome:'Admissão', dias:0 }, { nome:'90 dias', dias:90 }, { nome:'9 meses', dias:270 }, { nome:'18 meses', dias:540 },
+           { nome:'2 anos', dias:730 }, { nome:'4 anos', dias:1460 }, { nome:'6 anos', dias:2190 }, { nome:'8 anos', dias:2920 }],
+  cargos: [{ cod:'3', nome:'Assistente Adm I', area:'adm' }, { cod:'4', nome:'Assistente Adm II', area:'adm' }, { cod:'5', nome:'Analista Adm JR', area:'adm' },
+           { cod:'6', nome:'Analista Adm PL', area:'adm' }, { cod:'7', nome:'Analista Adm SR', area:'adm' }]
+};
+let plano = JSON.parse(JSON.stringify(PLANO_PADRAO));
+let nomesCargos = {}, CARGOS = [], faixasNomes = [], tempoFaixa = [], cargoArea = {}, nomesAreas = {};
+let NF = 8, MAXF = 7;
+function aplicarPlano(p) {
+  if (!p || !Array.isArray(p.cargos) || !p.cargos.length || !Array.isArray(p.faixas) || !p.faixas.length) p = JSON.parse(JSON.stringify(PLANO_PADRAO));
+  if (!Array.isArray(p.areas) || !p.areas.length) p.areas = JSON.parse(JSON.stringify(PLANO_PADRAO.areas));
+  plano = p;
+  CARGOS = p.cargos.map(c => String(c.cod));
+  nomesCargos = Object.fromEntries(p.cargos.map(c => [String(c.cod), c.nome]));
+  cargoArea = Object.fromEntries(p.cargos.map(c => [String(c.cod), c.area || '']));
+  nomesAreas = Object.fromEntries(p.areas.map(a => [a.id, a.nome]));
+  faixasNomes = p.faixas.map((f, i) => `F${i + 1} – ${f.nome}`);
+  tempoFaixa = p.faixas.map(f => Number(f.dias) || 0);
+  NF = p.faixas.length; MAXF = NF - 1;
+  garantirBase();
+}
+// Garante que todo cargo tenha linha de salário com NF faixas (evita quebra de tela; base incompleta bloqueia reajuste)
+function garantirBase() {
+  CARGOS.forEach(c => {
+    let l = Array.isArray(base[c]) ? base[c].slice(0, NF) : [];
+    while (l.length < NF) l.push(l.length ? l[l.length - 1] : 0);
+    base[c] = l;
+  });
+}
+const areaPadrao = () => (plano.areas[0] || {}).id || 'adm';
+const nomeArea = id => nomesAreas[id] || (id ? id : '—');
+const salarioDe = (cargo, f) => (base[cargo] || [])[Math.max(0, Math.min(MAXF, f))] || 0;
 
 let base = {
   3: [1770.00, 1861.69, 2006.11, 2086.36, 2169.81, 2256.61, 2346.87, 2440.75],
@@ -539,6 +648,8 @@ let base = {
   6: [2970.47, 3089.29, 3212.85, 3341.36, 3475.02, 3614.02, 3758.58, 3908.92],
   7: [3600.66, 3744.67, 3894.46, 4050.24, 4212.25, 4380.74, 4555.97, 4738.21]
 };
+aplicarPlano(plano);
+let filtroArea = '';
 
 let colaboradores = [], demitidos = [], historicoReajuste = [];
 let idDemissaoPendente = null, proxId = 1;
@@ -549,6 +660,7 @@ let reajusteEmAndamento = false;
 // Módulos novos (persistidos via chave/valor no Sheets — aba "Extras"; fallback local)
 let usuarios = [], ferias = [], vinculos = {}, sessao = null;
 let kvModo = 'local'; // 'sheets' | 'local' (backend sem módulo KV) | 'offline'
+let kvSemModulo = false, kvErro = '';
 const CONFIG_PADRAO = { dataCorteFerias: null, fatorEncargos: 1 };
 let config = { ...CONFIG_PADRAO };
 const DIAS_FERIAS = [5, 10, 15, 20, 30];
@@ -561,6 +673,7 @@ const $ = id => document.getElementById(id);
 const val = id => { const el = $(id); return el ? el.value : ''; };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
 function lsGetJSON(k) { try { const v = lsGet(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
 function ssGetJSON(k) { try { const v = sessionStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
 function ssSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
@@ -585,10 +698,10 @@ function sanitizarBase(raw) {
     if (typeof linha === 'string') { try { linha = JSON.parse(linha); } catch (e) { linha = linha.split(/[;|]/); } }
     if (linha && !Array.isArray(linha) && typeof linha === 'object') {
       const obj = linha;
-      linha = [0,1,2,3,4,5,6,7].map(i => obj['F'+(i+1)] ?? obj['f'+(i+1)] ?? obj[i]);
+      linha = Array.from({ length: NF }, (_, i) => obj['F'+(i+1)] ?? obj['f'+(i+1)] ?? obj[i]);
     }
-    if (!Array.isArray(linha) || linha.length < 8) return null;
-    const nums = linha.slice(0, 8).map(parseNumBR);
+    if (!Array.isArray(linha) || linha.length < NF) return null;
+    const nums = linha.slice(0, NF).map(parseNumBR);
     if (nums.some(n => !isFinite(n) || n <= 0)) return null;
     out[c] = nums.map(round2);
   }
@@ -627,8 +740,69 @@ function toast(msg, tipo = 'ok', ms = 3000) {
 }
 function autoFill() {
   const c = val('cargo'), f = parseInt(val('faixa'));
-  $('salario').value = fmt(base[c][f]);
+  $('salario').value = c && !isNaN(f) ? fmt(salarioDe(c, f)) : '';
   previewVagaAdd();
+}
+
+// ════════════════════════ ÁREAS / ESCOPO ════════════════════════
+// null = todas as áreas; array = áreas permitidas ao usuário logado
+function areasPermitidas() {
+  if (!sessao || sessao.perfil === 'admin') return null;
+  const u = usuarios.find(x => x.login === sessao.login);
+  const a = u && Array.isArray(u.areas) ? u.areas.filter(Boolean) : [];
+  return a.length ? a : null;
+}
+const semEscopo = () => !areasPermitidas();
+function areaVisivel(a) {
+  const p = areasPermitidas();
+  if (p && !p.includes(a)) return false;
+  return !filtroArea || a === filtroArea;
+}
+const areasDisponiveis = () => { const p = areasPermitidas(); return plano.areas.filter(a => !p || p.includes(a.id)); };
+const colabsVis = () => colaboradores.filter(c => areaVisivel(c.area));
+const demitVis = () => demitidos.filter(d => areaVisivel(d.area));
+function areaFerias(f) { if (f.area) return f.area; const c = colaboradores.find(x => x.id === f.colabId) || demitidos.find(x => x.id === f.colabId); return c ? c.area : areaPadrao(); }
+const feriasVis = () => ferias.filter(f => areaVisivel(areaFerias(f)));
+const tagArea = a => plano.areas.length > 1 ? `<div><span class="area-tag">${esc(nomeArea(a))}</span></div>` : '';
+
+function popularFiltroArea() {
+  const sel = $('filtroAreaGlobal'); if (!sel) return;
+  const disp = areasDisponiveis();
+  if (filtroArea && !disp.some(a => a.id === filtroArea)) filtroArea = '';
+  sel.innerHTML = (disp.length > 1 ? '<option value="">Todas</option>' : '') + disp.map(a => `<option value="${esc(a.id)}">${esc(a.nome)}</option>`).join('');
+  if (disp.length === 1) filtroArea = disp[0].id;
+  sel.value = filtroArea;
+  sel.parentElement.style.display = plano.areas.length > 1 || disp.length > 1 ? '' : 'none';
+}
+function mudarFiltroArea(v) { filtroArea = v; lsSet('gs_filtroArea', v); renderTudo(); }
+
+function popularAreasForm() {
+  const sel = $('areaColab'); if (!sel) return;
+  const atual = sel.value, disp = areasDisponiveis();
+  sel.innerHTML = disp.map(a => `<option value="${esc(a.id)}">${esc(a.nome)}</option>`).join('');
+  sel.value = disp.some(a => a.id === atual) ? atual : (filtroArea && disp.some(a => a.id === filtroArea) ? filtroArea : (disp[0] || {}).id || '');
+  popularCargosForm();
+  const selR = $('areaReajuste');
+  if (selR) { const r = selR.value; selR.innerHTML = '<option value="">Todas as áreas</option>' + plano.areas.map(a => `<option value="${esc(a.id)}">${esc(a.nome)}</option>`).join(''); selR.value = plano.areas.some(a => a.id === r) ? r : ''; }
+}
+const cargosDaArea = area => plano.cargos.filter(c => !c.area || c.area === area);
+function popularCargosForm() {
+  const selC = $('cargo'), selF = $('faixa'); if (!selC) return;
+  const atual = selC.value, lista = cargosDaArea(val('areaColab'));
+  selC.innerHTML = lista.length ? lista.map(c => `<option value="${esc(c.cod)}">${esc(c.nome)}</option>`).join('') : '<option value="">— cadastre cargos no Plano —</option>';
+  if (lista.some(c => String(c.cod) === atual)) selC.value = atual;
+  const fa = selF.value;
+  selF.innerHTML = faixasNomes.map((n, i) => `<option value="${i}">${esc(n)}</option>`).join('');
+  selF.value = fa !== '' && Number(fa) <= MAXF ? fa : '0';
+  autoFill();
+}
+// <select> de cargos agrupado por área (mérito)
+function opcoesCargosAgrupados() {
+  const grupos = [{ id:'', nome:'Geral' }, ...plano.areas];
+  return grupos.map(g => {
+    const cs = plano.cargos.filter(c => (c.area || '') === g.id);
+    return cs.length ? `<optgroup label="${esc(g.nome)}">${cs.map(c => `<option value="${esc(c.cod)}">${esc(c.nome)}</option>`).join('')}</optgroup>` : '';
+  }).join('');
 }
 setInterval(() => { $('relogio').textContent = new Date().toLocaleString('pt-BR'); }, 1000);
 
@@ -642,6 +816,7 @@ function baixarCSV(nomeArq, linhas) {
 const numCSV = v => Number(v || 0).toFixed(2).replace('.', ',');
 
 function renderTudo() {
+  popularFiltroArea(); popularAreasForm();
   renderAtivos(); renderDemitidos(); renderKpiAtivos(); renderTabelaBase(); renderHistorico();
   popularSelectVagaAdd(); popularSelectsFerias(); autoFill();
   if ($('tab-saldo').classList.contains('active')) renderSaldo();
@@ -660,7 +835,8 @@ function trocarAba(aba, btn) {
   if (aba === 'saldo') renderSaldo();
   if (aba === 'reajuste') { renderTabelaBase(); renderHistorico(); }
   if (aba === 'ferias') { popularSelectsFerias(); renderFerias(); }
-  if (aba === 'usuarios') renderUsuarios();
+  if (aba === 'usuarios') { renderChkAreas('us_areas', []); renderUsuarios(); }
+  if (aba === 'plano') { if (!planoDraft) plIniciarDraft(); renderPlano(); }
 }
 
 // ════════════════════════ SHA-256 (sem dependência de HTTPS) ════════════════════════
@@ -695,30 +871,38 @@ function gerarSalt() {
 const KV_LOCAL = k => 'gs_kv_' + k;
 async function kvGet(chave) {
   const local = lsGetJSON(KV_LOCAL(chave));
-  if (!urlConfigurada()) { kvModo = 'local'; return local; }
+  if (!urlConfigurada() || kvSemModulo) { kvModo = 'local'; return local; }
   let r;
   try { r = await fetch(`${SCRIPT_URL}?acao=kvGet&chave=${encodeURIComponent(chave)}&t=${Date.now()}`); }
-  catch (e) { kvModo = 'offline'; console.warn('[KV] offline:', e); return local; }
+  catch (e) {
+    // Apps Script sem o módulo KV costuma devolver página de erro sem CORS (fetch falha).
+    // Se a ação 'carregar' responde, o Sheets está no ar: segue em modo local.
+    console.warn('[KV] kvGet falhou:', e);
+    try { const t = await sheetsGET('carregar'); kvModo = t && t.ok ? 'local' : 'offline'; kvSemModulo = kvModo === 'local'; }
+    catch (e2) { kvModo = 'offline'; kvErro = String(e2 && e2.message || e2); }
+    return local;
+  }
   try {
     const j = await lerJSON(r);
     if (j && j.ok && 'valor' in j) {
       kvModo = 'sheets';
       let v = j.valor;
       if (typeof v === 'string') { try { v = v ? JSON.parse(v) : null; } catch (e) { v = null; } }
-      if (v == null && local != null) { await kvSet(chave, local); return local; } // migra dados locais para o Sheets
-      if (v != null) lsSet(KV_LOCAL(chave), JSON.stringify(v));
+      if (v == null && local != null && lsGet('gs_kvpend_' + chave) === '1') { await kvSet(chave, local); return local; } // migra o que foi criado sem Sheets
+      if (v != null) lsSet(KV_LOCAL(chave), JSON.stringify(v)); else lsDel(KV_LOCAL(chave)); // Sheets é a fonte da verdade
       return v;
     }
   } catch (e) { console.warn('[KV] Apps Script sem módulo KV:', e.message); }
-  kvModo = 'local';
+  kvModo = 'local'; kvSemModulo = true;
   return local;
 }
 async function kvSet(chave, valor) {
   lsSet(KV_LOCAL(chave), JSON.stringify(valor));
-  if (kvModo !== 'sheets') return true;
+  if (kvModo !== 'sheets') { lsSet('gs_kvpend_' + chave, '1'); return true; }
   try {
     const res = await sheetsPOST({ acao:'kvSet', chave, valor: JSON.stringify(valor) });
     if (!res.ok) { indicadorSync('❌ ' + (res.erro || 'Falha ao gravar ' + chave), 'erro'); return false; }
+    lsDel('gs_kvpend_' + chave);
     return true;
   } catch (e) { indicadorSync('❌ Falha ao gravar ' + chave, 'erro'); console.error('[KV]', e); return false; }
 }
@@ -731,9 +915,10 @@ async function recarregar(chave) {
   if (chave === 'vinculosVagas' && typeof v === 'object') vinculos = v;
   if (chave === 'usuarios' && Array.isArray(v)) usuarios = v;
   if (chave === 'configRH' && typeof v === 'object') config = { ...CONFIG_PADRAO, ...v };
+  if (chave === 'planoCargos' && typeof v === 'object') aplicarPlano(v);
 }
 async function persistir(chave) {
-  const valor = { ferias, vinculosVagas: vinculos, usuarios, configRH: config }[chave];
+  const valor = { ferias, vinculosVagas: vinculos, usuarios, configRH: config, planoCargos: plano }[chave];
   indicadorSync('💾 Salvando...', 'aguard');
   const ok = await kvSet(chave, valor);
   if (ok) indicadorSync(kvModo === 'sheets' ? '✅ Salvo no Sheets' : '💾 Salvo neste navegador', kvModo === 'sheets' ? 'ok' : 'aguard');
@@ -743,7 +928,11 @@ async function persistir(chave) {
 // ════════════════════════ LOGIN / PERFIS ════════════════════════
 const PERFIS = { admin:'Administrador', rh:'RH / Folha', gestor:'Gestor' };
 const PERMS = { admin:['*'], rh:['colab','merito','demitir','reajuste','vaga','ferias','ferias_aprovar','config'], gestor:['ferias'] };
-function pode(p) { if (!sessao) return false; const l = PERMS[sessao.perfil] || []; return l.includes('*') || l.includes(p); }
+function pode(p) {
+  if (!sessao) return false;
+  if (['reajuste', 'config'].includes(p) && !semEscopo()) return false; // ações globais exigem acesso a todas as áreas
+  const l = PERMS[sessao.perfil] || []; return l.includes('*') || l.includes(p);
+}
 function exigir(p) { if (pode(p)) return true; toast('Seu perfil não tem permissão para esta ação.', 'warn'); return false; }
 function aplicarPermissoes() {
   document.querySelectorAll('[data-perm]').forEach(el => { el.style.display = pode(el.dataset.perm) ? '' : 'none'; });
@@ -805,7 +994,10 @@ async function entrar(u) {
   $('userChip').style.display = 'inline-flex';
   $('userNome').textContent = `${u.nome} · ${PERFIS[u.perfil] || u.perfil}`;
   aplicarPermissoes();
-  const [f, v, cfg] = await Promise.all([kvGet('ferias'), kvGet('vinculosVagas'), kvGet('configRH')]);
+  const [f, v, cfg, pl] = await Promise.all([kvGet('ferias'), kvGet('vinculosVagas'), kvGet('configRH'), kvGet('planoCargos')]);
+  if (pl && typeof pl === 'object') aplicarPlano(pl);
+  aplicarPermissoes();
+  const fa = lsGet('gs_filtroArea'); if (fa && nomesAreas[fa]) filtroArea = fa;
   ferias = Array.isArray(f) ? f : [];
   vinculos = (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
   config = { ...CONFIG_PADRAO, ...(cfg && typeof cfg === 'object' ? cfg : {}) };
@@ -856,13 +1048,38 @@ function renderUsuarios() {
     return `<tr>
       <td><strong>${esc(u.nome)}</strong>${eu ? ' <span class="badge badge-green">você</span>' : ''}</td>
       <td>${esc(u.login)}</td><td>${perfilSel}</td>
+      <td style="font-size:12px">${u.perfil === 'admin' ? '<span class="badge badge-gray">Todas</span>' : (Array.isArray(u.areas) && u.areas.length ? u.areas.map(a => `<span class="area-tag">${esc(nomeArea(a))}</span>`).join(' ') : '<span class="badge badge-gray">Todas</span>')}</td>
       <td>${u.ativo ? '<span class="badge badge-green">Ativo</span>' : '<span class="badge badge-red">Inativo</span>'}${u.trocarSenha ? ' <span class="badge badge-amber">senha temporária</span>' : ''}</td>
       <td>${fmtData(u.criadoEm)}</td>
       <td><div class="acoes">
         <button class="btn btn-ghost btn-sm" onclick="redefinirSenha('${esc(u.login)}')">🔑 Redefinir senha</button>
+        ${u.perfil !== 'admin' ? `<button class="btn btn-ghost btn-sm" onclick="abrirAreasUser('${esc(u.login)}')">🏢 Áreas</button>` : ''}
         ${eu || ultimoAdm ? '' : `<button class="btn ${u.ativo ? 'btn-danger' : 'btn-primary'} btn-sm" onclick="toggleUsuario('${esc(u.login)}')">${u.ativo ? '⛔ Desativar' : '✅ Ativar'}</button>`}
       </div></td></tr>`;
-  }).join('') || '<tr><td colspan="6"><div class="empty-state"><p>Nenhum usuário.</p></div></td></tr>';
+  }).join('') || '<tr><td colspan="7"><div class="empty-state"><p>Nenhum usuário.</p></div></td></tr>';
+}
+function renderChkAreas(id, marcadas) {
+  const el = $(id); if (!el) return;
+  el.innerHTML = plano.areas.map(a => `<label><input type="checkbox" value="${esc(a.id)}" ${marcadas.includes(a.id) ? 'checked' : ''}> ${esc(a.nome)}</label>`).join('') || '<span class="sub-txt">Cadastre áreas no Plano de Cargos.</span>';
+}
+const lerChkAreas = id => Array.from(document.querySelectorAll(`#${id} input:checked`)).map(i => i.value);
+let loginAreasPendente = null;
+function abrirAreasUser(login) {
+  if (!exigir('usuarios')) return;
+  const u = usuarios.find(x => x.login === login); if (!u) return;
+  loginAreasPendente = login;
+  $('mau_sub').textContent = `${u.nome} (${u.login}) · ${PERFIS[u.perfil]}`;
+  renderChkAreas('mau_lista', Array.isArray(u.areas) ? u.areas : []);
+  $('modalAreasUser').style.display = 'flex';
+}
+async function confirmarAreasUser() {
+  if (!exigir('usuarios')) return;
+  const areas = lerChkAreas('mau_lista');
+  await recarregar('usuarios');
+  const u = usuarios.find(x => x.login === loginAreasPendente); if (!u) return;
+  u.areas = areas;
+  if (await persistir('usuarios')) toast(`Áreas de ${u.login}: ${areas.length ? areas.map(nomeArea).join(', ') : 'todas'}.`);
+  fecharModalGen('modalAreasUser'); renderUsuarios();
 }
 async function criarUsuario() {
   if (!exigir('usuarios')) return;
@@ -873,8 +1090,9 @@ async function criarUsuario() {
   await recarregar('usuarios');
   if (usuarios.some(u => u.login === login)) { toast('Este login já existe.', 'warn'); return; }
   const salt = gerarSalt();
-  usuarios.push({ login, nome, perfil, salt, hash:hashSenha(senha, salt), ativo:true, trocarSenha:true, criadoEm:hojeISO(), criadoPor:sessao.login });
-  if (await persistir('usuarios')) { ['us_nome','us_login','us_senha'].forEach(id => $(id).value = ''); toast(`Usuário ${login} criado. Ele trocará a senha no 1º acesso.`); }
+  const areas = perfil === 'admin' ? [] : lerChkAreas('us_areas');
+  usuarios.push({ login, nome, perfil, areas, salt, hash:hashSenha(senha, salt), ativo:true, trocarSenha:true, criadoEm:hojeISO(), criadoPor:sessao.login });
+  if (await persistir('usuarios')) { ['us_nome','us_login','us_senha'].forEach(id => $(id).value = ''); renderChkAreas('us_areas', []); toast(`Usuário ${login} criado. Ele trocará a senha no 1º acesso.`); }
   renderUsuarios();
 }
 async function mudarPerfil(login, perfil) {
@@ -916,12 +1134,15 @@ async function adicionarColaborador() {
   const faixa = parseInt(val('faixa'));
   const dataAdm = val('dataAdmissao');
   const vagaId = Number(val('vagaRepos')) || null;
+  const area = val('areaColab');
+  if (!area || !areasDisponiveis().some(a => a.id === area)) { toast('Selecione uma área permitida.','warn'); return; }
+  if (!cargo || !nomesCargos[cargo]) { toast('Selecione o cargo (cadastre no Plano de Cargos).','warn'); return; }
   if (!nome) { toast('Informe o nome do colaborador.','warn'); return; }
   if (!dataAdm) { toast('Informe a data de admissão.','warn'); return; }
   if (dataAdm > addDias(hojeISO(), 60) && !confirm('Data de admissão mais de 60 dias no futuro. Confirmar?')) return;
   if (colaboradores.some(c => c.nome.trim().toLowerCase() === nome.toLowerCase()) && !confirm(`Já existe um colaborador ativo chamado "${nome}". Adicionar mesmo assim?`)) return;
   if (vagaId && vinculos[vagaId]) { toast('Esta vaga já foi reposta. Selecione outra.', 'warn'); popularSelectVagaAdd(); return; }
-  const col = { id: proxId++, nome, cargo, faixaManual: faixa, dataAdmissao: dataAdm, salario: base[cargo][faixa], historicoMerito: [] };
+  const col = { id: proxId++, nome, area, cargo, faixaManual: faixa, dataAdmissao: dataAdm, salario: salarioDe(cargo, faixa), historicoMerito: [] };
   colaboradores.push(col);
   renderAtivos(); renderKpiAtivos();
   $('nome').value = ''; $('dataAdmissao').value = ''; $('vagaRepos').value = '';
@@ -929,7 +1150,7 @@ async function adicionarColaborador() {
   salvarColaboradorSheets(col);
   if (vagaId) {
     await recarregar('vinculosVagas');
-    vinculos[vagaId] = { colabId: col.id, nome: col.nome, cargo: col.cargo, salario: col.salario, data: dataAdm, por: sessao.login, em: new Date().toISOString() };
+    vinculos[vagaId] = { colabId: col.id, nome: col.nome, cargo: col.cargo, area: col.area, salario: col.salario, data: dataAdm, por: sessao.login, em: new Date().toISOString() };
     await persistir('vinculosVagas');
   }
   renderTudo();
@@ -952,9 +1173,9 @@ function getFaixaEfetiva(col) {
     } else {
       avanco = Math.max(0, faixaPorTempo(diasDesdeMerito) - baseFaixa);
     }
-    return Math.min(7, baseFaixa + avanco);
+    return Math.min(MAXF, baseFaixa + avanco);
   }
-  return Math.max(col.faixaManual, faixaPorTempo(diasEntre(col.dataAdmissao, hoje)));
+  return Math.min(MAXF, Math.max(col.faixaManual, faixaPorTempo(diasEntre(col.dataAdmissao, hoje))));
 }
 
 function sincronizarSalarios() { colaboradores.forEach(c => { c.salario = base[c.cargo][getFaixaEfetiva(c)]; }); }
@@ -967,7 +1188,7 @@ function renderAtivos() {
     return;
   }
   const termo = val('buscaAtivos').trim().toLowerCase();
-  const lista = colaboradores.filter(c => !termo || (c.nome + ' ' + nomesCargos[c.cargo]).toLowerCase().includes(termo));
+  const lista = colabsVis().filter(c => !termo || (c.nome + ' ' + nomesCargos[c.cargo] + ' ' + nomeArea(c.area)).toLowerCase().includes(termo));
   if (!lista.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><p>Nenhum colaborador encontrado para a busca.</p></div></td></tr>'; return; }
   const hoje = hojeISO();
   const emFerias = new Set(ferias.filter(f => statusFerias(f) === 'Em gozo').map(f => f.colabId));
@@ -975,7 +1196,7 @@ function renderAtivos() {
     const dias = diasEntre(col.dataAdmissao, hoje);
     const fEfetiva = getFaixaEfetiva(col);
     const salAtual = base[col.cargo][fEfetiva];
-    const progresso = Math.round((fEfetiva / 7) * 100);
+    const progresso = MAXF ? Math.round((fEfetiva / MAXF) * 100) : 100;
     const temMerito = col.historicoMerito && col.historicoMerito.length > 0;
     const um = temMerito ? col.historicoMerito[col.historicoMerito.length - 1] : null;
     const meritoCell = temMerito
@@ -991,7 +1212,7 @@ function renderAtivos() {
     ].join('');
     return `
     <tr class="${temMerito ? 'merito-row' : ''}">
-      <td><strong>${esc(col.nome)}</strong>${emFerias.has(col.id) ? ' <span class="badge badge-amber">🏖️ férias</span>' : ''}</td>
+      <td><strong>${esc(col.nome)}</strong>${emFerias.has(col.id) ? ' <span class="badge badge-amber">🏖️ férias</span>' : ''}${tagArea(col.area)}</td>
       <td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fEfetiva+1}</span></td>
       <td><strong style="color:var(--verde)">${fmt(salAtual)}</strong></td>
@@ -1006,17 +1227,18 @@ function renderAtivos() {
 
 function renderDemitidos() {
   const tbody = $('corpoDemitidos');
-  if (demitidos.length === 0) {
+  const dvis = demitVis();
+  if (dvis.length === 0) {
     tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">🏁</div><p>Nenhum desligamento registrado.</p></div></td></tr>';
     return;
   }
   const vg = Object.fromEntries(listaVagas().map(v => [v.d.id, v]));
-  tbody.innerHTML = demitidos.map(d => {
+  tbody.innerHTML = dvis.map(d => {
     const v = vg[d.id];
     const vagaCell = v ? (v.v ? `${badgeVaga(v.status)}<div class="sub-txt">por ${esc(v.v.nome)}</div>` : badgeVaga('Aberta')) : '–';
     return `
     <tr class="demitido-row">
-      <td>${esc(d.nome)}</td><td>${nomesCargos[d.cargo] || '–'}</td><td><span class="badge badge-gray">F${d.faixa+1}</span></td>
+      <td>${esc(d.nome)}${tagArea(d.area)}</td><td>${nomesCargos[d.cargo] || '–'}</td><td><span class="badge badge-gray">F${d.faixa+1}</span></td>
       <td>${fmt(d.salario)}</td><td>${fmtData(d.dataAdmissao)}</td><td>${fmtData(d.dataDemissao)}</td>
       <td>${tempoFormatado(diasEntre(d.dataAdmissao, d.dataDemissao))}</td><td>${vagaCell}</td>
     </tr>`;
@@ -1024,8 +1246,9 @@ function renderDemitidos() {
 }
 
 function renderKpiAtivos() {
-  const total = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
-  const n = colaboradores.length, media = n > 0 ? total / n : 0;
+  const cv = colabsVis();
+  const total = cv.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
+  const n = cv.length, media = n > 0 ? total / n : 0;
   $('kpiAtivos').innerHTML = `
     <div class="kpi-card verde"><div class="kpi-label">Colaboradores Ativos</div><div class="kpi-value">${n}</div></div>
     <div class="kpi-card verde"><div class="kpi-label">Massa Salarial Mensal</div><div class="kpi-value">${fmt(total)}</div><div class="kpi-sub">total bruto</div></div>
@@ -1063,6 +1286,7 @@ function abrirModalMerito(id) {
   $('merito_data').value = new Date().toLocaleDateString('pt-BR').slice(0,10);
   $('merito_justificativa').value = '';
   $('subMerito').textContent = `Cargo: ${nomesCargos[col.cargo]} · Faixa atual: F${fAtual+1}`;
+  $('merito_cargo').innerHTML = opcoesCargosAgrupados();
   $('merito_cargo').value = col.cargo;
   _popularFaixasMerito(col.cargo, fAtual);
   $('modalMerito').style.display = 'flex';
@@ -1072,7 +1296,7 @@ function _popularFaixasMerito(cargoCod, fAtualOrigem) {
   const mudouCargo = String(cargoCod) !== String(col ? col.cargo : cargoCod);
   const sel = $('merito_novaFaixa');
   sel.innerHTML = '<option value="">— selecione a faixa —</option>';
-  for (let i = mudouCargo ? 0 : fAtualOrigem + 1; i <= 7; i++) {
+  for (let i = mudouCargo ? 0 : fAtualOrigem + 1; i <= MAXF; i++) {
     const opt = document.createElement('option');
     opt.value = i;
     opt.textContent = `F${i+1} – ${faixasNomes[i].replace(/F\d+ – /,'')}  ·  ${fmt(base[cargoCod][i])}`;
@@ -1095,7 +1319,8 @@ function previewMerito() {
   if (isNaN(novaF)) { $('merito_salNovo').value = ''; $('merito_aumento').value = ''; return; }
   const salAnt = base[col.cargo][fAtual], salNov = base[cargoCod][novaF];
   $('merito_salNovo').value = fmt(salNov);
-  $('merito_aumento').value = `${salNov >= salAnt ? '+' : '−'} ${fmt(Math.abs(salNov - salAnt))} (${(((salNov / salAnt) - 1) * 100).toFixed(2)}%)`;
+  const novaArea = cargoArea[cargoCod];
+  $('merito_aumento').value = `${salNov >= salAnt ? '+' : '−'} ${fmt(Math.abs(salNov - salAnt))} (${(((salNov / salAnt) - 1) * 100).toFixed(2)}%)` + (novaArea && novaArea !== col.area ? ` · transfere para ${nomeArea(novaArea)}` : '');
 }
 function fecharModalMerito() { $('modalMerito').style.display = 'none'; idMeritoPendente = null; }
 function confirmarMerito() {
@@ -1113,11 +1338,15 @@ function confirmarMerito() {
   const fAnterior = getFaixaEfetiva(col), cargoAnteriorCod = col.cargo;
   const salAnterior = base[cargoAnteriorCod][fAnterior], salNovo = base[cargoCod][novaF];
   if (salNovo < salAnterior && !confirm(`O novo salário (${fmt(salNovo)}) é MENOR que o atual (${fmt(salAnterior)}). Confirmar mesmo assim?`)) return;
+  const novaArea = cargoArea[cargoCod] || col.area;
+  const perm = areasPermitidas();
+  if (perm && !perm.includes(novaArea)) { toast('O cargo escolhido pertence a uma área fora do seu acesso.','warn'); return; }
+  if (novaArea !== col.area && !confirm(`Esta promoção transfere ${col.nome} de ${nomeArea(col.area)} para ${nomeArea(novaArea)}. Confirmar?`)) return;
   const mudou = String(cargoAnteriorCod) !== String(cargoCod);
   const h = { de: fAnterior, para: novaF, cargoAnterior: mudou ? nomesCargos[cargoAnteriorCod] : '', cargoNovo: mudou ? nomesCargos[cargoCod] : '', salAnterior, salNovo, data, justificativa: just };
   if (!col.historicoMerito) col.historicoMerito = [];
   col.historicoMerito.push(h);
-  col.cargo = cargoCod; col.faixaManual = novaF; col.salario = salNovo;
+  col.cargo = cargoCod; col.faixaManual = novaF; col.salario = salNovo; col.area = novaArea;
   fecharModalMerito(); renderAtivos(); renderKpiAtivos();
   toast(`🏅 ${col.nome} promovido(a) para ${nomesCargos[cargoCod]} F${novaF+1}!`);
   salvarMeritoSheets(col, h);
@@ -1186,11 +1415,16 @@ function previewReajuste() {
   const perc = parseNumBR(val('percReajuste'));
   const el = $('previewReajuste');
   if (!isFinite(perc) || perc <= 0) { el.textContent = ''; return; }
-  const mult = 1 + perc / 100;
-  const massaAtual = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
-  const massaNova = colaboradores.reduce((s, c) => s + round2(base[c.cargo][getFaixaEfetiva(c)] * mult), 0);
-  el.innerHTML = `Prévia: F1 Asst. I ${fmt(base['3'][0])} → <strong>${fmt(round2(base['3'][0] * mult))}</strong> · Massa ativos ${fmt(massaAtual)} → <strong>${fmt(massaNova)}</strong> (+${fmt(massaNova - massaAtual)}/mês)`;
+  const mult = 1 + perc / 100, alvo = cargosReajuste(val('areaReajuste'));
+  if (!alvo.length) { el.textContent = 'Nenhum cargo nesta área.'; return; }
+  const afet = colaboradores.filter(c => alvo.includes(c.cargo));
+  const massaAtual = afet.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
+  const massaNova = afet.reduce((s, c) => s + round2(base[c.cargo][getFaixaEfetiva(c)] * mult), 0);
+  const ref = alvo[0];
+  el.innerHTML = `Prévia (${alvo.length} cargo(s), ${afet.length} colaborador(es)): F1 ${esc(nomesCargos[ref])} ${fmt(base[ref][0])} → <strong>${fmt(round2(base[ref][0] * mult))}</strong> · Massa ${fmt(massaAtual)} → <strong>${fmt(massaNova)}</strong> (+${fmt(massaNova - massaAtual)}/mês)`;
 }
+// Cargos atingidos: todas as áreas = todos; área X = cargos da área X (cargos "Geral" só no reajuste de todas as áreas)
+const cargosReajuste = area => area ? CARGOS.filter(c => cargoArea[c] === area) : CARGOS.slice();
 
 async function aplicarReajuste() {
   if (!exigir('reajuste')) return;
@@ -1206,7 +1440,10 @@ async function aplicarReajuste() {
 
   const duplicado = historicoReajuste.some(h => normalizarData(h.data) === data && Number(h.perc) === perc);
   if (duplicado && !confirm(`Já existe um reajuste de ${perc.toLocaleString('pt-BR')}% com vigência ${fmtData(data)}.\nAplicar novamente vai reajustar a base DUAS vezes. Continuar?`)) return;
-  if (!confirm(`Aplicar reajuste de ${perc.toLocaleString('pt-BR')}% sobre TODA a tabela salarial?\nVigência: ${fmtData(data)} · ${desc}`)) return;
+  const areaR = val('areaReajuste'), alvo = cargosReajuste(areaR);
+  if (!alvo.length) { toast('Nenhum cargo na área selecionada.','warn'); return; }
+  const descFinal = areaR ? `${desc} · ${nomeArea(areaR)}` : desc;
+  if (!confirm(`Aplicar reajuste de ${perc.toLocaleString('pt-BR')}% sobre ${areaR ? 'os ' + alvo.length + ' cargo(s) da área ' + nomeArea(areaR) : 'TODA a tabela salarial'}?\nVigência: ${fmtData(data)} · ${desc}`)) return;
 
   const snapBase = JSON.parse(JSON.stringify(base));
   const snapHist = historicoReajuste.slice();
@@ -1218,10 +1455,10 @@ async function aplicarReajuste() {
     const mult = 1 + perc / 100;
     const nova = {};
     CARGOS.forEach(c => {
-      if (!Array.isArray(base[c]) || base[c].length !== 8) throw new Error(`Tabela do cargo ${nomesCargos[c]} inválida`);
-      nova[c] = base[c].map(v => round2(Number(v) * mult));
+      if (!Array.isArray(base[c]) || base[c].length !== NF || base[c].some(v => !(Number(v) > 0))) throw new Error(`Tabela do cargo ${nomesCargos[c]} inválida ou sem salário`);
+      nova[c] = alvo.includes(c) ? base[c].map(v => round2(Number(v) * mult)) : base[c].slice();
     });
-    h = { data, desc, perc, baseAnt: snapBase['3'][0], novBase: nova['3'][0] };
+    h = { data, desc: descFinal, perc, baseAnt: snapBase[alvo[0]][0], novBase: nova[alvo[0]][0] };
     base = nova;
     historicoReajuste.unshift(h);
     renderTudo();
@@ -1238,7 +1475,7 @@ async function aplicarReajuste() {
 
   // Base gravada: persiste salários individuais (sequencial p/ não concorrer no Apps Script)
   let falhas = 0;
-  for (const col of colaboradores) {
+  for (const col of colaboradores.filter(c => alvo.includes(c.cargo))) {
     col.salario = base[col.cargo][getFaixaEfetiva(col)];
     if (!(await salvarColaboradorSheets(col, true))) falhas++;
   }
@@ -1253,9 +1490,10 @@ async function aplicarReajuste() {
 }
 
 function renderTabelaBase() {
-  const faixasCols = faixasNomes.map(f => `<th>${f}</th>`).join('');
-  const linhas = CARGOS.map(c => `<tr><td><strong>${nomesCargos[c]}</strong></td>${base[c].map(v => `<td>${fmt(v)}</td>`).join('')}</tr>`).join('');
-  $('tabelaBaseWrap').innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas}</tbody></table>`;
+  const faixasCols = faixasNomes.map(f => `<th>${esc(f)}</th>`).join('');
+  const lista = plano.cargos.filter(c => !filtroArea || !c.area || c.area === filtroArea);
+  const linhas = lista.map(c => `<tr><td><strong>${esc(c.nome)}</strong>${plano.areas.length > 1 ? `<div><span class="area-tag">${esc(c.area ? nomeArea(c.area) : 'Geral')}</span></div>` : ''}</td>${(base[c.cod] || []).map(v => `<td>${v > 0 ? fmt(v) : '<span class="txt-red">—</span>'}</td>`).join('')}</tr>`).join('');
+  $('tabelaBaseWrap').innerHTML = `<table><thead><tr><th>Cargo</th>${faixasCols}</tr></thead><tbody>${linhas || `<tr><td colspan="${NF + 1}" style="text-align:center;color:var(--gray-400);padding:20px">Nenhum cargo nesta área.</td></tr>`}</tbody></table>`;
 }
 
 function renderHistorico() {
@@ -1273,13 +1511,14 @@ function renderPromocao() {
   const hoje = hojeISO();
   const alertas = $('alertasPromocao');
   const tbody = $('corpoPromocao');
-  if (colaboradores.length === 0) {
+  const cv = colabsVis();
+  if (cv.length === 0) {
     alertas.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏆</div><p>Sem colaboradores para analisar.</p></div></td></tr>';
     return;
   }
   let alertHTML = '', linhas = '';
-  colaboradores.forEach(col => {
+  cv.forEach(col => {
     const temMerito = col.historicoMerito && col.historicoMerito.length > 0;
     const fAtual = getFaixaEfetiva(col);
     const diasCasa = diasEntre(col.dataAdmissao, hoje);
@@ -1304,20 +1543,20 @@ function renderPromocao() {
     const nMerito = (col.historicoMerito || []).length;
     const meritoBadge = nMerito > 0 ? `<span class="badge badge-purple">🏅 ${nMerito}x</span>` : `<span style="font-size:11px;color:var(--gray-400)">–</span>`;
     let statusBadge, statusClass;
-    if (fAtual === 7) { statusBadge = '🏅 Teto'; statusClass = 'badge-gray'; }
+    if (fAtual >= MAXF) { statusBadge = '🏅 Teto'; statusClass = 'badge-gray'; }
     else if (elegivel) {
       statusBadge = '⚡ Pronto p/ promoção'; statusClass = 'badge-amber';
       alertHTML += `
       <div class="promo-alert"><div class="promo-alert-icon">⚡</div><div class="promo-alert-text">
-        <h4>${esc(col.nome)} – ${nomesCargos[col.cargo]}</h4>
+        <h4>${esc(col.nome)} – ${nomesCargos[col.cargo]}${plano.areas.length > 1 ? ' · ' + esc(nomeArea(col.area)) : ''}</h4>
         <p>Elegível para promoção de <strong>F${fAtual+1} → F${proxF+1}</strong> · Aumento: ${fmt(base[col.cargo][proxF] - base[col.cargo][fAtual])} (${(((base[col.cargo][proxF]/base[col.cargo][fAtual])-1)*100).toFixed(1)}%)</p>
       </div></div>`;
     } else { statusBadge = '🕐 Aguardando'; statusClass = 'badge-blue'; }
     linhas += `
     <tr>
-      <td><strong>${esc(col.nome)}</strong></td><td>${nomesCargos[col.cargo]}</td>
+      <td><strong>${esc(col.nome)}</strong>${tagArea(col.area)}</td><td>${nomesCargos[col.cargo]}</td>
       <td><span class="badge badge-green">F${fAtual+1}</span></td>
-      <td>${proxF <= 7 ? `<span class="badge badge-blue">F${proxF+1}</span>` : '–'}</td>
+      <td>${proxF <= MAXF ? `<span class="badge badge-blue">F${proxF+1}</span>` : '–'}</td>
       <td>${fmtData(col.dataAdmissao)}</td><td>${tempoFormatado(diasCasa)}</td>
       <td style="font-size:12.5px;color:var(--gray-600)">${elegivelEm}</td><td>${meritoBadge}</td>
       <td><span class="badge ${statusClass}">${statusBadge}</span></td>
@@ -1338,8 +1577,8 @@ function renderPromocao() {
 }
 
 // ════════════════════════ SALDO DE VAGAS (DESLIGADOS × REPOSIÇÕES) ════════════════════════
-function listaVagas() {
-  return demitidos.map(d => {
+function listaVagas(todos) {
+  return (todos ? demitidos : demitVis()).map(d => {
     const v = vinculos[d.id] || null;
     const salDem = Number(d.salario) || 0, salCon = v ? Number(v.salario) || 0 : 0;
     const saldo = round2(salDem - salCon);
@@ -1357,7 +1596,8 @@ const fatorEnc = () => Number(config.fatorEncargos) > 0 ? Number(config.fatorEnc
 function popularSelectVagaAdd() {
   const sel = $('vagaRepos'); if (!sel) return;
   const atual = sel.value;
-  const abertas = listaVagas().filter(v => v.status === 'Aberta');
+  const areaSel = val('areaColab');
+  const abertas = listaVagas().filter(v => v.status === 'Aberta' && (!areaSel || v.d.area === areaSel));
   sel.innerHTML = '<option value="">— Aumento de quadro —</option>' + abertas.map(v =>
     `<option value="${v.d.id}">${esc(v.d.nome)} · ${nomesCargos[v.d.cargo] || ''} · ${fmt(v.salDem)}</option>`).join('');
   if (abertas.some(v => String(v.d.id) === atual)) sel.value = atual;
@@ -1366,8 +1606,8 @@ function previewVagaAdd() {
   const sel = $('vagaRepos'), hint = $('hintVaga'); if (!sel || !hint) return;
   const id = Number(sel.value);
   if (!id) {
-    const n = demitidos.filter(d => !vinculos[d.id]).length;
-    hint.innerHTML = n ? `Há <b>${n}</b> vaga(s) aberta(s). Se esta contratação repõe um desligado, selecione a vaga para abater o saldo.` : '';
+    const n = demitVis().filter(d => !vinculos[d.id] && d.area === val('areaColab')).length;
+    hint.innerHTML = n ? `Há <b>${n}</b> vaga(s) aberta(s) nesta área. Se esta contratação repõe um desligado, selecione a vaga para abater o saldo.` : '';
     return;
   }
   const d = demitidos.find(x => x.id === id); if (!d) { hint.innerHTML = ''; return; }
@@ -1390,7 +1630,7 @@ function renderVagas() {
   const lista = todas.filter(v => !filtro || v.status === filtro);
   $('corpoVagas').innerHTML = lista.length ? lista.map(v => `
     <tr>
-      <td><strong>${esc(v.d.nome)}</strong><div class="sub-txt">${nomesCargos[v.d.cargo] || ''} · F${(Number(v.d.faixa) || 0) + 1}</div></td>
+      <td><strong>${esc(v.d.nome)}</strong><div class="sub-txt">${nomesCargos[v.d.cargo] || ''} · F${(Number(v.d.faixa) || 0) + 1}</div>${tagArea(v.d.area)}</td>
       <td>${fmtData(v.d.dataDemissao)}</td>
       <td>${fmt(v.salDem * fat)}</td>
       <td>${v.v ? `<strong>${esc(v.v.nome)}</strong><div class="sub-txt">${nomesCargos[v.v.cargo] || ''}</div>` : '<span style="color:var(--gray-400)">—</span>'}</td>
@@ -1402,7 +1642,7 @@ function renderVagas() {
         ? `<button class="btn btn-ghost btn-sm" onclick="desvincularVaga(${v.d.id})">↩️ Desvincular</button>`
         : `<button class="btn btn-primary btn-sm" onclick="abrirVinculo(${v.d.id})">🔁 Vincular</button>`) : '–'}</div></td>
     </tr>`).join('')
-    : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🔁</div><p>${demitidos.length ? 'Nenhuma vaga neste filtro.' : 'Nenhum desligamento registrado.'}</p></div></td></tr>`;
+    : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🔁</div><p>${demitVis().length ? 'Nenhuma vaga neste filtro.' : 'Nenhum desligamento registrado.'}</p></div></td></tr>`;
 }
 
 let vagaPendente = null;
@@ -1411,7 +1651,7 @@ function abrirVinculo(demId) {
   const d = demitidos.find(x => x.id === demId); if (!d) return;
   vagaPendente = demId;
   const usados = new Set(Object.values(vinculos).map(v => Number(v.colabId)));
-  const cand = colaboradores.filter(c => !usados.has(c.id)).sort((a, b) => (b.dataAdmissao || '').localeCompare(a.dataAdmissao || ''));
+  const cand = colabsVis().filter(c => !usados.has(c.id)).sort((a, b) => (b.dataAdmissao || '').localeCompare(a.dataAdmissao || ''));
   if (!cand.length) { toast('Todos os colaboradores ativos já estão vinculados a uma vaga.', 'warn'); return; }
   $('vin_sub').textContent = `Vaga de ${d.nome} (${nomesCargos[d.cargo] || ''}) · desligado em ${fmtData(d.dataDemissao)} · saldo ${fmt(d.salario)}`;
   $('vin_colab').innerHTML = cand.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]} · adm. ${fmtData(c.dataAdmissao)}</option>`).join('');
@@ -1469,25 +1709,26 @@ function exportarVagas() {
 
 // ════════════════════════ SALDO FINANCEIRO ════════════════════════
 function renderSaldo() {
-  renderVagas();
-  const massaAtivos = colaboradores.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
-  const massaDemitidos = demitidos.reduce((s, d) => s + d.salario, 0);
+  renderVagas(); renderPorArea();
+  const cv = colabsVis(), dv = demitVis();
+  const massaAtivos = cv.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
+  const massaDemitidos = dv.reduce((s, d) => s + d.salario, 0);
   const saldoLiquido = massaAtivos - massaDemitidos;
   $('kpiSaldo').innerHTML = `
-    <div class="kpi-card verde"><div class="kpi-label">Massa – Ativos</div><div class="kpi-value">${fmt(massaAtivos)}</div><div class="kpi-sub">${colaboradores.length} colaboradores</div></div>
-    <div class="kpi-card red"><div class="kpi-label">Massa – Desligados</div><div class="kpi-value">${fmt(massaDemitidos)}</div><div class="kpi-sub">${demitidos.length} desligamentos</div></div>
+    <div class="kpi-card verde"><div class="kpi-label">Massa – Ativos</div><div class="kpi-value">${fmt(massaAtivos)}</div><div class="kpi-sub">${cv.length} colaboradores</div></div>
+    <div class="kpi-card red"><div class="kpi-label">Massa – Desligados</div><div class="kpi-value">${fmt(massaDemitidos)}</div><div class="kpi-sub">${dv.length} desligamentos</div></div>
     <div class="kpi-card ${saldoLiquido >= 0 ? 'blue' : 'amber'}"><div class="kpi-label">Saldo (Ativos − Deslig.)</div><div class="kpi-value">${fmt(saldoLiquido)}</div><div class="kpi-sub">${saldoLiquido >= 0 ? '▲ Crescimento de folha' : '▼ Redução de folha'}</div></div>
     <div class="kpi-card amber"><div class="kpi-label">Custo Anual Est. (Ativos)</div><div class="kpi-value">${fmt(massaAtivos * 13.33)}</div><div class="kpi-sub">com 13º + férias</div></div>`;
 
   const agrupar = (lista, valor) => lista.reduce((acc, x) => { (acc[x.cargo] ||= {qtd:0,total:0}); acc[x.cargo].qtd++; acc[x.cargo].total += valor(x); return acc; }, {});
-  const cA = agrupar(colaboradores, c => base[c.cargo][getFaixaEfetiva(c)]);
-  const cD = agrupar(demitidos, d => d.salario);
+  const cA = agrupar(cv, c => base[c.cargo][getFaixaEfetiva(c)]);
+  const cD = agrupar(dv, d => d.salario);
   const tabela = (grp, total, n, cor, vazio) => Object.keys(grp).length
     ? Object.entries(grp).map(([c, v]) => `<tr><td>${nomesCargos[c] || c}</td><td>${v.qtd}</td><td><strong style="color:${cor}">${fmt(v.total)}</strong></td></tr>`).join('')
       + `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${n}</strong></td><td><strong>${fmt(total)}</strong></td></tr>`
     : `<tr><td colspan="3" style="text-align:center;color:var(--gray-400);padding:24px">${vazio}</td></tr>`;
-  $('corpoSaldoCargo').innerHTML = tabela(cA, massaAtivos, colaboradores.length, 'var(--verde)', 'Sem ativos');
-  $('corpoSaldoDemitidos').innerHTML = tabela(cD, massaDemitidos, demitidos.length, 'var(--red)', 'Sem desligamentos');
+  $('corpoSaldoCargo').innerHTML = tabela(cA, massaAtivos, cv.length, 'var(--verde)', 'Sem ativos');
+  $('corpoSaldoDemitidos').innerHTML = tabela(cD, massaDemitidos, dv.length, 'var(--red)', 'Sem desligamentos');
 
   const imp = $('impactoReajuste');
   if (historicoReajuste.length > 0) {
@@ -1498,6 +1739,22 @@ function renderSaldo() {
       <div class="kpi-card amber"><div class="kpi-label">Custo Mensal Adicionado</div><div class="kpi-value">${fmt(delta)}</div><div class="kpi-sub">sobre ativos atuais</div></div>
       <div class="kpi-card red"><div class="kpi-label">Custo Anual Adicionado</div><div class="kpi-value">${fmt(delta * 13.33)}</div><div class="kpi-sub">estimativa com encargos</div></div>`;
   } else imp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">Nenhum reajuste registrado ainda.</div>';
+}
+
+function renderPorArea() {
+  const fat = fatorEnc(), vagas = listaVagas(true);
+  const emGozo = ferias.filter(f => statusFerias(f) === 'Em gozo');
+  const perm = areasPermitidas();
+  const areas = plano.areas.filter(a => !perm || perm.includes(a.id));
+  const tot = { n:0, massa:0, dem:0, ab:0, saldo:0, fer:0 };
+  const linhas = areas.map(a => {
+    const cs = colaboradores.filter(c => c.area === a.id), massa = cs.reduce((s, c) => s + base[c.cargo][getFaixaEfetiva(c)], 0);
+    const vs = vagas.filter(v => v.d.area === a.id), ab = vs.filter(v => v.status === 'Aberta').length, saldo = vs.reduce((s, v) => s + v.saldo, 0) * fat;
+    const fer = emGozo.filter(f => areaFerias(f) === a.id).length;
+    tot.n += cs.length; tot.massa += massa; tot.dem += vs.length; tot.ab += ab; tot.saldo += saldo; tot.fer += fer;
+    return `<tr${filtroArea === a.id ? ' style="background:var(--verde-lt)"' : ''}><td><strong>${esc(a.nome)}</strong></td><td>${cs.length}</td><td>${fmt(massa)}</td><td>${fmt(cs.length ? massa / cs.length : 0)}</td><td>${vs.length}</td><td>${ab}</td><td><strong class="${saldo > 0 ? 'txt-verde' : saldo < 0 ? 'txt-red' : ''}">${fmt(saldo)}</strong></td><td>${fer}</td></tr>`;
+  }).join('');
+  $('corpoPorArea').innerHTML = linhas + (areas.length > 1 ? `<tr style="background:var(--gray-50)"><td><strong>Total</strong></td><td><strong>${tot.n}</strong></td><td><strong>${fmt(tot.massa)}</strong></td><td><strong>${fmt(tot.n ? tot.massa / tot.n : 0)}</strong></td><td><strong>${tot.dem}</strong></td><td><strong>${tot.ab}</strong></td><td><strong>${fmt(tot.saldo)}</strong></td><td><strong>${tot.fer}</strong></td></tr>` : '');
 }
 
 // ════════════════════════ FÉRIAS ════════════════════════
@@ -1535,7 +1792,7 @@ const badgeStatusFerias = st => `<span class="badge ${{ Programada:'badge-blue',
 function popularSelectsFerias() {
   const selC = $('fe_colab'); if (!selC) return;
   const atual = selC.value;
-  const ord = colaboradores.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  const ord = colabsVis().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   selC.innerHTML = '<option value="">— selecione —</option>' + ord.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]}</option>`).join('');
   if (ord.some(c => String(c.id) === atual)) selC.value = atual;
   popularPeriodosESub();
@@ -1551,7 +1808,7 @@ function popularPeriodosESub() {
       : '<option value="">Sem saldo de férias</option>';
     if (ps.some(p => String(p.k) === pAtual)) selP.value = pAtual;
   }
-  const outros = colaboradores.filter(c => !col || c.id !== col.id).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  const outros = colabsVis().filter(c => !col || c.id !== col.id).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   selS.innerHTML = '<option value="">— Sem substituto —</option>' + outros.map(c => `<option value="${c.id}">${esc(c.nome)} · ${nomesCargos[c.cargo]}</option>`).join('');
   if (outros.some(c => String(c.id) === sAtual)) selS.value = sAtual;
   previewFerias();
@@ -1624,7 +1881,7 @@ async function salvarFerias() {
   const sub = colaboradores.find(c => c.id === d.subId);
   ferias.push({
     id: 'FER' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-    colabId: v.col.id, nome: v.col.nome, cargo: v.col.cargo, periodoK: d.periodoK, periodoIni: v.per.ini, periodoFim: v.per.fim, limite: v.per.limite,
+    colabId: v.col.id, nome: v.col.nome, cargo: v.col.cargo, area: v.col.area, periodoK: d.periodoK, periodoIni: v.per.ini, periodoFim: v.per.fim, limite: v.per.limite,
     inicio: d.inicio, dias: d.dias, retorno: addDias(d.inicio, d.dias), abono: d.abono,
     substitutoId: sub ? sub.id : null, substitutoNome: sub ? sub.nome : '', obs: d.obs,
     status: 'Programada', criadoPor: sessao.login, criadoEm: new Date().toISOString()
@@ -1655,13 +1912,29 @@ async function cancelarFerias(id) {
   popularPeriodosESub(); renderFerias(); renderAtivos();
 }
 
+// Excluir: Cancelada/Programada → quem programa férias; Aprovada/Em gozo/Concluída → só RH/Admin (podem já ter ido para a folha)
+const podeExcluirFerias = st => ['Cancelada', 'Programada'].includes(st) ? pode('ferias') : pode('ferias_aprovar');
+async function excluirFerias(id) {
+  const f0 = ferias.find(x => x.id === id); if (!f0) return;
+  const st = statusFerias(f0);
+  if (!podeExcluirFerias(st)) { toast('Seu perfil não pode excluir férias com status ' + st + '.', 'warn'); return; }
+  const periodo = `${fmtData(f0.inicio)} a ${fmtData(ultimoDia(f0))}`;
+  if (!confirm(`Excluir DEFINITIVAMENTE o lançamento de férias de ${f0.nome} (${periodo}, ${st})?\nEsta ação não pode ser desfeita.`)) return;
+  if (['Aprovada', 'Em gozo', 'Concluída'].includes(st) && !confirm(`Atenção: férias ${st.toLowerCase()} podem já constar na folha.\nO saldo de ${consumo(f0)} dia(s) voltará ao período aquisitivo. Confirmar exclusão?`)) return;
+  await recarregar('ferias');
+  const idx = ferias.findIndex(x => x.id === id);
+  if (idx < 0) { toast('Lançamento já foi excluído por outro usuário.', 'info'); renderFerias(); return; }
+  ferias.splice(idx, 1);
+  if (await persistir('ferias')) toast(`Lançamento de férias de ${f0.nome} excluído.`, 'info');
+  popularPeriodosESub(); renderFerias(); renderAtivos();
+}
 let feriasCobPendente = null;
 function abrirCobertura(id) {
   if (!exigir('ferias')) return;
   const f = ferias.find(x => x.id === id); if (!f) return;
   feriasCobPendente = id;
   $('cob_sub').textContent = `${f.nome} · ${fmtData(f.inicio)} a ${fmtData(ultimoDia(f))} (${f.dias} dias)`;
-  const outros = colaboradores.filter(c => c.id !== f.colabId).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  const outros = colabsVis().filter(c => c.id !== f.colabId).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   $('cob_sub_sel').innerHTML = '<option value="">— Sem substituto —</option>' + outros.map(c => {
     const cf = conflitosSubstituto(c.id, f.inicio, ultimoDia(f), f.id);
     const tag = cf.emFerias.length ? ' ⛔ de férias' : cf.cobrindo.length ? ` ⚠️ já cobre ${cf.cobrindo.length}` : '';
@@ -1704,7 +1977,7 @@ async function salvarCorte() {
 
 function renderFerias() {
   const hoje = hojeISO(), em30 = addDias(hoje, 30);
-  const comSt = ferias.map(f => ({ f, st: statusFerias(f) }));
+  const comSt = feriasVis().map(f => ({ f, st: statusFerias(f) }));
   const vivas = comSt.filter(x => !['Cancelada', 'Concluída'].includes(x.st)).map(x => x.f);
   const emGozo = comSt.filter(x => x.st === 'Em gozo').map(x => x.f);
   const prox = vivas.filter(f => f.inicio > hoje && f.inicio <= em30);
@@ -1713,7 +1986,7 @@ function renderFerias() {
   // Alertas de período concessivo + linhas de saldo
   const alertas = [], linhasSaldo = [];
   let nVenc = 0, nAVencer = 0;
-  colaboradores.slice().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).forEach(col => {
+  colabsVis().sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).forEach(col => {
     const ps = periodosControlados(col);
     ps.forEach(p => {
       const saldo = saldoPeriodo(col.id, p.k), usado = 30 - saldo, dl = diasEntre(hoje, p.limite);
@@ -1756,10 +2029,11 @@ function renderFerias() {
     const acoes = [
       st === 'Programada' && pode('ferias_aprovar') ? `<button class="btn btn-primary btn-sm" onclick="aprovarFerias('${f.id}')">✅ Aprovar</button>` : '',
       ativo && pode('ferias') ? `<button class="btn btn-blue btn-sm" onclick="abrirCobertura('${f.id}')">🛡️ Cobertura</button>` : '',
-      ativo && pode('ferias') ? `<button class="btn btn-ghost btn-sm" onclick="cancelarFerias('${f.id}')">✖ Cancelar</button>` : ''
+      ativo && pode('ferias') ? `<button class="btn btn-ghost btn-sm" onclick="cancelarFerias('${f.id}')">✖ Cancelar</button>` : '',
+      podeExcluirFerias(st) ? `<button class="btn btn-danger btn-sm" title="Excluir lançamento" onclick="excluirFerias('${f.id}')">🗑️ Excluir</button>` : ''
     ].join('');
     return `<tr${st === 'Cancelada' ? ' style="opacity:.6"' : ''}>
-      <td><strong>${esc(f.nome)}</strong><div class="sub-txt">${nomesCargos[f.cargo] || ''}${f.obs ? ' · ' + esc(f.obs) : ''}</div></td>
+      <td><strong>${esc(f.nome)}</strong><div class="sub-txt">${nomesCargos[f.cargo] || ''}${f.obs ? ' · ' + esc(f.obs) : ''}</div>${tagArea(areaFerias(f))}</td>
       <td style="font-size:12px">${fmtData(f.periodoIni)} a ${fmtData(f.periodoFim)}</td>
       <td>${fmtData(f.inicio)}</td>
       <td><strong>${fmtData(f.retorno || addDias(f.inicio, f.dias))}</strong></td>
@@ -1769,7 +2043,7 @@ function renderFerias() {
       <td>${badgeStatusFerias(st)}${f.aprovadoPor ? `<div class="sub-txt">por ${esc(f.aprovadoPor)}</div>` : ''}</td>
       <td><div class="acoes">${acoes || '–'}</div></td>
     </tr>`;
-  }).join('') : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏖️</div><p>${ferias.length ? 'Nenhuma programação neste filtro.' : 'Nenhuma férias programada ainda.'}</p></div></td></tr>`;
+  }).join('') : `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">🏖️</div><p>${comSt.length ? 'Nenhuma programação neste filtro.' : 'Nenhuma férias programada ainda.'}</p></div></td></tr>`;
 
   // Quadro de cobertura
   const grupos = {};
@@ -1789,8 +2063,141 @@ function renderFerias() {
   $('cobGrid').innerHTML = cob || '<p style="color:var(--gray-400);font-size:13px;">Nenhuma férias ativa ou futura.</p>';
 }
 function exportarFerias() {
-  baixarCSV(`ferias_${hojeISO()}.csv`, [['Colaborador','Cargo','Período Aquisitivo','Saída','Último Dia','Retorno','Dias','Abono','Pagar até','Substituto','Status','Observação','Lançado por'],
-    ...ferias.slice().sort((a, b) => a.inicio.localeCompare(b.inicio)).map(f => [f.nome, nomesCargos[f.cargo] || '', `${fmtData(f.periodoIni)} a ${fmtData(f.periodoFim)}`, fmtData(f.inicio), fmtData(ultimoDia(f)), fmtData(f.retorno || addDias(f.inicio, f.dias)), f.dias, f.abono ? '10' : '', fmtData(addDias(f.inicio, -2)), f.substitutoNome || '', statusFerias(f), f.obs || '', f.criadoPor || ''])]);
+  baixarCSV(`ferias_${hojeISO()}.csv`, [['Colaborador','Área','Cargo','Período Aquisitivo','Saída','Último Dia','Retorno','Dias','Abono','Pagar até','Substituto','Status','Observação','Lançado por'],
+    ...feriasVis().sort((a, b) => a.inicio.localeCompare(b.inicio)).map(f => [f.nome, nomeArea(areaFerias(f)), nomesCargos[f.cargo] || '', `${fmtData(f.periodoIni)} a ${fmtData(f.periodoFim)}`, fmtData(f.inicio), fmtData(ultimoDia(f)), fmtData(f.retorno || addDias(f.inicio, f.dias)), f.dias, f.abono ? '10' : '', fmtData(addDias(f.inicio, -2)), f.substitutoNome || '', statusFerias(f), f.obs || '', f.criadoPor || ''])]);
+}
+
+// ════════════════════════ PLANO DE CARGOS (editor em rascunho) ════════════════════════
+let planoDraft = null, baseDraft = null;
+function plIniciarDraft() { planoDraft = JSON.parse(JSON.stringify(plano)); baseDraft = JSON.parse(JSON.stringify(base)); }
+function plDescartar() { if (!confirm('Descartar as alterações não salvas do plano?')) return; plIniciarDraft(); renderPlano(); }
+const plNum = v => v > 0 ? Number(v).toLocaleString('pt-BR', { minimumFractionDigits:2, maximumFractionDigits:2 }) : '';
+const emUsoArea = id => colaboradores.some(c => c.area === id) || demitidos.some(d => d.area === id) || usuarios.some(u => (u.areas || []).includes(id));
+
+function renderPlano() {
+  if (!planoDraft) plIniciarDraft();
+  const P = planoDraft, nf = P.faixas.length;
+  $('pl_areas').innerHTML = P.areas.map(a => `<span class="chip">🏢 ${esc(a.nome)} <span class="sub-txt" style="margin:0">(${colaboradores.filter(c => c.area === a.id).length})</span>
+    <button title="Renomear" onclick="plRenArea('${esc(a.id)}')">✏️</button><button title="Excluir" onclick="plRemArea('${esc(a.id)}')">✖</button></span>`).join('') || '<span class="sub-txt">Nenhuma área.</span>';
+  $('pl_faixas').innerHTML = P.faixas.map((f, i) => `<tr><td><span class="badge badge-green">F${i + 1}</span></td>
+    <td><input type="text" value="${esc(f.nome)}" oninput="planoDraft.faixas[${i}].nome=this.value"></td>
+    <td><input type="number" min="0" step="1" value="${Number(f.dias) || 0}" ${i === 0 ? 'disabled title="F1 é sempre a admissão"' : ''} oninput="planoDraft.faixas[${i}].dias=Number(this.value)"> <span class="sub-txt">${i ? tempoFormatado(Number(f.dias) || 0) : 'admissão'}</span></td></tr>`).join('');
+  const sf = $('pl_filtroArea'), fv = sf.value;
+  sf.innerHTML = '<option value="*">Todas as áreas</option><option value="">Geral</option>' + P.areas.map(a => `<option value="${esc(a.id)}">${esc(a.nome)}</option>`).join('');
+  sf.value = fv === '' || P.areas.some(a => a.id === fv) ? fv : '*';
+  const filtro = sf.value;
+  $('pl_cargosHead').innerHTML = `<tr><th>Cargo</th><th>Área</th>${P.faixas.map((f, i) => `<th>F${i + 1}</th>`).join('')}<th></th></tr>`;
+  const optsArea = sel => `<option value="" ${!sel ? 'selected' : ''}>Geral</option>` + P.areas.map(a => `<option value="${esc(a.id)}" ${a.id === sel ? 'selected' : ''}>${esc(a.nome)}</option>`).join('');
+  const lista = P.cargos.filter(c => filtro === '*' || (c.area || '') === filtro);
+  $('pl_cargos').innerHTML = lista.map(c => {
+    const cod = esc(c.cod), linha = baseDraft[c.cod] || [], uso = colaboradores.filter(x => x.cargo === String(c.cod)).length;
+    return `<tr><td><input type="text" value="${esc(c.nome)}" style="min-width:160px" oninput="plCargo('${cod}').nome=this.value"><div class="sub-txt">cód. ${cod} · ${uso} ativo(s)</div></td>
+      <td><select onchange="plCargo('${cod}').area=this.value">${optsArea(c.area || '')}</select></td>
+      ${Array.from({ length: nf }, (_, i) => `<td><input class="num" type="text" inputmode="decimal" value="${plNum(linha[i])}" onchange="plSal('${cod}',${i},this)"></td>`).join('')}
+      <td><button class="btn btn-ghost btn-sm" title="Excluir cargo" onclick="plRemCargo('${cod}')">✖</button></td></tr>`;
+  }).join('') || `<tr><td colspan="${nf + 3}" style="text-align:center;color:var(--gray-400);padding:20px">Nenhum cargo neste filtro.</td></tr>`;
+}
+const plCargo = cod => planoDraft.cargos.find(c => String(c.cod) === String(cod));
+function plSal(cod, i, el) {
+  const v = round2(parseNumBR(el.value));
+  (baseDraft[cod] ||= [])[i] = isFinite(v) && v > 0 ? v : 0;
+  el.value = plNum(baseDraft[cod][i]);
+  el.style.borderColor = baseDraft[cod][i] > 0 ? '' : 'var(--red)';
+}
+function plAddArea() {
+  const nome = val('pl_novaArea').trim(); if (!nome) { toast('Informe o nome da área.', 'warn'); return; }
+  if (planoDraft.areas.some(a => a.nome.trim().toLowerCase() === nome.toLowerCase())) { toast('Essa área já existe.', 'warn'); return; }
+  let id = nome.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 24) || 'area';
+  const baseId = id; let n = 2; while (planoDraft.areas.some(a => a.id === id)) id = `${baseId}-${n++}`;
+  planoDraft.areas.push({ id, nome }); $('pl_novaArea').value = '';
+  renderPlano();
+}
+function plRenArea(id) {
+  const a = planoDraft.areas.find(x => x.id === id); if (!a) return;
+  const n = prompt('Novo nome da área:', a.nome); if (n === null || !n.trim()) return;
+  a.nome = n.trim(); renderPlano();
+}
+function plRemArea(id) {
+  if (planoDraft.areas.length <= 1) { toast('Deve existir ao menos uma área.', 'warn'); return; }
+  if (emUsoArea(id)) { toast('Área em uso por colaboradores, desligados ou usuários. Transfira-os antes de excluir.', 'warn', 5000); return; }
+  if (planoDraft.cargos.some(c => c.area === id)) { toast('Há cargos vinculados a esta área. Mova-os para outra área ou exclua-os.', 'warn', 5000); return; }
+  planoDraft.areas = planoDraft.areas.filter(a => a.id !== id); renderPlano();
+}
+function plAddFaixa() {
+  const f = planoDraft.faixas, ult = Number(f[f.length - 1].dias) || 0;
+  f.push({ nome: 'Nova faixa', dias: ult + 730 });
+  planoDraft.cargos.forEach(c => { const l = baseDraft[c.cod] ||= []; l.push(l.length ? l[l.length - 1] : 0); });
+  renderPlano(); toast('Faixa adicionada com o salário da faixa anterior. Ajuste os valores.', 'info');
+}
+function plRemFaixa() {
+  const f = planoDraft.faixas; if (f.length <= 1) { toast('Deve existir ao menos uma faixa.', 'warn'); return; }
+  const afet = colaboradores.filter(c => getFaixaEfetiva(c) >= f.length - 1).length;
+  if (afet && !confirm(`${afet} colaborador(es) estão na F${f.length}. Eles passarão para a F${f.length - 1}. Continuar?`)) return;
+  f.pop(); planoDraft.cargos.forEach(c => { if (baseDraft[c.cod]) baseDraft[c.cod].length = f.length; });
+  renderPlano();
+}
+function plAddCargo() {
+  const usados = new Set(planoDraft.cargos.map(c => String(c.cod)));
+  let n = planoDraft.cargos.reduce((m, c) => Math.max(m, parseInt(String(c.cod).replace(/\D/g, ''), 10) || 0), 0) + 1, cod;
+  do { cod = 'C' + n++; } while (usados.has(cod));
+  const fv = val('pl_filtroArea'), area = fv && fv !== '*' ? fv : (planoDraft.areas[0] || {}).id || '';
+  planoDraft.cargos.push({ cod, nome: 'Novo cargo', area });
+  baseDraft[cod] = new Array(planoDraft.faixas.length).fill(0);
+  renderPlano();
+  const ins = $('pl_cargos').querySelectorAll('tr:last-child input'); if (ins[0]) { ins[0].focus(); ins[0].select(); }
+}
+function plRemCargo(cod) {
+  if (colaboradores.some(c => c.cargo === String(cod))) { toast('Cargo em uso por colaboradores ativos. Promova/transfira antes de excluir.', 'warn', 5000); return; }
+  if (demitidos.some(d => d.cargo === String(cod)) && !confirm('Há desligados com este cargo (o histórico mostrará "–" no nome do cargo). Excluir mesmo assim?')) return;
+  planoDraft.cargos = planoDraft.cargos.filter(c => String(c.cod) !== String(cod)); delete baseDraft[cod];
+  renderPlano();
+}
+function plValidar() {
+  const P = planoDraft, erros = [];
+  const nomesA = P.areas.map(a => a.nome.trim().toLowerCase());
+  if (!P.areas.length) erros.push('Cadastre ao menos uma área.');
+  if (nomesA.some(n => !n)) erros.push('Há área sem nome.');
+  if (new Set(nomesA).size !== nomesA.length) erros.push('Há áreas com nome repetido.');
+  P.faixas.forEach((f, i) => {
+    if (!String(f.nome || '').trim()) erros.push(`F${i + 1} sem descrição.`);
+    if (i === 0) f.dias = 0;
+    else if (!(Number(f.dias) > Number(P.faixas[i - 1].dias))) erros.push(`Os dias da F${i + 1} devem ser maiores que os da F${i}.`);
+  });
+  if (!P.cargos.length) erros.push('Cadastre ao menos um cargo.');
+  const chave = new Set();
+  P.cargos.forEach(c => {
+    const nm = String(c.nome || '').trim();
+    if (!nm) erros.push(`Cargo ${c.cod} sem nome.`);
+    const k = (c.area || '') + '|' + nm.toLowerCase(); if (chave.has(k)) erros.push(`Cargo "${nm}" repetido na mesma área.`); chave.add(k);
+    if (c.area && !P.areas.some(a => a.id === c.area)) erros.push(`Cargo "${nm}" está em área inexistente.`);
+    const l = baseDraft[c.cod] || [];
+    if (l.length !== P.faixas.length || l.some(v => !(Number(v) > 0))) erros.push(`Cargo "${nm}": preencha o salário de todas as faixas.`);
+  });
+  colaboradores.forEach(c => { if (!P.cargos.some(x => String(x.cod) === c.cargo)) erros.push(`${c.nome} usa um cargo removido.`); });
+  return [...new Set(erros)];
+}
+async function plSalvar() {
+  if (!exigir('config')) return;
+  const erros = plValidar();
+  if (erros.length) { alert('Corrija antes de salvar:\n\n• ' + erros.slice(0, 12).join('\n• ') + (erros.length > 12 ? `\n… e mais ${erros.length - 12}` : '')); return; }
+  const mudSal = planoDraft.cargos.filter(c => JSON.stringify(baseDraft[c.cod]) !== JSON.stringify(base[c.cod])).length;
+  if (!confirm(`Salvar o plano de cargos?\n${planoDraft.areas.length} área(s) · ${planoDraft.faixas.length} faixa(s) · ${planoDraft.cargos.length} cargo(s)${mudSal ? `\n${mudSal} cargo(s) com salários alterados manualmente (sem registro no histórico de reajustes).` : ''}`)) return;
+  const btn = $('btnSalvarPlano'); btn.disabled = true; btn.textContent = '⏳ Salvando...';
+  try {
+    const novaBase = {}; planoDraft.cargos.forEach(c => { novaBase[c.cod] = baseDraft[c.cod].map(Number); });
+    const snapPlano = JSON.parse(JSON.stringify(plano)), snapBase = JSON.parse(JSON.stringify(base));
+    aplicarPlano(JSON.parse(JSON.stringify(planoDraft))); base = novaBase; garantirBase();
+    if (!(await salvarBaseSheets(novaBase)) || !(await persistir('planoCargos'))) {
+      aplicarPlano(snapPlano); base = snapBase; garantirBase();
+      toast('Plano NÃO salvo (revertido). Verifique a conexão com o Sheets.', 'erro', 6000); return;
+    }
+    if (bloqueioReajuste && bloqueioReajuste.startsWith('A tabela salarial')) { bloqueioReajuste = null; indicadorSync('✅ Tabela salarial regravada', 'ok'); }
+    // Salários individuais acompanham a nova tabela
+    let falhas = 0;
+    for (const col of colaboradores) { const s = salarioDe(col.cargo, getFaixaEfetiva(col)); if (s !== col.salario) { col.salario = s; if (!(await salvarColaboradorSheets(col, true))) falhas++; } }
+    plIniciarDraft(); renderTudo(); renderPlano();
+    toast(falhas ? `Plano salvo. ${falhas} salário(s) individual(is) não gravaram — use "Verificar Faixas por Tempo".` : 'Plano de cargos salvo!', falhas ? 'warn' : 'ok', 5000);
+  } finally { btn.disabled = false; btn.textContent = '💾 Salvar Plano'; }
 }
 
 // ════════════════════════ MODAIS ════════════════════════
@@ -1799,14 +2206,39 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if ($('modalMerito').style.display === 'flex') fecharModalMerito();
   if ($('modalDemissao').style.display === 'flex') fecharModal();
-  ['modalVinculo', 'modalCobertura'].forEach(fecharModalGen);
+  ['modalVinculo', 'modalCobertura', 'modalAreasUser'].forEach(fecharModalGen);
   if (!senhaForcada) fecharModalGen('modalSenha');
 });
 
 // ════════════════════════ GOOGLE SHEETS ════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTJTEERP51PQkKyecMXYoZ7ug40JktfSLDEA7GO5VdWalt7TzGyZMnWqi2ZINCx2g-/exec';
-const urlConfigurada = () => SCRIPT_URL && !SCRIPT_URL.includes('COLE_AQUI');
-const NOMES_CARGOS_SHEETS = {3:'Assistente Adm I',4:'Assistente Adm II',5:'Analista Adm JR',6:'Analista Adm PL',7:'Analista Adm SR'};
+// URL do app da Web (Apps Script). Vazia = o sistema pede na primeira abertura e guarda no navegador.
+// Para publicar para uma equipe sem pedir a URL, cole-a entre as aspas abaixo.
+const SCRIPT_URL_PADRAO = 'https://script.google.com/macros/s/AKfycbyTJTEERP51PQkKyecMXYoZ7ug40JktfSLDEA7GO5VdWalt7TzGyZMnWqi2ZINCx2g-/exec';
+const URL_VALIDA = /^https:\/\/script\.google\.com\/[^\s?#]+\/exec$/;
+const SCRIPT_URL = (lsGet('gs_scriptUrl') || SCRIPT_URL_PADRAO).trim();
+const modoLocal = lsGet('gs_modoLocal') === '1';
+const urlConfigurada = () => !modoLocal && URL_VALIDA.test(SCRIPT_URL);
+function abrirConexao() { $('cx_url').value = SCRIPT_URL; mostrarLogin('conexao'); setTimeout(() => $('cx_url').focus(), 50); }
+async function testarConexao() {
+  const url = val('cx_url').trim(), msg = $('loginMsg'), btn = $('cx_btn');
+  if (!URL_VALIDA.test(url)) { msg.textContent = 'A URL deve começar com https://script.google.com/ e terminar em /exec.'; return; }
+  btn.disabled = true; btn.textContent = '⏳ Testando...'; msg.textContent = '';
+  try {
+    const r = await fetch(`${url}?acao=diagnostico&t=${Date.now()}`);
+    const j = await lerJSON(r);
+    if (!j || typeof j.ok !== 'boolean') throw new Error('resposta inesperada');
+    lsSet('gs_scriptUrl', url); lsDel('gs_modoLocal'); ssDel('gs_sessao');
+    msg.style.color = 'var(--verde)'; msg.textContent = j.ok ? '✅ Conectado! Recarregando...' : '✅ Conectado (script antigo, sem diagnóstico). Recarregando...';
+    setTimeout(() => location.reload(), 900);
+  } catch (e) {
+    msg.textContent = 'Não conectou: confira a URL, se a implantação está como "Qualquer pessoa" e se foi publicada uma nova versão.';
+    console.error('[Conexão]', e);
+  } finally { btn.disabled = false; btn.textContent = '🔌 Testar e salvar'; }
+}
+function usarModoLocal() {
+  if (!confirm('Modo teste: os dados ficam somente neste navegador e podem ser perdidos ao limpar o histórico. Continuar?')) return;
+  lsSet('gs_modoLocal', '1'); location.reload();
+}
 
 function indicadorSync(msg, tipo) {
   const el = $('syncStatus');
@@ -1834,7 +2266,7 @@ function normalizarData(valor) {
 }
 
 async function carregarDoSheets() {
-  if (!urlConfigurada()) { indicadorSync('⚠️ URL do Script não configurada (modo local)', 'erro'); bloqueioReajuste = null; return; }
+  if (!urlConfigurada()) { indicadorSync('🧪 Modo teste (sem Sheets)', 'aguard'); bloqueioReajuste = null; return; }
   indicadorSync('⏳ Carregando dados...', 'aguard');
   try {
     const res = await sheetsGET('carregar');
@@ -1853,10 +2285,11 @@ async function carregarDoSheets() {
       }
     }
 
-    colaboradores = (d.colaboradores || []).map(c => ({
+    const todosColab = (d.colaboradores || []).map(c => ({
       id: Number(c.id || c.ID),
       nome: String(c.nome || c.Nome || ''),
-      cargo: String(c.CargoCod || c.cargo || c.cargoCod || '3'),
+      area: String(c.area || c.Area || '') || areaPadrao(),
+      cargo: String(c.CargoCod || c.cargo || c.cargoCod || ''),
       faixaManual: Number(c.faixaManual ?? c.FaixaManual ?? 0),
       dataAdmissao: normalizarData(c.dataAdmissao || c.DataAdmissao),
       salario: parseNumBR(c.salario ?? c.Salario),
@@ -1870,11 +2303,15 @@ async function carregarDoSheets() {
         data: normalizarData(h.data || h.Data),
         justificativa: h.justificativa || h.Justificativa || ''
       }))
-    })).filter(c => CARGOS.includes(c.cargo));
+    }));
+    colaboradores = todosColab.filter(c => CARGOS.includes(c.cargo));
+    const ignorados = todosColab.length - colaboradores.length;
+    if (ignorados) setTimeout(() => toast(`${ignorados} colaborador(es) com cargo fora do Plano de Cargos foram ocultados. Cadastre o cargo no Plano.`, 'warn', 7000), 800);
 
     demitidos = (d.demitidos || []).map(dm => ({
       id: Number(dm.id || dm.ID),
       nome: String(dm.nome || dm.Nome || ''),
+      area: String(dm.area || dm.Area || '') || areaPadrao(),
       cargo: String(dm.cargo || dm.CargoCod),
       faixa: Number(dm.faixa ?? dm.Faixa ?? 0),
       salario: parseNumBR(dm.salario ?? dm.Salario),
@@ -1909,7 +2346,7 @@ async function salvarColaboradorSheets(col, silencioso = false) {
   if (!urlConfigurada()) return true;
   if (!silencioso) indicadorSync('💾 Salvando colaborador...', 'aguard');
   try {
-    const res = await sheetsPOST({ acao:'salvarColaborador', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], faixaManual:col.faixaManual, dataAdmissao:col.dataAdmissao, salario:col.salario } });
+    const res = await sheetsPOST({ acao:'salvarColaborador', dados:{ id:col.id, nome:col.nome, area:col.area, cargo:col.cargo, cargo_nome:nomesCargos[col.cargo], faixaManual:col.faixaManual, dataAdmissao:col.dataAdmissao, salario:col.salario } });
     if (!silencioso) indicadorSync(res.ok ? '✅ Colaborador salvo' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
     return !!res.ok;
   } catch (e) { if (!silencioso) indicadorSync('❌ Falha ao salvar', 'erro'); console.error(e); return false; }
@@ -1920,7 +2357,7 @@ async function salvarDemissaoSheets(col, dataDemissao) {
   indicadorSync('💾 Registrando desligamento...', 'aguard');
   const fEfetiva = getFaixaEfetiva(col);
   try {
-    const res = await sheetsPOST({ acao:'demitir', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], faixa:fEfetiva, salario:base[col.cargo][fEfetiva], dataAdmissao:col.dataAdmissao, dataDemissao } });
+    const res = await sheetsPOST({ acao:'demitir', dados:{ id:col.id, nome:col.nome, area:col.area, cargo:col.cargo, cargo_nome:nomesCargos[col.cargo], faixa:fEfetiva, salario:salarioDe(col.cargo, fEfetiva), dataAdmissao:col.dataAdmissao, dataDemissao } });
     indicadorSync(res.ok ? '✅ Desligamento registrado' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
     return !!res.ok;
   } catch (e) { indicadorSync('❌ Falha ao registrar', 'erro'); console.error(e); return false; }
@@ -1930,30 +2367,58 @@ async function salvarMeritoSheets(col, h) {
   if (!urlConfigurada()) return true;
   indicadorSync('💾 Salvando promoção...', 'aguard');
   try {
-    const res = await sheetsPOST({ acao:'promoverMerito', dados:{ id:col.id, nome:col.nome, cargo:col.cargo, cargoCod:col.cargo, cargo_nome:NOMES_CARGOS_SHEETS[col.cargo], cargoAnterior:h.cargoAnterior, faixaDe:h.de, faixaPara:h.para, salAnterior:h.salAnterior, salNovo:h.salNovo, data:h.data, justificativa:h.justificativa } });
+    const res = await sheetsPOST({ acao:'promoverMerito', dados:{ id:col.id, nome:col.nome, area:col.area, cargo:col.cargo, cargoCod:col.cargo, cargo_nome:nomesCargos[col.cargo], cargoAnterior:h.cargoAnterior, faixaDe:h.de, faixaPara:h.para, salAnterior:h.salAnterior, salNovo:h.salNovo, data:h.data, justificativa:h.justificativa } });
     indicadorSync(res.ok ? '✅ Promoção salva' : '❌ ' + res.erro, res.ok ? 'ok' : 'erro');
     return !!res.ok;
   } catch (e) { indicadorSync('❌ Falha ao salvar promoção', 'erro'); console.error(e); return false; }
+}
+
+async function salvarBaseSheets(novaBase) {
+  if (!urlConfigurada()) return true;
+  try {
+    const res = await sheetsPOST({ acao:'salvarBase', dados:{ novaBase, nomes: nomesCargos } });
+    if (!res || !res.ok) { indicadorSync('❌ ' + ((res && res.erro) || 'Sheets recusou a tabela'), 'erro'); return false; }
+    return true;
+  } catch (e) { indicadorSync('❌ Falha ao salvar tabela salarial', 'erro'); console.error('[Sheets] salvarBase:', e); return false; }
 }
 
 async function salvarReajusteSheets(h, novaBase) {
   if (!urlConfigurada()) return true;
   indicadorSync('💾 Salvando reajuste...', 'aguard');
   try {
-    const res = await sheetsPOST({ acao:'salvarReajuste', dados:{ ...h, novaBase } });
+    const res = await sheetsPOST({ acao:'salvarReajuste', dados:{ ...h, novaBase, nomes: nomesCargos } });
     if (!res || !res.ok) { indicadorSync('❌ ' + ((res && res.erro) || 'Sheets recusou o reajuste'), 'erro'); console.error('[Sheets] salvarReajuste:', res); return false; }
     return true;
   } catch (e) { indicadorSync('❌ Falha ao salvar reajuste', 'erro'); console.error('[Sheets] salvarReajuste:', e); return false; }
 }
 
+// ════════════════════════ APLICATIVO (PWA) ════════════════════════
+// Instalável quando servido por https (GitHub Pages, site interno). Aberto pelo arquivo local, funciona como página comum.
+let promptInstalar = null;
+const emModoApp = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+const ehIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function mostrarBotaoInstalar(sim) { ['btnInstalar', 'btnInstalarLogin'].forEach(id => { const el = $(id); if (el) el.style.display = sim ? (id === 'btnInstalar' ? 'inline-flex' : '') : 'none'; }); }
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); promptInstalar = e; if (!emModoApp()) mostrarBotaoInstalar(true); });
+window.addEventListener('appinstalled', () => { promptInstalar = null; mostrarBotaoInstalar(false); toast('Aplicativo instalado! Procure o ícone Gestão Salarial.'); });
+async function instalarApp() {
+  if (promptInstalar) { promptInstalar.prompt(); const r = await promptInstalar.userChoice; if (r && r.outcome === 'accepted') mostrarBotaoInstalar(false); promptInstalar = null; return; }
+  if (ehIOS()) alert('No iPhone/iPad: toque em Compartilhar (quadrado com seta) → "Adicionar à Tela de Início" → Adicionar.');
+  else alert('No menu do navegador (⋮), escolha "Instalar aplicativo" ou "Adicionar à tela inicial".');
+}
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  navigator.serviceWorker.register('sw.js').catch(e => console.warn('[PWA] service worker:', e));
+}
+if (ehIOS() && !emModoApp() && location.protocol === 'https:') mostrarBotaoInstalar(true); // iOS não dispara beforeinstallprompt
+
 // ════════════════════════ INIT ════════════════════════
 async function iniciar() {
   $('dataReajuste').value = hojeISO();
   autoFill(); renderTabelaBase(); renderKpiAtivos();
+  if (!urlConfigurada() && !modoLocal) { abrirConexao(); return; }
   mostrarLogin('carregando');
   const u = await kvGet('usuarios');
   usuarios = Array.isArray(u) ? u : [];
-  if (!usuarios.length) { mostrarLogin(kvModo === 'offline' ? 'offline' : 'setup'); return; }
+  if (!usuarios.length) { if (kvModo === 'offline') { $('kvErroTxt').textContent = kvErro ? 'Detalhe: ' + kvErro.slice(0, 160) : ''; mostrarLogin('offline'); } else mostrarLogin('setup'); return; }
   const s = restaurarSessao();
   if (s) { entrar(s); return; }
   mostrarLogin('login');
