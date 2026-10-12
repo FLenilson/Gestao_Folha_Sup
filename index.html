@@ -2277,7 +2277,12 @@ async function carregarDoSheets() {
     bloqueioReajuste = null;
     if (d.base && Object.keys(d.base).length > 0) {
       const b = sanitizarBase(d.base);
-      if (b) base = b;
+      const incoerentes = b ? CARGOS.filter(c => b[c].some((v, i) => i > 0 && v < b[c][i - 1])) : [];
+      if (b && incoerentes.length) {
+        base = b;
+        bloqueioReajuste = `Tabela salarial incoerente (faixa maior com salário menor) em: ${incoerentes.map(c => nomesCargos[c]).join(', ')}. Reajuste bloqueado. Corrija pelo menu da planilha "Gestão Salarial → Corrigir tabela salarial pelo histórico" ou pelo Plano de Cargos.`;
+        setTimeout(() => toast(bloqueioReajuste, 'erro', 9000), 600);
+      } else if (b) base = b;
       else {
         console.warn('[Sheets] Base salarial em formato inválido:', d.base);
         bloqueioReajuste = 'A tabela salarial vinda do Sheets está em formato inválido — reajuste bloqueado para não gravar sobre dados errados. Verifique a aba da base no Sheets (console mostra o formato recebido).';
